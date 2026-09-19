@@ -28,6 +28,10 @@
   --text-main:#F0E8F5;--text-dim:#9B8FAA;
   --box-bg:rgba(10,10,15,0.88);--box-border:rgba(200,160,200,0.25);
   --choice-bg:rgba(20,10,30,0.85);--choice-hover:rgba(139,0,0,0.4);
+  /* Hauteur de la boîte de dialogue — ajustée automatiquement en JS */
+  --dialogue-h: 200px;
+  /* Échelle du personnage : 1 = taille normale, 2 = ×2, etc. */
+  --char-scale: 2;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html,body{width:100%;height:100%;background:var(--obsidian);font-family:'Cormorant Garamond',serif;color:var(--text-main);overflow:hidden;user-select:none}
@@ -42,7 +46,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 @keyframes floatUp{0%{transform:translateY(100vh) scale(0);opacity:0}10%{opacity:.6}90%{opacity:.3}100%{transform:translateY(-10vh) scale(1.5);opacity:0}}
 
 /* ══════════════════════════════
-   CODE SECRET — sans titre du jeu
+   CODE SECRET
 ══════════════════════════════ */
 #code-screen{
   background:radial-gradient(ellipse at 50% 30%,#1a0510 0%,var(--obsidian) 70%);
@@ -363,7 +367,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
   0%,100%{box-shadow:0 0 15px rgba(139,0,0,.2)}
   50%{box-shadow:0 0 35px rgba(220,20,60,.35)}
 }
-/* Game popup (non-confirm) */
+/* Game popup */
 #game-popup-overlay{
   position:fixed;inset:0;z-index:200;
   background:rgba(0,0,0,.85);
@@ -508,31 +512,31 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 /* ── GAME ── */
 #game-screen{background:var(--obsidian);padding:0}
 #game-bg{position:absolute;inset:0;background-size:cover;background-position:center;z-index:0}
+
+/* Personnage : collé pile au-dessus de la boîte de dialogue */
 #char-wrap{
-  position:absolute;bottom:0;left:50%;
+  position:absolute;
+  bottom:var(--dialogue-h);           /* ← bas de l'image = haut de la boîte */
+  left:50%;
   transform:translateX(-50%);
   z-index:2;
-  max-height:170%;           /* ← était 85% — permet à l'image de faire 2× la hauteur écran */
   display:flex;align-items:flex-end;justify-content:center;
-  transition:opacity .5s ease;pointer-events:none
+  transition:opacity .5s ease;pointer-events:none;
 }
-
 #char-img{
-  max-height:170vh;          /* ← était 100% — 2× la hauteur écran */
-  max-width:120vw;           /* ← était 60vw — 2× la largeur disponible */
+  max-height:calc(100vh * var(--char-scale));
+  max-width:calc(60vw * var(--char-scale));
   object-fit:contain;
   filter:drop-shadow(0 0 30px rgba(0,0,0,.8))
 }
 
 @media(max-width:600px){
-  #char-img{max-width:200vw} /* ← était 100vw */
-  #char-wrap{max-height:200%} /* ← était 100% */
+  #char-img{max-width:calc(100vw * var(--char-scale))}
+}
+@media(min-width:1200px){
+  #char-img{max-width:calc(100vw * var(--char-scale))}
 }
 
-@media(min-width:1200px){
-  #char-wrap{max-height:200%!important} /* ← était 100% */
-  #char-img{max-width:200vw!important}  /* ← était 100vw */
-}
 #hud{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:.8rem 1.2rem;z-index:10;background:linear-gradient(to bottom,rgba(0,0,0,.6),transparent)}
 .hud-left,.hud-right{display:flex;align-items:center;gap:.8rem}
 #affinity-wrap{display:flex;align-items:center;gap:.5rem}
@@ -620,10 +624,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
   #affinity-bar-outer{width:60px}
   #code-input{width:180px;font-size:1.3rem}
   .settings-container{padding:1.5rem 1.2rem}
-}
-@media(min-width:1200px){
-  #char-wrap{max-height:100%!important}
-  #char-img{max-width:100vw!important}
 }
 </style>
 </head>
@@ -963,6 +963,14 @@ const state = {
 
 function t(k){ return I18N.en[k]; }
 
+/* ══ SYNC HAUTEUR BOÎTE DIALOGUE ══ */
+function syncDialogueHeight(){
+  const dlg = document.getElementById('dialogue-wrap');
+  if(!dlg) return;
+  const h = dlg.getBoundingClientRect().height;
+  document.documentElement.style.setProperty('--dialogue-h', h + 'px');
+}
+
 /* ══ VOLUME ══ */
 function loadVolumeFromStorage(){
   try{
@@ -1013,7 +1021,6 @@ function initCodeScreen(){
       markCodeValidated();
       startIntroMusic();
       if(!checkHasSave()){
-        // First time : go to policy
         fadeTransition(()=>showScreen('policy-screen'));
       } else {
         resetTitleAnimations();
@@ -1225,6 +1232,8 @@ function setCharacter(img){
   const wrap=document.getElementById('char-wrap'),el=document.getElementById('char-img');
   if(!img){wrap.style.opacity='0';return;}
   el.src=img;el.style.display='';wrap.style.opacity='1';
+  // Recalcule la hauteur de la boîte au cas où (nouvelle scène)
+  requestAnimationFrame(syncDialogueHeight);
 }
 
 /* ══ TYPEWRITER ══ */
@@ -1294,6 +1303,7 @@ function renderScene(scene,fromBack){
   addToHistory(scene.speaker||'',scene.text||'',false);
   typeText(document.getElementById('dialogue-text'),scene.text||'',scene.typeSpeed,null);
   updateBackBtn();saveGame();
+  requestAnimationFrame(syncDialogueHeight);
   if(scene.next&&scene.next!=='__ending__'){
     const ni=getSceneIndex(scene.next);
     if(ni!==-1&&state.scenes[ni]&&state.scenes[ni].bg)preloadImage(state.scenes[ni].bg);
@@ -1332,6 +1342,7 @@ function renderChoices(choices){
     });
     cw.appendChild(btn);
   });
+  requestAnimationFrame(syncDialogueHeight);
 }
 
 /* ══ ENDING ══ */
@@ -1540,6 +1551,11 @@ async function boot(){
   applyVolumeEverywhere();
   await preloadAssets();
 
+  // Sync dialogue height at start + on resize
+  syncDialogueHeight();
+  window.addEventListener('resize', syncDialogueHeight);
+  window.addEventListener('orientationchange', ()=>setTimeout(syncDialogueHeight,200));
+
   if(isCodeValidated()){
     initCodeScreen();
     startIntroMusic();
@@ -1565,7 +1581,6 @@ document.getElementById('btn-start').addEventListener('click',()=>{
       });
     });
   }else{
-    // No save: go to policy
     fadeTransition(()=>showScreen('policy-screen'));
   }
 });
