@@ -59,7 +59,7 @@
     "id": "salle_3",
     "bg": "images/backgrounds/salleamanger.webp",
     "character": "null",
-    "charImg":"images/characters/momsmile.webp",
+    "charImg":"images/characters/smileuniform.png",
     "speaker": null,
     "text": "Maman m’offre un sourire doux.",
     "typeSpeed": 18,
