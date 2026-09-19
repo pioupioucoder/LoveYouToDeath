@@ -181,6 +181,56 @@
     "text": "I quickly grab my bag and rush toward the exit door.",
     "typeSpeed": 20,
     "music": "music/dark.mp3",
+    "next": "corridor_1"
+  },
+  {
+    "id": "corridor_1",
+    "bg": "images/backgrounds/schoolcorridor.webp",
+    "charImg": null,
+    "speaker": null,
+    "text": "The school corridor is already completely deserted.",
+    "typeSpeed": 22,
+    "music": "music/reflexion.mp3",
+    "next": "corridor_2"
+  },
+  {
+    "id": "corridor_2",
+    "bg": "images/backgrounds/schoolcorridor.webp",
+    "charImg": null,
+    "speaker": null,
+    "text": "I'm definitely late…",
+    "typeSpeed": 20,
+    "music": "music/reflexion.mp3",
+    "next": "corridor_3"
+  },
+  {
+    "id": "corridor_3",
+    "bg": "images/backgrounds/schoolcorridor.webp",
+    "charImg": null,
+    "speaker": null,
+    "text": "My footsteps echo through the silence as I head toward my locker. That's when I notice a small piece of paper sticking out from the edge.",
+    "typeSpeed": 20,
+    "music": "music/reflexion.mp3",
+    "next": "corridor_4"
+  },
+  {
+    "id": "corridor_4",
+    "bg": "images/backgrounds/schoolcorridor.webp",
+    "charImg": null,
+    "speaker": null,
+    "text": "Another poem…",
+    "typeSpeed": 22,
+    "music": "music/reflexion.mp3",
+    "next": "corridor_5"
+  },
+  {
+    "id": "corridor_5",
+    "bg": "images/backgrounds/schoolcorridor.webp",
+    "charImg": null,
+    "speaker": null,
+    "text": "I don't even need to think long to guess who left it there. It's probably the same stranger who always slips poems into my locker.",
+    "typeSpeed": 20,
+    "music": "music/reflexion.mp3",
     "next": "__suite_suivante__"
   }
 ]
