@@ -1,0 +1,25 @@
+[
+  {
+    "id": "chapter1",
+    "number": 1,
+    "file": "chapter1.json",
+
+    "title_en": "The First Meeting",
+    "title_fr": "La Première Rencontre",
+
+    "description_en": "A chance encounter on a rain-soaked evening. Something stirs beneath the silence.",
+    "description_fr": "Une rencontre fortuite par un soir de pluie. Quelque chose s'éveille sous le silence.",
+
+    "tag": "PROLOGUE",
+
+    "thumbnail": "img/chapters/ch1_bg.jpg",
+
+    "charImg": "img/characters/ch1_character.png",
+    "charImg_en": "img/characters/ch1_character.png",
+    "charImg_fr": "img/characters/ch1_character.png",
+
+    "charName": "Elias",
+    "charName_en": "Elias",
+    "charName_fr": "Elias"
+  }
+]

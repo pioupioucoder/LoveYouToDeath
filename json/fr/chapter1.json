@@ -1,0 +1,543 @@
+[
+  {
+    "id": "angel_1",
+    "bg": "images/backgrounds/room.webp",
+    "character": null,
+    "charImg": null,
+    "speaker": null,
+    "text": "La lumière du matin inonde ma chambre, mais elle ne réveille en moi aucune envie de sortir du lit.",
+    "typeSpeed": 20,
+    "music": "music/room.mp3",
+    "next": "angel_2"
+  },
+  {
+    "id": "angel_2",
+    "bg": "images/backgrounds/room.webp",
+    "character": null,
+    "charImg": null,
+    "speaker": null,
+    "text": "Pourquoi se lever encore une fois ?",
+    "glitch": true,
+    "typeSpeed": 18,
+    "music": "music/room.mp3",
+    "next": "angel_3"
+  },
+  {
+    "id": "angel_3",
+    "bg": "images/backgrounds/room.webp",
+    "character": null,
+    "charImg": null,
+    "speaker": null,
+    "text": "Aujourd’hui, c’est la rentrée. Et si, finalement, il m’arrivait quelque chose de nouveau ?",
+    "typeSpeed": 20,
+    "music": "music/room.mp3",
+    "next": "salle_1"
+  },
+  {
+    "id": "salle_1",
+    "bg": "images/backgrounds/salleamanger.webp",
+    "character": null,
+    "charImg": null,
+    "speaker": null,
+    "text": "Je traverse jusqu’à la salle à manger. La bouilloire chante, son sifflement déchire le calme.",
+    "typeSpeed": 22,
+    "music": "music/room.mp3",
+    "next": "salle_2"
+  },
+  {
+    "id": "salle_2",
+    "bg": "images/backgrounds/salleamanger.webp",
+    "character": null,
+    "charImg": null,
+    "speaker": "Moi",
+    "text": "Bonjour papa, bonjour maman.",
+    "typeSpeed": 18,
+    "music": "music/room.mp3",
+    "next": "salle_3"
+  },
+  {
+    "id": "salle_3",
+    "bg": "images/backgrounds/salleamanger.webp",
+    "character": "null",
+    "charImg":"images/characters/momsmile.webp",
+    "speaker": null,
+    "text": "Maman m’offre un sourire doux.",
+    "typeSpeed": 18,
+    "music": "music/room.mp3",
+    "next": "salle_4"
+  },
+  {
+    "id": "salle_4",
+    "bg": "images/backgrounds/salleamanger.webp",
+    "character": null,
+    "charImg":"images/characters/speakmom.webp",
+    "speaker": "Maman",
+    "text": "Bonjour Clem, as-tu bien dormi ?",
+    "typeSpeed": 20,
+    "music": "music/room.mp3",
+    "next": "salle_5"
+  },
+  {
+    "id": "salle_5",
+    "bg": "images/backgrounds/salleamanger.webp",
+    "character": null,
+    "charImg":"images/characters/momsmile.webp",
+    "speaker": "Moi",
+    "text": "Oui....",
+    "typeSpeed": 12,
+    "music": "music/room.mp3",
+    "next": "salle_6"
+  },
+  {
+    "id": "salle_6",
+    "bg": "images/backgrounds/salleamanger.webp",
+    "character": null,
+    "charImg":"images/characters/dadread.webp",
+    "speaker": null,
+    "text": "Papa, lui, ne dit rien. Il est noyé dans son journal.",
+    "typeSpeed": 20,
+    "music": "music/room.mp3",
+    "next": "salle_7"
+  },
+  {
+    "id": "salle_7",
+    "bg": "images/backgrounds/salleamanger.webp",
+    "character": null,
+    "charImg": null,
+    "speaker": null,
+    "text": "Je dévore mon assiette.",
+    "typeSpeed": 16,
+    "music": "music/room.mp3",
+    "next": "salle_8"
+  },
+  {
+    "id": "salle_8",
+    "bg": "images/backgrounds/salleamanger.webp",
+    "character": null,
+   "charImg":"images/characters/speakmom.webp",
+    "speaker": "Maman",
+    "text": "N’oublie pas de vérifier tes affaires avant de partir, ton repas du midi est déjà prêt.",
+    "typeSpeed": 20,
+    "music": "music/room.mp3",
+    "next": "salle_9"
+  },
+  {
+    "id": "salle_9",
+    "bg": "images/backgrounds/salleamanger.webp",
+    "character": null,
+    "charImg": null,
+    "speaker": null,
+    "text": "Mais au moment de saisir ma boîte, je renverse la tasse de café.",
+    "typeSpeed": 18,
+    "music": "music/room.mp3",
+    "next": "salle_10"
+  },
+  {
+    "id": "salle_10",
+    "bg": "images/backgrounds/salleamanger.webp",
+    "character": null,
+    "charImg":"images/characters/silentdad.webp",
+    "speaker": null,
+    "text": "Les yeux de mon père se lèvent. J’aurais tout donné pour qu’il reste dans son silence.",
+    "typeSpeed": 20,
+    "music": "music/impuissant.mp3",
+    "next": "salle_11"
+  },
+  {
+    "id": "salle_11",
+    "bg": "images/backgrounds/salleamanger.webp",
+    "character": null,
+   "charImg":"images/characters/angrydad.webp",
+    "speaker": "Papa",
+    "text": "Tu ne peux donc pas faire attention ?! Tu ne changeras donc jamais. Regarde ce que tu as fait…",
+    "typeSpeed": 20,
+    "music": "music/impuissant.mp3",
+    "choices": [
+      {
+        "text": "Répondre",
+        "affinityDelta": 0,
+        "next": "salle_choix1_repondre"
+      },
+      {
+        "text": "Rester silencieux",
+        "affinityDelta": 0,
+        "next": "salle_choix2_silence"
+      }
+    ]
+  },
+  {
+    "id": "salle_choix1_repondre",
+    "bg": "images/backgrounds/salleamanger.webp",
+    "character": null,
+   "charImg":"images/characters/silentdad.webp",
+    "speaker": "Moi",
+    "text": "Non je....",
+    "typeSpeed": 18,
+    "music": "music/impuissant.mp3",
+    "next": "salle_pere_repond"
+  },
+  {
+    "id": "salle_pere_repond",
+    "bg": "images/backgrounds/salleamanger.webp",
+    "character": null,
+   "charImg":"images/characters/angrydad.webp",
+    "speaker": "Papa",
+    "text": "Toi et ta mère n'êtes que de bonnes à rien! Pendant que je sue au boulot tout le jour, elle est censée faire une seule chose c'est de t’éduquer. Et elle est même pas foutue de faire ça correctement.",
+    "typeSpeed": 20,
+  "music": "music/impuissant.mp3",
+    "next": "salle_sourire_eteint"
+  },
+  {
+    "id": "salle_sourire_eteint",
+    "bg": "images/backgrounds/salleamanger.webp",
+    "character": null,
+    "charImg": "images/characters/momsad.webp",
+    "speaker": null,
+    "text": "Le sourire de maman s’éteint.",
+    "typeSpeed": 18,
+    "music": "music/impuissant.mp3",
+    "next": "pensee_interieure"
+  },
+  {
+    "id": "salle_choix2_silence",
+    "bg": "images/backgrounds/salleamanger.webp",
+    "character": null,
+    "charImg": "images/characters/silentdad.webp",
+    "speaker": null,
+    "text": "Parler ne ferait qu’envenimer.",
+    "typeSpeed": 22,
+   "music": "music/impuissant.mp3",
+    "next": "pensee_interieure"
+  },
+  {
+  "id": "pensee_interieure",
+  "bg": "images/backgrounds/salleamanger.webp",
+  "character": null,
+   "charImg": "images/characters/silentdad.webp",
+  "speaker": null,
+  "text": "Son regard pèse sur moi. Mon corps ne sait plus quoi faire.",
+  "typeSpeed": 20,
+  "music": "music/impuissant.mp3",
+  "choices": [
+    {
+      "text": "S'excuser",
+      "affinityDelta": 0,
+      "next": "choix_excuser_action"
+    },
+    {
+      "text": "Nettoyer en silence",
+      "affinityDelta": 0,
+      "next": "choix_nettoyer"
+    },
+    {
+      "text": "Ne rien faire",
+      "affinityDelta": 0,
+      "next": "choix_rienfaire"
+    }
+  ]
+},
+{
+  "id": "choix_excuser_action",
+  "bg": "images/backgrounds/salleamanger.webp",
+  "character": null,
+  "charImg": "images/characters/silentdad.webp",
+  "speaker": null,
+  "text": "Je baisse la tête. Mes doigts tremblent.",
+  "typeSpeed": 18,
+  "music": "music/impuissant.mp3",
+  "next": "choix_excuser_parole"
+},
+{
+  "id": "choix_excuser_parole",
+  "bg": "images/backgrounds/salleamanger.webp",
+  "character": null,
+  "charImg": "images/characters/silentdad.webp",
+  "speaker": "Moi",
+  "text": "Je suis désolée… j’ai été imprudente. Ça ne se reproduira plus.",
+  "typeSpeed": 18,
+  "music": "music/impuissant.mp3",
+  "next": "precipitation_porte"
+},
+{
+  "id": "choix_nettoyer",
+  "bg": "images/backgrounds/salleamanger.webp",
+  "character": null,
+  "charImg": "images/characters/silentdad.webp",
+  "speaker": null,
+  "text": "Je prends le torchon et je nettoie chaque goutte comme si je voulais effacer tout ce qu’il a dit. Le silence devient plus lourd que les insultes.",
+  "typeSpeed": 20,
+  "music": "music/impuissant.mp3",
+  "next": "precipitation_porte"
+},
+{
+  "id": "choix_rienfaire",
+  "bg": "images/backgrounds/salleamanger.webp",
+  "character": null,
+  "charImg": "images/characters/momsad.webp",
+  "speaker": null,
+  "text": "Je reste figée. Maman essuie le café en silence, son dos voûté meurt un peu plus.",
+  "typeSpeed": 20,
+  "music": "music/impuissant.mp3",
+  "next": "precipitation_porte"
+},
+{
+  "id": "precipitation_porte",
+  "bg": "images/backgrounds/salleamanger.webp",
+  "character": null,
+  "charImg": null,
+  "speaker": null,
+  "text": "En un instant, je me précipite vers la porte.",
+  "typeSpeed": 22,
+  "music": "music/impuissant.mp3",
+  "next": "__suite_ecole__"
+}
+,
+  {
+    "id": "__suite_ecole__",
+    "bg": "images/backgrounds/gateschool.webp",
+    "character": null,
+    "charImg": null,
+    "speaker": null,
+    "text": "Dans la cour, les élèves se bousculent devant le tableau d’affichage. Je tente de repérer mon nom quand une voix familière hurle le mien.",
+    "typeSpeed": 22,
+    "music": "music/lucy.mp3",
+    "next": "suite_ecole_2"
+  },
+  {
+    "id": "suite_ecole_2",
+    "bg": "images/backgrounds/gateschool.webp",
+    "character": null,
+    "charImg": "images/characters/lucy.webp",
+    "speaker": null,
+    "text": "Lucy débouline vers moi, le souffle coupé.",
+    "typeSpeed": 18,
+    "music": "music/lucy.mp3",
+    "next": "suite_ecole_3"
+  },
+  {
+    "id": "suite_ecole_3",
+    "bg": "images/backgrounds/gateschool.webp",
+    "character": null,
+    "charImg": "images/characters/hilucy.webp",
+    "speaker": "Lucy",
+    "text": "Clem ! Enfin ! Te voilà !",
+    "typeSpeed": 18,
+    "music": "music/lucy.mp3",
+    "next": "suite_ecole_4"
+  },
+  {
+    "id": "suite_ecole_4",
+    "bg": "images/backgrounds/gateschool.webp",
+    "character": null,
+    "charImg": "images/characters/lucytaquin.webp",
+    "speaker": "Moi",
+    "text": "Ça va, ça va, pas besoin de crier, je ne suis pas sourde.",
+    "typeSpeed": 18,
+    "music": "music/lucy.mp3",
+    "next": "suite_ecole_5"
+  },
+  {
+    "id": "suite_ecole_5",
+    "bg": "images/backgrounds/gateschool.webp",
+    "character": null,
+    "charImg": "images/characters/lucyspeak.webp",
+    "speaker": "Lucy",
+    "text": "Tu m’as tellement manqué ! Alors, de bonnes vacances ? Comment tu vas ?",
+    "typeSpeed": 20,
+    "music": "music/lucy.mp3",
+    "choices": [
+      {
+        "text": "Ça va, tranquille",
+        "affinityDelta": 0,
+        "next": "choix_ca_va"
+      },
+      {
+        "text": "Pas très bien, pour être honnête",
+        "affinityDelta": 0,
+        "next": "choix_pas_bien"
+      },
+      {
+        "text": "Bof, moyen",
+        "affinityDelta": 0,
+        "next": "choix_bof"
+      }
+    ]
+  },
+  {
+    "id": "choix_ca_va",
+    "bg": "images/backgrounds/gateschool.webp",
+    "character": null,
+    "charImg": "images/characters/lucysmile.webp",
+    "speaker": "Moi",
+    "text": "Ça va, tranquille.",
+    "typeSpeed": 16,
+    "music": "music/lucy.mp3",
+    "next": "choix_ca_va_lucy"
+  },
+  {
+    "id": "choix_ca_va_lucy",
+    "bg": "images/backgrounds/gateschool.webp",
+    "character": null,
+    "charImg": "images/characters/lucyspeak.webp",
+    "speaker": "Lucy",
+    "text": "Tant mieux ! Moi, j’étais à la campagne chez ma tante. Je t’ai envoyé plein de messages, mais tu n’as jamais répondu…",
+    "typeSpeed": 20,
+    "music": "music/lucy.mp3",
+    "next": "choix_ca_va_reponse"
+  },
+  {
+    "id": "choix_ca_va_reponse",
+    "bg": "images/backgrounds/gateschool.webp",
+    "character": null,
+    "charImg": "images/characters/lucysmile.webp",
+    "speaker": "Moi",
+    "text": "Désolée, mon ordinateur était en panne. Maintenant c’est réparé, je regarderai tout ce soir, promis.",
+    "typeSpeed": 18,
+    "music": "music/lucy.mp3",
+    "next": "choix_ca_va_lucy2"
+  },
+  {
+    "id": "choix_ca_va_lucy2",
+    "bg": "images/backgrounds/gateschool.webp",
+    "character": null,
+    "charImg": "images/characters/lucyspeak.webp",
+    "speaker": "Lucy",
+    "text": "Bon, l’important c’est que tu sois là.",
+    "typeSpeed": 18,
+    "music": "music/lucy.mp3",
+    "next": "scene_S"
+  },
+  {
+    "id": "choix_pas_bien",
+    "bg": "images/backgrounds/gateschool.webp",
+    "character": null,
+    "charImg": "images/characters/lucysad.webp",
+    "speaker": "Moi",
+    "text": "Pas très bien, pour être honnête.",
+    "typeSpeed": 18,
+    "music": "music/lucy.mp3",
+    "next": "choix_pas_bien_lucy"
+  },
+  {
+    "id": "choix_pas_bien_lucy",
+    "bg": "images/backgrounds/gateschool.webp",
+    "character": null,
+    "charImg": "images/characters/lucysad.webp",
+    "speaker": "Lucy",
+    "text": "Ça me fait de la peine… Tu veux en parler ?",
+    "typeSpeed": 18,
+    "music": "music/lucy.mp3",
+    "next": "choix_pas_bien_cloche"
+  },
+  {
+    "id": "choix_pas_bien_cloche",
+    "bg": "images/backgrounds/gateschool.webp",
+    "character": null,
+    "charImg": null,
+    "speaker": null,
+    "text": "Avant que je ne dise un mot, la cloche du lycée se déclenche.",
+    "typeSpeed": 18,
+    "music": "music/bell.mp3",
+    "next": "choix_pas_bien_lucy_apres"
+  },
+  {
+    "id": "choix_pas_bien_lucy_apres",
+    "bg": "images/backgrounds/gateschool.webp",
+    "character": null,
+    "charImg": "images/characters/lucyspeak.webp",
+    "speaker": "Lucy",
+    "text": "On va devoir commencer les cours… On en reparlera plus tard. On va jeter un œil aux classes ?",
+    "typeSpeed": 20,
+    "music": "music/lucy.mp3",
+    "next": "scene_S"
+  },
+  {
+    "id": "choix_bof",
+    "bg": "images/backgrounds/gateschool.webp",
+    "character": null,
+    "charImg": "images/characters/lucysad.webp",
+    "speaker": "Moi",
+    "text": "Bof, moyen.",
+    "typeSpeed": 16,
+    "music": "music/lucy.mp3",
+    "next": "choix_bof_lucy"
+  },
+  {
+    "id": "choix_bof_lucy",
+    "bg": "images/backgrounds/gateschool.webp",
+    "character": null,
+    "charImg": "images/characters/lucyspeak.webp",
+    "speaker": "Lucy",
+    "text": "Je vois… Pas facile les vacances. Moi, j’étais à la campagne chez ma tante. Je t’ai envoyé des messages, tu les as lus ?",
+    "typeSpeed": 20,
+    "music": "music/lucy.mp3",
+    "next": "choix_bof_reponse"
+  },
+  {
+    "id": "choix_bof_reponse",
+    "bg": "images/backgrounds/gateschool.webp",
+    "character": null,
+    "charImg": "images/characters/lucysmile.webp",
+    "speaker": "Moi",
+    "text": "Désolée, mon ordinateur était en panne. Je regarderai tout ce soir.",
+    "typeSpeed": 18,
+    "music": "music/lucy.mp3",
+    "next": "choix_bof_lucy2"
+  },
+  {
+    "id": "choix_bof_lucy2",
+    "bg": "images/backgrounds/gateschool.webp",
+    "character": null,
+    "charImg": "images/characters/lucysmile.webp",
+    "speaker": "Lucy",
+    "text": "D’accord, pas de souci. Bon… On va jeter un œil aux classes ?",
+    "typeSpeed": 18,
+    "music": "music/lucy.mp3",
+    "next": "scene_S"
+  },
+  {
+    "id": "scene_S",
+    "bg": "images/backgrounds/gateschool.webp",
+    "character": null,
+    "charImg": null,
+    "speaker": null,
+    "text": "On se dirigent vers le tableau.",
+    "typeSpeed": 18,
+    "music": "music/lucy.mp3",
+    "next": "scene_S_dialogue"
+  },
+  {
+    "id": "scene_S_dialogue",
+    "bg": "images/backgrounds/gateschool.webp",
+    "character": null,
+    "charImg": "images/characters/lucyspeak.webp",
+    "speaker": "Lucy",
+    "text": "On va jeter un œil aux classes ?",
+    "typeSpeed": 18,
+    "music": "music/lucy.mp3",
+    "next": "scene_S_clem"
+  },
+  {
+    "id": "scene_S_clem",
+    "bg": "images/backgrounds/gateschool.webp",
+    "character": null,
+    "charImg": "images/characters/lucysmile.webp",
+    "speaker": "Moi",
+    "text": "Oui, j’y allais justement. Il y a tous les noms sur ce panneau, ça va prendre des plombes.",
+    "typeSpeed": 20,
+    "music": "music/lucy.mp3",
+    "next": "scene_S_lucy_reply"
+  },
+  {
+    "id": "scene_S_lucy_reply",
+    "bg": "images/backgrounds/gateschool.webp",
+    "character": null,
+    "charImg": "images/characters/lucyspeak.webp",
+    "speaker": "Lucy",
+    "text": "À deux, ça ira plus vite. Allez, let’s go !",
+    "typeSpeed": 18,
+    "music": "music/lucy.mp3",
+    "next": "__suite_suivante__"
+  }
+
+]

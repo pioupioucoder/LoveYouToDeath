@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Yokohama · Marché d'Automne</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:#1a0e08;font-family:'Georgia',serif;color:#f0e8d8;touch-action:none;user-select:none}
+canvas{display:block;width:100%;height:100%}
+
+/* HUD */
+#hud{position:fixed;top:0;left:0;right:0;z-index:10;display:flex;justify-content:space-between;align-items:center;padding:.4rem .8rem;background:linear-gradient(rgba(15,8,3,.75),transparent);pointer-events:none}
+.ht{font-size:.62rem;letter-spacing:.25em;color:#e8a04c;text-transform:uppercase;text-shadow:0 0 8px rgba(232,160,76,.4)}
+
+/* Shopping list */
+#slist{position:fixed;top:48px;left:.6rem;z-index:10;background:rgba(10,6,2,.88);border:1px solid rgba(232,160,76,.25);border-radius:3px;padding:.5rem .7rem;min-width:148px;backdrop-filter:blur(6px)}
+.lt{font-size:.55rem;letter-spacing:.18em;color:#e8a04c;margin-bottom:.3rem;border-bottom:1px solid rgba(232,160,76,.15);padding-bottom:.2rem}
+.li{display:flex;align-items:center;gap:.28rem;font-size:.72rem;color:#d4c4a8;margin:.14rem 0;transition:all .3s}
+.li.got{color:#ff8855;text-decoration:line-through;opacity:.4}
+.li .dot{width:7px;height:7px;border-radius:50%;border:1px solid rgba(232,160,76,.3);flex-shrink:0;transition:all .3s}
+.li.got .dot{background:#e87030;border-color:#e87030}
+
+/* Prompt */
+#prompt{position:fixed;bottom:28%;left:50%;transform:translateX(-50%);z-index:10;background:rgba(10,6,2,.88);border:1px solid rgba(232,160,76,.55);border-radius:3px;padding:.3rem .75rem;font-size:.62rem;letter-spacing:.1em;color:#e8a04c;pointer-events:none;opacity:0;transition:opacity .2s;white-space:nowrap}
+#prompt.on{opacity:1}
+
+/* Location */
+#location{position:fixed;top:46px;left:50%;transform:translateX(-50%);z-index:10;background:rgba(10,6,2,.82);border:1px solid rgba(232,160,76,.3);border-radius:2px;padding:.25rem .7rem;font-size:.6rem;letter-spacing:.18em;color:#e8a04c;pointer-events:none;opacity:0;transition:opacity .35s}
+#location.on{opacity:1}
+
+/* Notif */
+#notif{position:fixed;top:50%;left:50%;transform:translate(-50%,-60%);z-index:25;background:rgba(10,6,2,.92);border:1px solid rgba(232,160,76,.5);border-radius:3px;padding:.45rem .9rem;font-size:.68rem;letter-spacing:.12em;color:#e8a04c;pointer-events:none;opacity:0;transition:opacity .25s,transform .25s;text-align:center}
+#notif.on{opacity:1;transform:translate(-50%,-80%)}
+
+/* DIALOGUE */
+#dbox{position:fixed;bottom:0;left:0;right:0;z-index:30;background:rgba(6,3,1,.96);border-top:2px solid rgba(232,160,76,.3);padding:.8rem 1.1rem .9rem;display:none;max-height:42vh;overflow-y:auto}
+#dbox.on{display:block}
+.dportrait{display:flex;align-items:flex-start;gap:.8rem}
+.davatar{width:46px;height:46px;border-radius:50%;border:2px solid rgba(232,160,76,.35);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;background:rgba(20,10,4,.9)}
+.dbody{flex:1;min-width:0}
+.dname{font-size:.58rem;letter-spacing:.2em;margin-bottom:.22rem;text-transform:uppercase}
+.dtext{font-size:.82rem;color:#f0e8d8;line-height:1.55;font-style:italic;min-height:1.2em}
+.dactions{display:flex;gap:.4rem;margin-top:.5rem;flex-wrap:wrap}
+.dchoice{background:rgba(20,10,2,.9);border:1px solid rgba(200,160,100,.22);color:#c8b890;padding:.32rem .7rem;cursor:pointer;font-size:.7rem;letter-spacing:.06em;border-radius:2px;font-family:'Georgia',serif;transition:all .15s}
+.dchoice:hover,.dchoice:active{border-color:#e8a04c;color:#f0e8d8}
+.dclose{background:transparent;border:1px solid rgba(200,160,100,.12);color:#7a6855;padding:.32rem .65rem;cursor:pointer;font-size:.66rem;border-radius:2px;font-family:'Georgia',serif;transition:all .15s}
+.dclose:hover,.dclose:active{border-color:#c85030;color:#c8b890}
+
+/* HELP PANEL */
+#helpbox{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:40;background:rgba(6,3,1,.97);border:1px solid rgba(232,160,76,.3);border-radius:4px;padding:1.2rem 1.5rem;min-width:240px;max-width:88vw;display:none}
+#helpbox.on{display:block}
+.helptitle{font-size:.75rem;letter-spacing:.22em;color:#e8a04c;margin-bottom:.6rem;text-align:center;border-bottom:1px solid rgba(232,160,76,.15);padding-bottom:.4rem}
+.helprow{font-size:.72rem;color:#c8b890;margin:.22rem 0;display:flex;gap:.5rem;align-items:center}
+.helpkey{background:rgba(232,160,76,.12);border:1px solid rgba(232,160,76,.25);border-radius:2px;padding:.1rem .4rem;font-size:.62rem;color:#e8a04c;white-space:nowrap}
+.helpclose{width:100%;margin-top:.8rem;background:transparent;border:1px solid rgba(200,160,100,.2);color:#c8b890;padding:.4rem;cursor:pointer;font-size:.68rem;border-radius:2px;font-family:'Georgia',serif;letter-spacing:.1em}
+.helpclose:hover{border-color:#e8a04c}
+
+/* MOBILE CONTROLS */
+#mctrl{position:fixed;bottom:1rem;left:0;right:0;z-index:15;display:flex;justify-content:space-between;align-items:flex-end;padding:0 .8rem;pointer-events:none}
+.jpad{pointer-events:all;display:grid;grid-template-columns:repeat(3,40px);grid-template-rows:repeat(3,40px);gap:3px}
+.jbtn{background:rgba(10,6,2,.72);border:1px solid rgba(232,160,76,.3);color:#e8a04c;font-size:.85rem;border-radius:4px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .1s;-webkit-tap-highlight-color:transparent}
+.jbtn:active{background:rgba(232,160,76,.25)}
+.jbtn.empty{visibility:hidden}
+.rpad{pointer-events:all;display:flex;flex-direction:column;align-items:center;gap:5px}
+.rbtn{background:rgba(10,6,2,.72);border:1px solid rgba(232,160,76,.3);color:#e8a04c;width:40px;height:40px;border-radius:4px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.75rem;letter-spacing:.04em;-webkit-tap-highlight-color:transparent;transition:background .1s}
+.rbtn:active{background:rgba(232,160,76,.25)}
+.rbtnrow{display:flex;gap:5px}
+
+/* Minimap */
+#mmap{position:fixed;bottom:.7rem;right:.7rem;z-index:10;width:88px;height:88px;background:rgba(6,3,1,.82);border:1px solid rgba(200,160,100,.18);border-radius:2px;overflow:hidden}
+#mmap canvas{width:100%;height:100%}
+
+/* Pause / End */
+#pause,#end{position:fixed;inset:0;z-index:50;background:rgba(4,2,1,.93);display:none;flex-direction:column;align-items:center;justify-content:center;backdrop-filter:blur(10px)}
+#pause.on,#end.on{display:flex}
+.panel{background:rgba(10,6,2,.98);border:1px solid rgba(200,160,100,.18);padding:1.5rem 1.8rem;min-width:200px;display:flex;flex-direction:column;gap:.45rem;border-radius:3px;text-align:center}
+.ptitle{font-size:.82rem;color:#e8d8c8;letter-spacing:.25em;margin-bottom:.3rem;border-bottom:1px solid rgba(200,160,100,.12);padding-bottom:.5rem}
+.pbtn{font-size:.68rem;letter-spacing:.15em;background:transparent;border:1px solid rgba(200,160,100,.18);color:#c8b890;padding:.62rem;cursor:pointer;border-radius:2px;font-family:'Georgia',serif;transition:all .18s}
+.pbtn:hover{border-color:#e8a04c;color:#f0e8d8}
+
+#fade{position:fixed;inset:0;z-index:60;background:#0a0602;opacity:0;pointer-events:none;transition:opacity .5s}
+#fade.on{opacity:1;pointer-events:all}
+
+/* crosshair */
+#crosshair{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:5;width:16px;height:16px}
+#crosshair::before,#crosshair::after{content:'';position:absolute;background:rgba(255,240,200,.6)}
+#crosshair::before{width:1px;height:10px;top:3px;left:7px}
+#crosshair::after{width:10px;height:1px;top:7px;left:3px}
+</style>
+</head>
+<body>
+<div id="crosshair"></div>
+<div id="fade"></div>
+<div id="notif"></div>
+<div id="location"></div>
+
+<div id="hud">
+  <div class="ht">🍂 Yokohama · Marché d'Automne</div>
+</div>
+
+<div id="slist">
+  <div class="lt">📋 COURSES</div>
+  <div id="list-items"></div>
+</div>
+
+<div id="prompt"></div>
+
+<div id="dbox">
+  <div class="dportrait">
+    <div class="davatar" id="d-avatar"></div>
+    <div class="dbody">
+      <div class="dname" id="d-name"></div>
+      <div class="dtext" id="d-text"></div>
+      <div class="dactions" id="d-actions"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Help panel in-game -->
+<div id="helpbox">
+  <div class="helptitle">— CONTRÔLES —</div>
+  <div class="helprow"><span class="helpkey">W A S D</span> ou <span class="helpkey">↑ ← ↓ →</span> Déplacer</div>
+  <div class="helprow"><span class="helpkey">Souris</span> Pivoter (clic pour activer)</div>
+  <div class="helprow"><span class="helpkey">E</span> Interagir / Parler</div>
+  <div class="helprow"><span class="helpkey">Echap</span> Pause</div>
+  <div class="helprow" style="margin-top:.4rem;color:#a89878;font-size:.65rem">🗺️ ⬜Toi &nbsp;🟤Dazai &nbsp;🟡PNJ &nbsp;🟢Objet</div>
+  <button class="helpclose" onclick="closeHelp()">[ Fermer ]</button>
+</div>
+
+<div id="mmap"><canvas id="mmcanvas" width="88" height="88"></canvas></div>
+
+<!-- Mobile controls -->
+<div id="mctrl">
+  <div class="jpad">
+    <div class="jbtn empty"></div>
+    <div class="jbtn" id="btn-fwd">▲</div>
+    <div class="jbtn empty"></div>
+    <div class="jbtn" id="btn-left">◀</div>
+    <div class="jbtn" id="btn-back">▼</div>
+    <div class="jbtn" id="btn-right">▶</div>
+    <div class="jbtn empty"></div>
+    <div class="jbtn empty"></div>
+    <div class="jbtn empty"></div>
+  </div>
+  <div class="rpad">
+    <div class="rbtnrow">
+      <div class="rbtn" id="btn-rleft">↺</div>
+      <div class="rbtn" id="btn-rright">↻</div>
+    </div>
+    <div class="rbtnrow">
+      <div class="rbtn" id="btn-interact" style="width:88px;background:rgba(232,160,76,.15);border-color:rgba(232,160,76,.5);color:#e8a04c">✦ Agir</div>
+    </div>
+    <div class="rbtnrow">
+      <div class="rbtn" id="btn-help" style="font-size:.6rem">?</div>
+      <div class="rbtn" id="btn-pause" style="font-size:.75rem">⏸</div>
+    </div>
+  </div>
+</div>
+
+<div id="pause">
+  <div class="panel">
+    <div class="ptitle">— PAUSE —</div>
+    <button class="pbtn" onclick="togglePause()">REPRENDRE</button>
+    <button class="pbtn" onclick="showHelp()">CONTRÔLES</button>
+    <button class="pbtn" onclick="location.reload()">QUITTER</button>
+  </div>
+</div>
+
+<div id="end">
+  <div class="panel">
+    <div class="ptitle">Courses terminées !</div>
+    <div id="end-text" style="font-size:.8rem;color:#c8b890;font-style:italic;line-height:1.7;margin:.3rem 0"></div>
+    <button class="pbtn" onclick="location.reload()">REJOUER</button>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+// ═══════════════════════════════
+// DATA
+// ═══════════════════════════════
+const SHOPPING=[
+  {id:'crab',   e:'🦀', n:'Crabe Frais'},
+  {id:'butter', e:'🧈', n:'Beurre Normand'},
+  {id:'garlic', e:'🧄', n:'Ail Frais'},
+  {id:'parsley',e:'🌿', n:'Persil Frais'},
+  {id:'lemon',  e:'🍋', n:'Citron'},
+];
+
+const NPCS={
+  fisherman:{name:'PÊCHEUR',color:'#4a9fd4',avatar:'🎣',
+    lines:{
+      greet:['Eh, tu cherches quelque chose ?','Bienvenue ! Poisson frais du matin !'],
+      crab:['Le crabe est dans ma caisse, au fond à droite !','Frais du matin, les crabes. Prends-en un beau.'],
+      bye:['Bonne journée !','Reviens quand tu veux.'],
+    },
+    choices:[
+      {label:'Vous avez du crabe ?', key:'crab'},
+      {label:'Au revoir.', key:'bye', close:true},
+    ]
+  },
+  merchant:{name:'MARCHANDE',color:'#c9a84c',avatar:'🧑‍🌾',
+    lines:{
+      greet:['Bonjour ! Légumes et aromates frais !','Qu\'est-ce qu\'il te faut, jeune homme ?'],
+      garlic:['L\'ail est dans la caisse verte ! Meilleur de Yokohama.','Regarde, juste là, dans la caisse de gauche.'],
+      parsley:['Le persil est à côté de l\'ail, en bouquet.','Beau persil plat, cueilli ce matin.'],
+      lemon:['Les citrons sont avec les fruits, tout au fond.','Jaunes et juteux, tu les verras facilement.'],
+      bye:['Reviens vite !','Bonne continuation !'],
+    },
+    choices:[
+      {label:'Vous avez de l\'ail ?', key:'garlic'},
+      {label:'Et du persil ?', key:'parsley'},
+      {label:'Des citrons ?', key:'lemon'},
+      {label:'Merci, au revoir.', key:'bye', close:true},
+    ]
+  },
+  baker:{name:'BOULANGER',color:'#c8836a',avatar:'🧑‍🍳',
+    lines:{
+      greet:['Du pain frais ! Brioche, croissant... rien ?','Bonjour ! Une petite viennoiserie ?'],
+      butter:['Le beurre ? Va voir Mme Tanaka, la crémerie à droite.','Beurre normand, elle en a toujours. Excellent avec ma brioche !'],
+      bye:['Bonne journée !','À bientôt !'],
+    },
+    choices:[
+      {label:'Où trouver du beurre ?', key:'butter'},
+      {label:'Au revoir.', key:'bye', close:true},
+    ]
+  },
+  dairywoman:{name:'MME TANAKA',color:'#e8c8e8',avatar:'👩',
+    lines:{
+      greet:['Bonjour ! Fromage, crème, beurre ?','Entre, entre ! Qu\'est-ce que tu cherches ?'],
+      butter:['Le beurre normand ? Juste là sur le comptoir !','Prends-le vite, c\'est le dernier bloc de la journée.'],
+      bye:['Au revoir !','À la prochaine !'],
+    },
+    choices:[
+      {label:'Je cherche du beurre normand.', key:'butter'},
+      {label:'Au revoir madame.', key:'bye', close:true},
+    ]
+  },
+  old_man:{name:'VIEUX KENJI',color:'#8ac4a0',avatar:'👴',
+    lines:{
+      greet:['Hmm ? Qu\'est-ce tu veux, gamin ?','Tiens, un nouveau visage par ici.'],
+      lemon:['Les citrons ? J\'en ai dans ma caisse, là derrière.','Des beaux citrons jaunes, bien juteux.'],
+      bye:['Bon vent, gamin.','Ouais ouais, va.'],
+    },
+    choices:[
+      {label:'Vous avez des citrons ?', key:'lemon'},
+      {label:'Merci, au revoir.', key:'bye', close:true},
+    ]
+  },
+};
+
+// ═══════════════════════════════
+// STATE
+// ═══════════════════════════════
+const S={collected:new Set(),paused:false,inDialogue:false,ended:false,insideBuilding:null,helpOpen:false};
+const keys={};
+let pitch=0,yaw=0,pLocked=false;
+const PLAYER_POS={x:0,z:4,y:1.65};
+const SPEED=4.2,PLAYER_R=0.32;
+
+// ═══════════════════════════════
+// THREE.JS SETUP
+// ═══════════════════════════════
+const renderer=new THREE.WebGLRenderer({antialias:false});
+renderer.setPixelRatio(Math.min(window.devicePixelRatio,1.5));
+renderer.setSize(window.innerWidth,window.innerHeight);
+renderer.shadowMap.enabled=false; // disabled for perf
+renderer.setClearColor(0xd4956a);
+document.body.appendChild(renderer.domElement);
+
+const scene=new THREE.Scene();
+scene.fog=new THREE.Fog(0xc87840,14,45);
+
+const camera=new THREE.PerspectiveCamera(68,window.innerWidth/window.innerHeight,0.05,80);
+camera.position.set(0,1.65,0);
+
+window.addEventListener('resize',()=>{
+  camera.aspect=window.innerWidth/window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth,window.innerHeight);
+});
+
+// ═══════════════════════════════
+// LIGHTING — warm autumn
+// ═══════════════════════════════
+scene.add(new THREE.AmbientLight(0xffe4c0,0.7));
+const sun=new THREE.DirectionalLight(0xffcc80,1.1);
+sun.position.set(20,35,15);
+scene.add(sun);
+const fill=new THREE.DirectionalLight(0xff8844,0.25);
+fill.position.set(-15,8,-10);
+scene.add(fill);
+
+// ═══════════════════════════════
+// SKY — autumn gradient
+// ═══════════════════════════════
+{
+  const skyGeo=new THREE.SphereGeometry(120,12,6);
+  const skyMat=new THREE.ShaderMaterial({
+    uniforms:{top:{value:new THREE.Color(0xe86030)},bottom:{value:new THREE.Color(0xf0a060)}},
+    vertexShader:`varying vec3 vPos;void main(){vPos=(modelMatrix*vec4(position,1.0)).xyz;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}`,
+    fragmentShader:`uniform vec3 top,bottom;varying vec3 vPos;void main(){float h=clamp(normalize(vPos).y*.5+.5,0.,1.);gl_FragColor=vec4(mix(bottom,top,h),1.);}`,
+    side:THREE.BackSide
+  });
+  scene.add(new THREE.Mesh(skyGeo,skyMat));
+}
+
+// ═══════════════════════════════
+// GROUND — cobblestone look
+// ═══════════════════════════════
+const gndMat=new THREE.MeshLambertMaterial({color:0x8a7060});
+const gndMesh=new THREE.Mesh(new THREE.PlaneGeometry(120,120),gndMat);gndMesh.rotation.x=-Math.PI/2;scene.add(gndMesh);
+
+// Main path
+function road(x,z,w,d,c=0x6a5848){
+  const m=new THREE.Mesh(new THREE.PlaneGeometry(w,d),new THREE.MeshLambertMaterial({color:c}));
+  m.rotation.x=-Math.PI/2;m.position.set(x,0.01,z);scene.add(m);
+}
+road(0,0,70,6);
+road(0,0,6,70);
+
+// Cobble tiles on main paths
+for(let i=-30;i<30;i+=1.8){
+  for(let j=-30;j<30;j+=1.8){
+    if(Math.abs(i)<3.2||Math.abs(j)<3.2){
+      const c=new THREE.Mesh(new THREE.BoxGeometry(1.7,0.03,1.7),new THREE.MeshLambertMaterial({color:(Math.floor(i)+Math.floor(j))%2===0?0x7a6855:0x6a5845}));
+      c.position.set(i+0.85,0,j+0.85);scene.add(c);
+    }
+  }
+}
+
+// ═══════════════════════════════
+// HELPERS
+// ═══════════════════════════════
+const collidables=[];
+const buildingZones=[];
+const itemSprites={};
+const npcs=[];
+
+function addCol(minX,maxX,minZ,maxZ){collidables.push({minX,maxX,minZ,maxZ});}
+function isBlocked(nx,nz){
+  for(const c of collidables)if(nx+PLAYER_R>c.minX&&nx-PLAYER_R<c.maxX&&nz+PLAYER_R>c.minZ&&nz-PLAYER_R<c.maxZ)return true;
+  return Math.abs(nx)>22||Math.abs(nz)>22;
+}
+
+function box(w,h,d,color,x,y,z,ry=0){
+  const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),new THREE.MeshLambertMaterial({color}));
+  m.position.set(x,y,z);m.rotation.y=ry;scene.add(m);return m;
+}
+
+// Text sprite (canvas-based)
+function textSprite(text,x,y,z,col=0xffffff,scale=3.5){
+  const cv=document.createElement('canvas');cv.width=512;cv.height=128;
+  const ctx=cv.getContext('2d');
+  ctx.font='bold 48px Georgia,serif';
+  ctx.fillStyle='#'+col.toString(16).padStart(6,'0');
+  ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText(text,256,64);
+  const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(cv),transparent:true,depthTest:false}));
+  sp.position.set(x,y,z);sp.scale.set(scale,scale/4,1);scene.add(sp);return sp;
+}
+
+function emojiSprite(id,emoji,x,y,z){
+  const cv=document.createElement('canvas');cv.width=128;cv.height=128;
+  const ctx=cv.getContext('2d');
+  ctx.font='88px serif';ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText(emoji,64,70);
+  const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(cv),transparent:true}));
+  sp.position.set(x,y,z);sp.scale.set(0.65,0.65,1);
+  sp.userData={itemId:id,baseY:y};scene.add(sp);
+  itemSprites[id]=sp;return sp;
+}
+
+// ═══════════════════════════════
+// AUTUMN TREES
+// ═══════════════════════════════
+const autumnColors=[0xcc3300,0xff6600,0xdd4400,0xaa2200,0xff9900,0xcc6600];
+function makeTree(x,z){
+  box(0.28,2.2,0.28,0x3a2010,x,1.1,z);
+  const c1=autumnColors[Math.floor(Math.random()*autumnColors.length)];
+  const c2=autumnColors[Math.floor(Math.random()*autumnColors.length)];
+  const b=new THREE.Mesh(new THREE.SphereGeometry(1.2,7,5),new THREE.MeshLambertMaterial({color:c1}));
+  b.position.set(x,3,z);scene.add(b);
+  const b2=new THREE.Mesh(new THREE.SphereGeometry(0.85,6,4),new THREE.MeshLambertMaterial({color:c2}));
+  b2.position.set(x+0.3,3.9,z+0.1);scene.add(b2);
+  addCol(x-.3,x+.3,z-.3,z+.3);
+  // Fallen leaves
+  for(let i=0;i<4;i++){
+    const lx=x+(Math.random()-.5)*2.5,lz=z+(Math.random()-.5)*2.5;
+    const leaf=new THREE.Mesh(new THREE.CircleGeometry(.25,5),new THREE.MeshLambertMaterial({color:autumnColors[Math.floor(Math.random()*autumnColors.length)]}));
+    leaf.rotation.x=-Math.PI/2;leaf.position.set(lx,.015,lz);scene.add(leaf);
+  }
+}
+[[-16,-3],[16,-3],[-16,3],[16,3],[-3,-20],[3,-20],[-3,20],[3,20],
+ [-18,-12],[18,-12],[-18,12],[18,12]].forEach(([tx,tz])=>makeTree(tx,tz));
+
+// Falling leaves particles
+const leafParts=[];
+for(let i=0;i<30;i++){
+  const lm=new THREE.Mesh(new THREE.CircleGeometry(.15+Math.random()*.15,4),new THREE.MeshLambertMaterial({color:autumnColors[Math.floor(Math.random()*autumnColors.length)],side:THREE.DoubleSide}));
+  lm.position.set((Math.random()-0.5)*40,3+Math.random()*5,(Math.random()-0.5)*40);
+  lm.userData={vx:(Math.random()-.5)*.3,vy:-.2-Math.random()*.2,vz:(Math.random()-.5)*.3,spin:Math.random()*.05};
+  scene.add(lm);leafParts.push(lm);
+}
+
+// ═══════════════════════════════
+// MARKET STALLS — faithful to image
+// Warm red/white awnings, wooden crates with fruit
+// ═══════════════════════════════
+const stallConfigs=[
+  // [x,z,rot,npcKey,items,shopItems,label,wallColor,awningColor]
+  {x:-9,z:-6,rot:0,npcKey:'fisherman',items:['🦀','🐟','🦑','🦐'],collectItem:'crab',label:'Poissonnerie',wc:0x5a7898,ac:0xcc3322},
+  {x:9,z:-6,rot:0,npcKey:'merchant',items:['🧄','🌿','🥕','🥦','🍅'],collectItems:['garlic','parsley'],label:'Épicerie',wc:0x4a6835,ac:0xdd5522},
+  {x:-9,z:6,rot:Math.PI,npcKey:'dairywoman',items:['🧈','🧀','🥛','🫙'],collectItem:'butter',label:'Crémerie',wc:0x9a7a50,ac:0xcc4422},
+  {x:9,z:6,rot:Math.PI,npcKey:'old_man',items:['🍋','🍊','🍎','🍇','🍐'],collectItem:'lemon',label:'Fruitier',wc:0x7a5830,ac:0xbb3311},
+  {x:0,z:-17,rot:0,npcKey:'baker',items:['🥐','🍞','🥖','🧁'],label:'Boulangerie',wc:0xb88050,ac:0xdd4411},
+];
+
+function buildStall(cfg){
+  const {x,z,rot,npcKey,items,collectItem,collectItems,label,wc,ac}=cfg;
+  const sg=new THREE.Group();
+  sg.position.set(x,0,z);sg.rotation.y=rot;
+
+  // Back wall + side walls (visible interior)
+  const backW=box(7,3.5,0.2,wc,0,1.75,-2.8);sg.add(backW);
+  const sideL=box(0.2,3.5,5.2,wc,-3.5,1.75,0);sg.add(sideL);
+  const sideR=box(0.2,3.5,5.2,wc,3.5,1.75,0);sg.add(sideR);
+  // Roof/ceiling
+  const ceil=box(7.4,0.15,5.4,new THREE.Color(wc).multiplyScalar(0.7).getHex(),0,3.5,0);sg.add(ceil);
+  // Floor slightly different color
+  const fl=new THREE.Mesh(new THREE.PlaneGeometry(6.8,5),new THREE.MeshLambertMaterial({color:0x6a5040}));
+  fl.rotation.x=-Math.PI/2;fl.position.set(0,.02,0);sg.add(fl);
+
+  // Awning (red/white stripes)
+  const awFront=box(7.4,.12,2,ac,0,3.42,1.2,.15);sg.add(awFront);
+  const awMat=new THREE.MeshLambertMaterial({color:0xeeeecc});
+  for(let i=-3;i<=3;i+=1){
+    const stripe=new THREE.Mesh(new THREE.BoxGeometry(.35,.13,2),awMat);
+    stripe.position.set(i,3.43,1.2);sg.add(stripe);
+  }
+  // Awning poles
+  box(0.08,3.5,0.08,0x4a3020,-3.4,1.75,2.2);
+  box(0.08,3.5,0.08,0x4a3020,3.4,1.75,2.2);
+
+  // COUNTER with goods
+  const counter=box(5.5,.9,1,0x7a5830,0,.45,-1.8);sg.add(counter);
+  // Crates on counter
+  for(let ci=-2;ci<=2;ci++){
+    const crate=box(.9,.35,.7,0x6a4820,ci*1.05,.95,-1.8);sg.add(crate);
+  }
+
+  // Emoji items on display (decorative + collectible)
+  items.forEach((emoji,i)=>{
+    const cx=((i%(items.length>4?3:items.length))-(items.length>4?1:items.length/2-0.5))*1.1;
+    const cz=i>=3?-2.2:-1.8;
+    const cv=document.createElement('canvas');cv.width=96;cv.height=96;
+    const ctx=cv.getContext('2d');
+    ctx.font='72px serif';ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText(emoji,48,52);
+    const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(cv),transparent:true}));
+    // Convert local to world
+    const wx=x+(rot===0?cx:-cx);
+    const wz=z+(rot===0?cz+z:-cz+z);
+    // Actually need world coords accounting for group rotation
+    // We'll just place directly
+    sp.scale.set(.5,.5,1);
+    sg.add(sp);
+    sp.position.set(cx,1.3,cz);
+  });
+
+  scene.add(sg);
+
+  // Collectible items (world space)
+  if(collectItem){
+    const it=SHOPPING.find(s=>s.id===collectItem);
+    if(it){
+      const wx=x+Math.sin(-rot)*(-1.8)+Math.cos(-rot)*0;
+      const wz=z+Math.cos(-rot)*(-1.8)+Math.sin(-rot)*0;
+      emojiSprite(collectItem,it.e,wx,1.4,wz);
+    }
+  }
+  if(collectItems){
+    collectItems.forEach((cid,i)=>{
+      const it=SHOPPING.find(s=>s.id===cid);
+      if(it){
+        const ox=(i-0.5)*1.2;
+        const wx=x+Math.cos(-rot)*ox+Math.sin(-rot)*(-1.8);
+        const wz=z-Math.sin(-rot)*ox+Math.cos(-rot)*(-1.8);
+        emojiSprite(cid,it.e,wx,1.4,wz);
+      }
+    });
+  }
+
+  // NPC
+  makeNPC(npcKey,x+Math.cos(-rot)*(-1.5)-Math.sin(-rot)*(-1.5),0,z-Math.sin(-rot)*(-1.5)+Math.cos(-rot)*(-1.5),npcKey);
+
+  // Sign
+  textSprite(label, x+Math.sin(-rot+Math.PI)*0, 3.7, z+Math.cos(-rot+Math.PI)*2.6, 0xffdd88, 3.5);
+
+  // Colliders (world space)
+  const hw=3.6,hd=2.8;
+  // Approximate bounding walls
+  if(rot===0){
+    addCol(x-hw,x-hw+.2,z-hd,z+hd); // left wall
+    addCol(x+hw-.2,x+hw,z-hd,z+hd); // right wall
+    addCol(x-hw,x+hw,z-hd,z-hd+.2); // back wall
+  } else {
+    addCol(x-hw,x-hw+.2,z-hd,z+hd);
+    addCol(x+hw-.2,x+hw,z-hd,z+hd);
+    addCol(x-hw,x+hw,z+hd-.2,z+hd);
+  }
+  buildingZones.push({minX:x-hw,maxX:x+hw,minZ:z-hd,maxZ:z+hd,id:npcKey,label});
+
+  // Lamp at stall front
+  box(.08,2.5,.08,0x3a2a18,x+3.2,1.25,z+(rot===0?2.2:-2.2));
+  const lampM=new THREE.Mesh(new THREE.SphereGeometry(.18,6,4),new THREE.MeshLambertMaterial({color:0xffeeaa,emissive:0x887730}));
+  lampM.position.set(x+3.2,2.6,z+(rot===0?2.2:-2.2));scene.add(lampM);
+  const pl=new THREE.PointLight(0xffdd88,.9,5);
+  pl.position.set(x+3.2,2.5,z+(rot===0?2.2:-2.2));scene.add(pl);
+}
+
+stallConfigs.forEach(buildStall);
+
+// Additional decor: scattered crates and baskets in market area
+const decoEmoji=['🍎','🍊','🍇','🥕','🌽','🍆','🍑','🍓'];
+[[-4,-4,-3],[4,-4,-3],[-4,4,3],[4,4,3],[-6,0,-2],[6,0,-2]].forEach(([bx,by,bz])=>{
+  box(.7,.4,.7,0x6a4820,bx,.2,bz);
+  const idx=Math.floor(Math.random()*decoEmoji.length);
+  const cv=document.createElement('canvas');cv.width=64;cv.height=64;
+  const ctx=cv.getContext('2d');ctx.font='48px serif';ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText(decoEmoji[idx],32,36);
+  const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(cv),transparent:true}));
+  sp.position.set(bx,.65,bz);sp.scale.set(.45,.45,1);scene.add(sp);
+});
+
+// Benches
+[[-2.5,4.5],[2.5,4.5],[-2.5,-4.5],[2.5,-4.5]].forEach(([bx,bz])=>{
+  box(1.8,.1,.45,0x7a5830,bx,.8,bz);
+  box(.1,.65,.45,0x6a4820,bx-.8,.35,bz);
+  box(.1,.65,.45,0x6a4820,bx+.8,.35,bz);
+});
+
+// Lanterns on central crossing
+[[-3,0],[3,0],[0,-3],[0,3],[-6,0],[6,0],[0,-6],[0,6]].forEach(([lx,lz])=>{
+  box(.1,3.5,.1,0x3a2a10,lx,1.75,lz);
+  box(.8,.08,.08,0x3a2a10,lx,3.5,lz);
+  const lm=new THREE.Mesh(new THREE.SphereGeometry(.16,6,4),new THREE.MeshLambertMaterial({color:0xffeeaa,emissive:0x886620}));
+  lm.position.set(lx+.35,3.45,lz);scene.add(lm);
+  const lp=new THREE.PointLight(0xffdd88,.7,4);lp.position.set(lx+.35,3.3,lz);scene.add(lp);
+});
+
+// Boundary fence
+for(let i=-22;i<=22;i+=2.5){
+  if(Math.abs(i)<3.5)continue;
+  box(2.3,.9,.12,0x8a6040,-24,.45,i);
+  box(2.3,.9,.12,0x8a6040,24,.45,i);
+  box(.12,.9,2.3,0x8a6040,i,.45,-24);
+  box(.12,.9,2.3,0x8a6040,i,.45,24);
+  box(.15,1.2,.15,0x6a4020,-23.2,.6,i);
+  box(.15,1.2,.15,0x6a4020,23.2,.6,i);
+}
+addCol(-24.5,24.5,-24.5,-23.5);
+addCol(-24.5,24.5,23.5,24.5);
+addCol(-24.5,-23.5,-24.5,24.5);
+addCol(23.5,24.5,-24.5,24.5);
+
+// ═══════════════════════════════
+// NPC SYSTEM
+// ═══════════════════════════════
+function makeNPC(npcId,x,y,z,dialogueKey){
+  const g=new THREE.Group();
+  g.position.set(x,0,z);
+  const ndata=NPCS[dialogueKey];
+  // Body
+  const bm=new THREE.Mesh(new THREE.CylinderGeometry(.2,.23,.95,7),new THREE.MeshLambertMaterial({color:0x885533}));
+  bm.position.y=.475;g.add(bm);
+  // Head
+  const hm=new THREE.Mesh(new THREE.SphereGeometry(.2,8,6),new THREE.MeshLambertMaterial({color:0xf0c090}));
+  hm.position.y=1.12;g.add(hm);
+  // Eyes
+  [-0.07,0.07].forEach(ex=>{
+    const e=new THREE.Mesh(new THREE.SphereGeometry(.035,4,3),new THREE.MeshLambertMaterial({color:0x111111}));
+    e.position.set(ex,1.15,.17);g.add(e);
+  });
+  // Avatar emoji above
+  textSprite(ndata?.avatar||'👤',x,2.05,z,0xffffff,1.6);
+  scene.add(g);
+  npcs.push({mesh:g,id:npcId,dialogueKey,baseX:x,baseZ:z});
+  return g;
+}
+
+// ═══════════════════════════════
+// DAZAI — faithful to image
+// Brown overcoat, black inner, white pants, bandages
+// ═══════════════════════════════
+let dazai=null;
+{
+  const g=new THREE.Group();
+  g.position.set(2,0,-1);
+  // White pants
+  const pants=new THREE.Mesh(new THREE.CylinderGeometry(.16,.18,.9,7),new THREE.MeshLambertMaterial({color:0xe8e4d8}));
+  pants.position.y=.45;g.add(pants);
+  // Black inner vest/shirt
+  const inner=new THREE.Mesh(new THREE.CylinderGeometry(.19,.2,.7,7),new THREE.MeshLambertMaterial({color:0x1a1a1a}));
+  inner.position.y=.95;g.add(inner);
+  // Brown overcoat (longer)
+  const coat=new THREE.Mesh(new THREE.CylinderGeometry(.24,.28,1.15,8),new THREE.MeshLambertMaterial({color:0x8b6030}));
+  coat.position.y=.9;g.add(coat);
+  // Coat tails (back flaps)
+  const tailL=new THREE.Mesh(new THREE.BoxGeometry(.18,.55,.08),new THREE.MeshLambertMaterial({color:0x7a5020}));
+  tailL.position.set(-.1,.35,.22);tailL.rotation.x=.3;g.add(tailL);
+  const tailR=new THREE.Mesh(new THREE.BoxGeometry(.18,.55,.08),new THREE.MeshLambertMaterial({color:0x7a5020}));
+  tailR.position.set(.1,.35,.22);tailR.rotation.x=.3;g.add(tailR);
+  // Head — slightly slender
+  const head=new THREE.Mesh(new THREE.SphereGeometry(.21,10,7),new THREE.MeshLambertMaterial({color:0xf0c090}));
+  head.position.y=1.55;head.scale.set(.95,1.05,1);g.add(head);
+  // Dark brown hair (wavy, covers top)
+  const hair=new THREE.Mesh(new THREE.SphereGeometry(.23,8,5),new THREE.MeshLambertMaterial({color:0x2a1808}));
+  hair.position.set(0,1.67,0);hair.scale.set(1,.65,1.05);g.add(hair);
+  // Hair side strands
+  [-0.12,0.12].forEach(hx=>{
+    const hs=new THREE.Mesh(new THREE.SphereGeometry(.1,5,4),new THREE.MeshLambertMaterial({color:0x2a1808}));
+    hs.position.set(hx,1.6,.05);g.add(hs);
+  });
+  // Eyes (dark, slightly narrow)
+  [-0.075,0.075].forEach(ex=>{
+    const eye=new THREE.Mesh(new THREE.SphereGeometry(.035,4,3),new THREE.MeshLambertMaterial({color:0x111111}));
+    eye.position.set(ex,1.56,.18);g.add(eye);
+  });
+  // Bandages on wrists (white strips)
+  [-1,1].forEach(side=>{
+    const arm=new THREE.Mesh(new THREE.CylinderGeometry(.065,.065,.42,5),new THREE.MeshLambertMaterial({color:0x8b6030}));
+    arm.position.set(side*.28,.75,.15);arm.rotation.z=side*0.45;g.add(arm);
+    const band=new THREE.Mesh(new THREE.CylinderGeometry(.07,.07,.1,5),new THREE.MeshLambertMaterial({color:0xeeeeee}));
+    band.position.set(side*.32,.6,.18);band.rotation.z=arm.rotation.z;g.add(band);
+    // Second bandage strip
+    const band2=new THREE.Mesh(new THREE.CylinderGeometry(.07,.07,.06,5),new THREE.MeshLambertMaterial({color:0xdddddd}));
+    band2.position.set(side*.3,.66,.17);band2.rotation.z=arm.rotation.z;g.add(band2);
+  });
+  // Blue cravat/tie detail
+  const cravat=new THREE.Mesh(new THREE.BoxGeometry(.06,.2,.04),new THREE.MeshLambertMaterial({color:0x88aacc}));
+  cravat.position.set(0,1.12,.22);g.add(cravat);
+
+  scene.add(g);
+  dazai={mesh:g,bobTimer:0};
+}
+
+// ═══════════════════════════════
+// UI SETUP
+// ═══════════════════════════════
+function buildListUI(){
+  const c=document.getElementById('list-items');c.innerHTML='';
+  SHOPPING.forEach(it=>{
+    const d=document.createElement('div');d.className='li';d.id='li-'+it.id;
+    d.innerHTML=`<div class="dot"></div><span>${it.e} ${it.n}</span>`;
+    c.appendChild(d);
+  });
+}
+buildListUI();
+
+function updateListUI(){
+  SHOPPING.forEach(it=>{if(S.collected.has(it.id))document.getElementById('li-'+it.id)?.classList.add('got');});
+}
+
+let notifTO=null;
+function showNotif(txt){
+  const el=document.getElementById('notif');el.textContent=txt;el.classList.add('on');
+  clearTimeout(notifTO);notifTO=setTimeout(()=>el.classList.remove('on'),2000);
+}
+let locTO=null;
+function showLocation(txt){
+  const el=document.getElementById('location');el.textContent=txt;el.classList.add('on');
+  clearTimeout(locTO);locTO=setTimeout(()=>el.classList.remove('on'),2800);
+}
+function setPrompt(t){const el=document.getElementById('prompt');el.textContent=t;el.classList.add('on');}
+function clearPrompt(){document.getElementById('prompt').classList.remove('on');}
+
+// ═══════════════════════════════
+// DIALOGUE
+// ═══════════════════════════════
+let activeNPCKey=null,typingTO=null;
+function openDialogue(key){
+  const npc=NPCS[key];if(!npc)return;
+  S.inDialogue=true;activeNPCKey=key;
+  if(document.pointerLockElement)document.exitPointerLock();
+  document.getElementById('d-avatar').textContent=npc.avatar;
+  document.getElementById('d-name').textContent=npc.name;
+  document.getElementById('d-name').style.color=npc.color;
+  const greets=npc.lines.greet;
+  typeText(greets[Math.floor(Math.random()*greets.length)]);
+  const acts=document.getElementById('d-actions');acts.innerHTML='';
+  npc.choices.forEach(ch=>{
+    const btn=document.createElement('button');btn.className='dchoice';btn.textContent=ch.label;
+    btn.onclick=()=>{
+      const ls=npc.lines[ch.key]||['...'];
+      typeText(ls[Math.floor(Math.random()*ls.length)]);
+      if(ch.close)setTimeout(closeDialogue,1600);
+    };acts.appendChild(btn);
+  });
+  const cb=document.createElement('button');cb.className='dclose';cb.textContent='[ Partir ]';
+  cb.onclick=closeDialogue;acts.appendChild(cb);
+  document.getElementById('dbox').classList.add('on');
+}
+function typeText(text){
+  clearTimeout(typingTO);const el=document.getElementById('d-text');el.textContent='';let i=0;
+  function tick(){if(i<text.length){el.textContent+=text[i++];typingTO=setTimeout(tick,20);}}tick();
+}
+function closeDialogue(){S.inDialogue=false;activeNPCKey=null;document.getElementById('dbox').classList.remove('on');}
+
+// ═══════════════════════════════
+// CONTROLS
+// ═══════════════════════════════
+document.addEventListener('keydown',e=>{
+  keys[e.code]=true;
+  if(e.code==='Escape'){if(S.inDialogue){closeDialogue();return;}if(S.helpOpen){closeHelp();return;}togglePause();}
+  if((e.code==='KeyE'||e.code==='Space')&&!S.ended){e.preventDefault();doInteract();}
+});
+document.addEventListener('keyup',e=>{keys[e.code]=false;});
+
+renderer.domElement.addEventListener('click',()=>{
+  if(!S.paused&&!S.inDialogue&&!S.ended&&!S.helpOpen)renderer.domElement.requestPointerLock();
+});
+document.addEventListener('pointerlockchange',()=>{pLocked=!!document.pointerLockElement;});
+document.addEventListener('mousemove',e=>{
+  if(!pLocked||S.inDialogue||S.paused)return;
+  yaw-=e.movementX*.002;pitch-=e.movementY*.002;
+  pitch=Math.max(-1.1,Math.min(1.1,pitch));
+});
+
+// Mobile button setup
+function mobileKey(btnId,code,isRotate=false){
+  const el=document.getElementById(btnId);if(!el)return;
+  el.addEventListener('pointerdown',e=>{e.preventDefault();keys[code]=true;});
+  el.addEventListener('pointerup',e=>{e.preventDefault();keys[code]=false;});
+  el.addEventListener('pointercancel',e=>{keys[code]=false;});
+}
+mobileKey('btn-fwd','KeyW');
+mobileKey('btn-back','KeyS');
+mobileKey('btn-left','KeyA');
+mobileKey('btn-right','KeyD');
+mobileKey('btn-rleft','RotateL');
+mobileKey('btn-rright','RotateR');
+
+document.getElementById('btn-interact').addEventListener('click',e=>{e.preventDefault();doInteract();});
+document.getElementById('btn-help').addEventListener('click',e=>{e.preventDefault();showHelp();});
+document.getElementById('btn-pause').addEventListener('click',e=>{e.preventDefault();togglePause();});
+
+// ═══════════════════════════════
+// MOVEMENT
+// ═══════════════════════════════
+function movePlayer(dt){
+  if(S.paused||S.inDialogue||S.ended)return;
+  if(keys['RotateL'])yaw+=1.8*dt;
+  if(keys['RotateR'])yaw-=1.8*dt;
+  const fx=Math.sin(yaw),fz=Math.cos(yaw);
+  const rx=Math.cos(yaw),rz=-Math.sin(yaw);
+  let dx=0,dz=0;
+  if(keys['KeyW']||keys['ArrowUp']){dx+=fx;dz+=fz;}
+  if(keys['KeyS']||keys['ArrowDown']){dx-=fx;dz-=fz;}
+  if(keys['KeyA']||keys['ArrowLeft']){dx-=rx;dz-=rz;}
+  if(keys['KeyD']||keys['ArrowRight']){dx+=rx;dz+=rz;}
+  const len=Math.sqrt(dx*dx+dz*dz);
+  if(len>0){
+    dx=dx/len*SPEED*dt;dz=dz/len*SPEED*dt;
+    const nx=PLAYER_POS.x+dx,nz=PLAYER_POS.z+dz;
+    if(!isBlocked(nx,PLAYER_POS.z))PLAYER_POS.x=nx;
+    if(!isBlocked(PLAYER_POS.x,nz))PLAYER_POS.z=nz;
+  }
+  camera.position.set(PLAYER_POS.x,PLAYER_POS.y,PLAYER_POS.z);
+  camera.rotation.order='YXZ';camera.rotation.y=yaw;camera.rotation.x=pitch;
+}
+
+// ═══════════════════════════════
+// DAZAI FOLLOW
+// ═══════════════════════════════
+function updateDazai(dt){
+  if(!dazai)return;
+  const tx=PLAYER_POS.x-Math.sin(yaw)*2-Math.cos(yaw)*.6;
+  const tz=PLAYER_POS.z-Math.cos(yaw)*2+Math.sin(yaw)*.6;
+  const dx=tx-dazai.mesh.position.x,dz=tz-dazai.mesh.position.z;
+  const dist=Math.sqrt(dx*dx+dz*dz);
+  if(dist>.25){const sp=Math.min(dist*3,5);dazai.mesh.position.x+=dx/dist*sp*dt;dazai.mesh.position.z+=dz/dist*sp*dt;dazai.mesh.rotation.y=Math.atan2(dx,dz);}
+  dazai.bobTimer+=dt*2.5;
+  dazai.mesh.position.y=Math.sin(dazai.bobTimer)*.03;
+}
+
+// ═══════════════════════════════
+// INTERACTION DETECTION
+// ═══════════════════════════════
+let currentPromptItem=null,currentNPC=null;
+function detectNear(){
+  if(S.inDialogue||S.ended)return;
+  let nearItem=null,nearItemD=Infinity,nearNPC=null,nearNPCD=Infinity;
+  Object.entries(itemSprites).forEach(([id,sp])=>{
+    if(S.collected.has(id))return;
+    const dx=PLAYER_POS.x-sp.position.x,dz=PLAYER_POS.z-sp.position.z;
+    const d=Math.sqrt(dx*dx+dz*dz);
+    if(d<2.4&&d<nearItemD){nearItemD=d;nearItem=id;}
+  });
+  npcs.forEach(n=>{
+    const dx=PLAYER_POS.x-n.mesh.position.x,dz=PLAYER_POS.z-n.mesh.position.z;
+    const d=Math.sqrt(dx*dx+dz*dz);
+    if(d<2.6&&d<nearNPCD){nearNPCD=d;nearNPC=n;}
+  });
+  currentPromptItem=nearItem;currentNPC=nearNPC;
+  if(nearNPC&&nearNPCD<nearItemD){
+    setPrompt(`✦ Parler — ${NPCS[nearNPC.dialogueKey]?.name||'PNJ'}`);
+  } else if(nearItem){
+    const it=SHOPPING.find(i=>i.id===nearItem);
+    setPrompt(`✦ Ramasser — ${it?.e} ${it?.n}`);
+  } else clearPrompt();
+  // Zone
+  const zone=buildingZones.find(z=>PLAYER_POS.x>z.minX&&PLAYER_POS.x<z.maxX&&PLAYER_POS.z>z.minZ&&PLAYER_POS.z<z.maxZ);
+  if(zone&&zone.id!==S.insideBuilding){S.insideBuilding=zone.id;showLocation(zone.label);}
+  else if(!zone)S.insideBuilding=null;
+}
+
+function doInteract(){
+  if(S.paused||S.ended||S.helpOpen)return;
+  if(S.inDialogue){closeDialogue();return;}
+  if(currentNPC){openDialogue(currentNPC.dialogueKey);return;}
+  if(currentPromptItem){collectItem(currentPromptItem);}
+}
+
+function collectItem(id){
+  if(S.collected.has(id))return;
+  S.collected.add(id);
+  const sp=itemSprites[id];if(sp)scene.remove(sp);
+  const it=SHOPPING.find(i=>i.id===id);
+  showNotif(`${it.e} ${it.n} — ramassé !`);
+  updateListUI();
+  if(SHOPPING.every(i=>S.collected.has(i.id)))setTimeout(triggerEnd,900);
+}
+
+function triggerEnd(){
+  if(S.ended)return;S.ended=true;
+  document.getElementById('end-text').textContent=`${S.collected.size} ingrédients récupérés.\nBien joué, les courses sont finies !`;
+  document.getElementById('fade').classList.add('on');
+  setTimeout(()=>{document.getElementById('end').classList.add('on');document.getElementById('fade').classList.remove('on');},600);
+}
+
+// ═══════════════════════════════
+// PAUSE / HELP
+// ═══════════════════════════════
+function togglePause(){
+  if(S.helpOpen)return;
+  S.paused=!S.paused;
+  document.getElementById('pause').classList.toggle('on',S.paused);
+  if(S.paused&&document.pointerLockElement)document.exitPointerLock();
+}
+function showHelp(){
+  S.helpOpen=true;S.paused=true;
+  if(document.pointerLockElement)document.exitPointerLock();
+  document.getElementById('pause').classList.remove('on');
+  document.getElementById('helpbox').classList.add('on');
+}
+function closeHelp(){
+  S.helpOpen=false;S.paused=false;
+  document.getElementById('helpbox').classList.remove('on');
+}
+
+// ═══════════════════════════════
+// MINIMAP
+// ═══════════════════════════════
+const mmCtx=document.getElementById('mmcanvas').getContext('2d');
+function drawMinimap(){
+  mmCtx.fillStyle='#0a0602';mmCtx.fillRect(0,0,88,88);
+  const sc=88/50,ox=25,oz=25;
+  // Roads
+  mmCtx.fillStyle='#5a4838';mmCtx.fillRect(0,42,88,6);mmCtx.fillRect(42,0,6,88);
+  // Stalls
+  stallConfigs.forEach(cfg=>{
+    mmCtx.fillStyle='#8b6030';
+    mmCtx.fillRect((cfg.x-3.5+ox)*sc,(cfg.z-2.8+oz)*sc,7*sc,5.6*sc);
+  });
+  // Items
+  Object.entries(itemSprites).forEach(([id,sp])=>{
+    if(S.collected.has(id))return;
+    mmCtx.fillStyle='#88dd44';mmCtx.beginPath();
+    mmCtx.arc((sp.position.x+ox)*sc,(sp.position.z+oz)*sc,2,0,Math.PI*2);mmCtx.fill();
+  });
+  // NPCs
+  npcs.forEach(n=>{
+    mmCtx.fillStyle='#e8a04c';mmCtx.beginPath();
+    mmCtx.arc((n.mesh.position.x+ox)*sc,(n.mesh.position.z+oz)*sc,2.2,0,Math.PI*2);mmCtx.fill();
+  });
+  // Dazai
+  if(dazai){
+    mmCtx.fillStyle='#c06020';mmCtx.beginPath();
+    mmCtx.arc((dazai.mesh.position.x+ox)*sc,(dazai.mesh.position.z+oz)*sc,2.5,0,Math.PI*2);mmCtx.fill();
+  }
+  // Player
+  mmCtx.fillStyle='#fff';mmCtx.beginPath();
+  mmCtx.arc((PLAYER_POS.x+ox)*sc,(PLAYER_POS.z+oz)*sc,3.5,0,Math.PI*2);mmCtx.fill();
+  mmCtx.strokeStyle='#fff';mmCtx.lineWidth=1.2;mmCtx.beginPath();
+  mmCtx.moveTo((PLAYER_POS.x+ox)*sc,(PLAYER_POS.z+oz)*sc);
+  mmCtx.lineTo((PLAYER_POS.x+Math.sin(yaw)*3+ox)*sc,(PLAYER_POS.z+Math.cos(yaw)*3+oz)*sc);
+  mmCtx.stroke();
+}
+
+// ═══════════════════════════════
+// MAIN LOOP
+// ═══════════════════════════════
+let last=performance.now();
+function loop(ts){
+  requestAnimationFrame(loop);
+  const dt=Math.min((ts-last)/1000,.05);last=ts;
+  if(!S.ended){
+    movePlayer(dt);
+    updateDazai(dt);
+    detectNear();
+    // Falling leaves
+    leafParts.forEach(lp=>{
+      lp.position.x+=lp.userData.vx*dt;
+      lp.position.y+=lp.userData.vy*dt;
+      lp.position.z+=lp.userData.vz*dt;
+      lp.rotation.z+=lp.userData.spin;
+      lp.rotation.x+=lp.userData.spin*.5;
+      if(lp.position.y<.05){
+        lp.position.y=4+Math.random()*4;
+        lp.position.x=(Math.random()-.5)*40;
+        lp.position.z=(Math.random()-.5)*40;
+      }
+    });
+    // Item bob
+    Object.values(itemSprites).forEach(sp=>{
+      if(!S.collected.has(sp.userData.itemId)){
+        sp.position.y=sp.userData.baseY+Math.sin(ts/500+sp.position.x)*.08;
+      }
+    });
+  }
+  renderer.render(scene,camera);
+  drawMinimap();
+}
+requestAnimationFrame(loop);
+setTimeout(()=>showLocation('🍂 Marché d\'Automne de Yokohama'),600);
+</script>
+</body>
+</html>
