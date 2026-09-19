@@ -2,7 +2,6 @@
   {
     "id": "angel_1",
     "bg": "images/backgrounds/room.webp",
-    "character": null,
     "charImg": null,
     "speaker": null,
     "text": "Daylight softly filters into my room through the windowpane.",
@@ -13,7 +12,6 @@
   {
     "id": "angel_2",
     "bg": "images/backgrounds/room.webp",
-    "character": null,
     "charImg": null,
     "speaker": null,
     "text": "Each day looks like the one before, as if time had begun to loop, condemned to endlessly repeat the same motions.",
@@ -24,7 +22,6 @@
   {
     "id": "angel_3",
     "bg": "images/backgrounds/room.webp",
-    "character": null,
     "charImg": null,
     "speaker": null,
     "text": "What's the point of getting up one more time?",
@@ -36,7 +33,6 @@
   {
     "id": "angel_4",
     "bg": "images/backgrounds/room.webp",
-    "character": null,
     "charImg": null,
     "speaker": null,
     "text": "The question drifts through my mind as I lie still for a few moments, my eyes fixed on the ceiling.",
@@ -47,7 +43,6 @@
   {
     "id": "angel_5",
     "bg": "images/backgrounds/room.webp",
-    "character": null,
     "charImg": null,
     "speaker": null,
     "text": "Eventually, I force myself out of bed.",
@@ -58,7 +53,6 @@
   {
     "id": "angel_6",
     "bg": "images/backgrounds/room.webp",
-    "character": null,
     "charImg": null,
     "speaker": null,
     "text": "My body, however, seems to want to stay there. Every movement feels heavy, almost mechanical. I set my feet on the floor, stand up slowly, then cross my room toward the bathroom.",
@@ -68,35 +62,125 @@
   },
   {
     "id": "angel_7",
-    "bg": "images/backgrounds/room.webp",
-    "character": null,
+    "bg": "images/backgrounds/bathroom.webp",
     "charImg": null,
     "speaker": null,
     "text": "Once in front of the mirror, I stop.",
     "typeSpeed": 20,
-    "music": "music/room.mp3",
+    "music": "music/dark.mp3",
     "next": "angel_8"
   },
   {
     "id": "angel_8",
-    "bg": "images/backgrounds/room.webp",
-    "character": null,
+    "bg": "images/backgrounds/bathroom.webp",
     "charImg": null,
     "speaker": null,
     "text": "I raise my eyes to my reflection.",
     "typeSpeed": 20,
-    "music": "music/room.mp3",
+    "music": "music/dark.mp3",
     "next": "angel_9"
   },
   {
     "id": "angel_9",
-    "bg": "images/backgrounds/room.webp",
-    "character": null,
+    "bg": "images/backgrounds/bathroom.webp",
     "charImg": null,
     "speaker": null,
     "text": "But what I see there is only a pale version of myself.",
     "typeSpeed": 20,
-    "music": "music/room.mp3",
+    "music": "music/dark.mp3",
+    "next": "angel_10"
+  },
+  {
+    "id": "angel_10",
+    "bg": "images/backgrounds/bathroom.webp",
+    "charImg": null,
+    "speaker": null,
+    "text": "Hmm… it's the mirror that seems to be cracked.",
+    "typeSpeed": 20,
+    "music": "music/dark.mp3",
+    "next": "angel_11"
+  },
+  {
+    "id": "angel_11",
+    "bg": "images/backgrounds/bathroom.webp",
+    "charImg": null,
+    "speaker": null,
+    "text": "I slowly reach out, trying to touch one of the cracks.",
+    "typeSpeed": 20,
+    "music": "music/dark.mp3",
+    "next": "angel_12"
+  },
+  {
+    "id": "angel_12",
+    "bg": "images/backgrounds/bathroom.webp",
+    "charImg": null,
+    "speaker": null,
+    "text": "Ouch!",
+    "glitch": true,
+    "typeSpeed": 30,
+    "music": "music/dark.mp3",
+    "bloodEffect": "light",
+    "next": "angel_13"
+  },
+  {
+    "id": "angel_13",
+    "bg": "images/backgrounds/bathroom.webp",
+    "charImg": null,
+    "speaker": null,
+    "text": "The moment my fingers brush the glass, a sharp piece breaks off and slices my palm.",
+    "typeSpeed": 20,
+    "music": "music/dark.mp3",
+    "next": "angel_14"
+  },
+  {
+    "id": "angel_14",
+    "bg": "images/backgrounds/bathroom.webp",
+    "charImg": null,
+    "speaker": null,
+    "text": "A sharp pain shoots through me. It instantly jolts my senses awake.",
+    "typeSpeed": 20,
+    "music": "music/dark.mp3",
+    "next": "angel_15"
+  },
+  {
+    "id": "angel_15",
+    "bg": "images/backgrounds/bathroom.webp",
+    "charImg": null,
+    "speaker": null,
+    "text": "Yet I'm in no real hurry to stop the bleeding. I simply watch the blood slide down my hand, passively.",
+    "typeSpeed": 22,
+    "music": "music/dark.mp3",
+    "next": "angel_16"
+  },
+  {
+    "id": "angel_16",
+    "bg": "images/backgrounds/bathroom.webp",
+    "charImg": null,
+    "speaker": null,
+    "text": "Then I glance at the time.",
+    "typeSpeed": 18,
+    "music": "music/dark.mp3",
+    "next": "angel_17"
+  },
+  {
+    "id": "angel_17",
+    "bg": "images/backgrounds/bathroom.webp",
+    "charImg": null,
+    "speaker": null,
+    "text": "Damn… I'm already late for class.",
+    "glitch": true,
+    "typeSpeed": 18,
+    "music": "music/dark.mp3",
+    "next": "angel_18"
+  },
+  {
+    "id": "angel_18",
+    "bg": "images/backgrounds/bathroom.webp",
+    "charImg": null,
+    "speaker": null,
+    "text": "I quickly grab my bag and rush toward the exit door.",
+    "typeSpeed": 20,
+    "music": "music/dark.mp3",
     "next": "__suite_suivante__"
   }
 ]
