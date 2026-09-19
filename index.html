@@ -36,11 +36,11 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .particle{position:absolute;width:3px;height:3px;border-radius:50%;background:var(--crimson);opacity:0;animation:floatUp linear infinite}
 @keyframes floatUp{0%{transform:translateY(100vh) scale(0);opacity:0}10%{opacity:.6}90%{opacity:.3}100%{transform:translateY(-10vh) scale(1.5);opacity:0}}
 
-/* ══ EFFET SANG — taches irrégulières, pas de gros blocs ══ */
+/* ══ EFFET SANG — taches irrégulières ══ */
 #blood-overlay{
   position:absolute;inset:0;
   pointer-events:none;
-  z-index:3; /* au-dessus du perso (z=2), sous le dialogue (z=10) */
+  z-index:3;
   opacity:0;
   transition:opacity 1.5s ease;
   overflow:hidden;
@@ -56,7 +56,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
   pointer-events:none;
 }
 #blood-overlay.active::before{opacity:1}
-
 .blood-splat{
   position:absolute;
   background:radial-gradient(ellipse at 40% 35%,
@@ -74,7 +73,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
   70%{opacity:1;transform:scale(1.05)}
   100%{opacity:1;transform:scale(1)}
 }
-
 .blood-drip{
   position:absolute;top:0;
   background:linear-gradient(to bottom,
@@ -88,7 +86,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
   0%{height:0}
   100%{height:var(--drip-h,40vh)}
 }
-
 .blood-drop{
   position:absolute;
   background:radial-gradient(ellipse at 50% 30%,
@@ -102,7 +99,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
   15%{opacity:1}
   100%{transform:translateY(var(--drop-y,80vh));opacity:.4}
 }
-
 @keyframes bloodShake{
   0%,100%{transform:translate(0,0)}
   8%{transform:translate(-6px,3px)}
@@ -120,7 +116,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 #game-screen.blood-shake{
   animation:bloodShake .65s cubic-bezier(.36,.07,.19,.97);
 }
-
 #screen-glitch{
   position:fixed;inset:0;
   pointer-events:none;
@@ -147,6 +142,107 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
     background:linear-gradient(90deg,rgba(255,0,0,.08),transparent 30%,rgba(0,255,255,.08));
     transform:translate(2px,-1px);
   }
+}
+
+/* ══ POEM OVERLAY ══ */
+#poem-overlay{
+  position:fixed;inset:0;
+  z-index:80;
+  background:rgba(5,3,8,.85);
+  backdrop-filter:blur(10px);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  opacity:0;
+  transition:opacity .6s ease;
+  cursor:pointer;
+}
+#poem-overlay.active{display:flex;opacity:1}
+.poem-parchment{
+  background:linear-gradient(135deg, #f2e8d2 0%, #e2d2b0 100%);
+  background-image:
+    radial-gradient(circle at 15% 20%, rgba(180,150,110,.15) 0%, transparent 35%),
+    radial-gradient(circle at 85% 80%, rgba(160,130,95,.18) 0%, transparent 40%),
+    linear-gradient(135deg, #f2e8d2 0%, #e2d2b0 100%);
+  max-width:520px;
+  width:82%;
+  max-height:82vh;
+  padding:2.8rem 2.4rem;
+  border-radius:3px;
+  box-shadow:
+    0 20px 60px rgba(0,0,0,.7),
+    0 0 40px rgba(220,20,60,.15),
+    inset 0 0 60px rgba(140,110,70,.15);
+  position:relative;
+  transform:scaleY(0) rotateX(80deg);
+  transform-origin:top center;
+  transition:transform 1s cubic-bezier(.2,.9,.3,1);
+  perspective:1000px;
+  overflow-y:auto;
+}
+#poem-overlay.active .poem-parchment{
+  transform:scaleY(1) rotateX(0deg);
+}
+.poem-parchment::before,
+.poem-parchment::after{
+  content:'';
+  position:absolute;
+  left:0;right:0;
+  height:8px;
+  background:radial-gradient(ellipse at center, rgba(160,120,80,.4) 0%, transparent 80%);
+  pointer-events:none;
+}
+.poem-parchment::before{top:-2px}
+.poem-parchment::after{bottom:-2px}
+.poem-parchment-inner{
+  font-family:'IM Fell English',serif;
+  color:#2a1a0a;
+  text-align:center;
+}
+.poem-lines{
+  font-size:clamp(.85rem, 2vw, 1.05rem);
+  line-height:1.9;
+  font-style:italic;
+  letter-spacing:.01em;
+}
+.poem-lines .poem-line{
+  opacity:0;
+  transform:translateY(6px);
+  animation:poemLineIn .7s ease forwards;
+}
+@keyframes poemLineIn{
+  to{opacity:1;transform:translateY(0)}
+}
+.poem-author{
+  margin-top:1.8rem;
+  padding-top:1rem;
+  font-family:'Cinzel',serif;
+  font-size:clamp(.7rem, 1.8vw, .85rem);
+  letter-spacing:.35em;
+  color:#6a4420;
+  text-transform:uppercase;
+  border-top:1px solid rgba(120,80,40,.25);
+  width:60%;
+  margin-left:auto;
+  margin-right:auto;
+  opacity:0;
+  animation:poemLineIn 1s ease forwards;
+  animation-delay:1.2s;
+}
+.poem-hint{
+  position:absolute;
+  bottom:2rem;
+  font-family:'IM Fell English',serif;
+  font-size:.75rem;
+  color:rgba(200,180,200,.5);
+  font-style:italic;
+  letter-spacing:.15em;
+  animation:poemHintPulse 2s ease infinite;
+  pointer-events:none;
+}
+@keyframes poemHintPulse{
+  0%,100%{opacity:.4}
+  50%{opacity:.9}
 }
 
 /* ── CODE SECRET ── */
@@ -352,7 +448,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 #char-img{max-height:calc(100vh * var(--char-scale));max-width:calc(60vw * var(--char-scale));object-fit:contain;filter:drop-shadow(0 0 30px rgba(0,0,0,.8))}
 @media(max-width:600px){#char-img{max-width:calc(100vw * var(--char-scale))}}
 @media(min-width:1200px){#char-img{max-width:calc(100vw * var(--char-scale))}}
-
 #hud{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:.8rem 1.2rem;z-index:10;background:linear-gradient(to bottom,rgba(0,0,0,.6),transparent)}
 .hud-left,.hud-right{display:flex;align-items:center;gap:.8rem}
 #affinity-wrap{display:flex;align-items:center;gap:.5rem}
@@ -436,6 +531,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
   #affinity-bar-outer{width:60px}
   #code-input{width:180px;font-size:1.3rem}
   .settings-container{padding:1.5rem 1.2rem}
+  .poem-parchment{padding:2rem 1.5rem}
 }
 </style>
 </head>
@@ -653,6 +749,16 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
   <iframe id="minigame-frame" src="" allowfullscreen></iframe>
 </div>
 
+<div id="poem-overlay">
+  <div class="poem-parchment">
+    <div class="poem-parchment-inner">
+      <div class="poem-lines" id="poem-lines"></div>
+      <div class="poem-author" id="poem-author"></div>
+    </div>
+  </div>
+  <div class="poem-hint" id="poem-hint">tap to continue</div>
+</div>
+
 <audio id="bgm" loop></audio>
 
 <script>
@@ -746,7 +852,6 @@ function syncDialogueHeight(){
 
 /* ══ EFFET SANG — fade sur 3 scènes ══ */
 function rand(min,max){return min+Math.random()*(max-min);}
-
 function makeIrregularRadius(){
   return `${rand(30,70)}% ${rand(30,70)}% ${rand(30,70)}% ${rand(30,70)}% / ${rand(30,70)}% ${rand(30,70)}% ${rand(30,70)}% ${rand(30,70)}%`;
 }
@@ -757,7 +862,6 @@ function triggerBloodEffect(intensity){
   const screen=document.getElementById('game-screen');
   if(!overlay)return;
 
-  // Secousse + glitch une seule fois
   if(screen){
     screen.classList.remove('blood-shake');
     void screen.offsetWidth;
@@ -781,7 +885,6 @@ function triggerBloodEffect(intensity){
     ? {large:5,  medium:9,  tiny:14, drips:4,  drops:7}
     : {large:7,  medium:12, tiny:20, drips:6,  drops:11};
 
-  // Grandes taches irrégulières (max ~40px)
   for(let i=0;i<cfg.large;i++){
     const s=document.createElement('div');
     s.className='blood-splat';
@@ -795,8 +898,6 @@ function triggerBloodEffect(intensity){
     s.style.animationDelay=rand(0,.35)+'s';
     overlay.appendChild(s);
   }
-
-  // Taches moyennes
   for(let i=0;i<cfg.medium;i++){
     const s=document.createElement('div');
     s.className='blood-splat';
@@ -810,8 +911,6 @@ function triggerBloodEffect(intensity){
     s.style.animationDelay=rand(0,.4)+'s';
     overlay.appendChild(s);
   }
-
-  // Micro-gouttes (spray)
   for(let i=0;i<cfg.tiny;i++){
     const s=document.createElement('div');
     s.className='blood-splat';
@@ -825,8 +924,6 @@ function triggerBloodEffect(intensity){
     s.style.animationDelay=rand(0,.5)+'s';
     overlay.appendChild(s);
   }
-
-  // Coulures fines
   for(let i=0;i<cfg.drips;i++){
     const d=document.createElement('div');
     d.className='blood-drip';
@@ -837,8 +934,6 @@ function triggerBloodEffect(intensity){
     d.style.animationDuration=rand(1.4,2.6)+'s';
     overlay.appendChild(d);
   }
-
-  // Gouttes qui tombent
   for(let i=0;i<cfg.drops;i++){
     const dr=document.createElement('div');
     dr.className='blood-drop';
@@ -854,7 +949,6 @@ function triggerBloodEffect(intensity){
     overlay.appendChild(dr);
   }
 
-  // Prépare 3 scènes de fade
   state.bloodFadeScenesLeft = 3;
 }
 
@@ -863,7 +957,6 @@ function advanceBloodFade(){
   const overlay=document.getElementById('blood-overlay');
   if(!overlay)return;
   state.bloodFadeScenesLeft--;
-  // 3→2/3, 2→1/3, 1→0
   const opacity=state.bloodFadeScenesLeft/3;
   overlay.style.opacity=String(opacity);
   if(state.bloodFadeScenesLeft===0){
@@ -887,6 +980,52 @@ function clearBloodEffect(){
   }
   if(glitch)glitch.classList.remove('active');
   state.bloodFadeScenesLeft=0;
+}
+
+/* ══ POEM OVERLAY ══ */
+function showPoem(scene, onDone){
+  const ov     = document.getElementById('poem-overlay');
+  const lines  = document.getElementById('poem-lines');
+  const author = document.getElementById('poem-author');
+  if(!ov || !lines || !author) return;
+
+  lines.innerHTML = '';
+  author.textContent = '';
+
+  const poemArr = scene.poem || [];
+  const authorName = scene.author || '';
+
+  ov.classList.remove('active');
+  void ov.offsetWidth;
+
+  document.querySelector('.poem-parchment').style.transform = '';
+  ov.style.display = 'flex';
+
+  requestAnimationFrame(()=>{
+    ov.classList.add('active');
+
+    poemArr.forEach((line, i)=>{
+      const div = document.createElement('div');
+      div.className = 'poem-line';
+      div.textContent = line;
+      div.style.animationDelay = (0.5 + i * 0.25) + 's';
+      lines.appendChild(div);
+    });
+
+    author.textContent = authorName;
+  });
+
+  ov.onclick = null;
+  ov.onclick = ()=>{
+    ov.classList.remove('active');
+    ov.onclick = null;
+    setTimeout(()=>{
+      ov.style.display = 'none';
+      lines.innerHTML = '';
+      author.textContent = '';
+      if(onDone) onDone();
+    }, 600);
+  };
 }
 
 /* ══ VOLUME ══ */
@@ -1181,8 +1320,6 @@ function getSceneIndex(id){return state.scenes.findIndex(s=>s.id===id);}
 function renderScene(scene,fromBack){
   if(!scene){triggerEnding();return;}
 
-  // Sang : si la scène a un bloodEffect → apparition + shake + glitch
-  // sinon → on fait juste avancer le fade (3 scènes)
   if(scene.bloodEffect){
     triggerBloodEffect(scene.bloodEffect);
   } else {
@@ -1196,6 +1333,17 @@ function renderScene(scene,fromBack){
     });
     return;
   }
+
+  if(scene.type==='poem'){
+    if(scene.bg)setBg(scene.bg);
+    if(scene.music)playMusic(scene.music);
+    showPoem(scene, function(){
+      if(scene.next && scene.next !== '__ending__') navigateTo(scene.next);
+      else triggerEnding();
+    });
+    return;
+  }
+
   if(scene.bg)setBg(scene.bg);
   setCharacter(scene.charImg||null);
   if(scene.music)playMusic(scene.music);
@@ -1571,6 +1719,13 @@ document.addEventListener('click',e=>{
 });
 document.addEventListener('keydown',e=>{
   if(document.getElementById('code-screen').classList.contains('active'))return;
+  if(document.getElementById('poem-overlay').classList.contains('active')){
+    if(e.key===' '||e.key==='Enter'||e.key==='Escape'){
+      e.preventDefault();
+      document.getElementById('poem-overlay').click();
+    }
+    return;
+  }
   if(e.key===' '||e.key==='Enter'){e.preventDefault();advance();}
   if(e.key==='Backspace'&&!state.awaitingChoice)document.getElementById('btn-back-dialogue').click();
   if(e.key==='Escape'){

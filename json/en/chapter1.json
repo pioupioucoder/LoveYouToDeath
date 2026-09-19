@@ -213,24 +213,56 @@
     "music": "music/reflexion.mp3",
     "next": "corridor_4"
   },
-  {
+   {
     "id": "corridor_4",
     "bg": "images/backgrounds/schoolcorridor.webp",
     "charImg": null,
     "speaker": null,
-    "text": "Another poem…",
-    "typeSpeed": 22,
+    "text": "Another one of those poems.",
+    "typeSpeed": 20,
     "music": "music/reflexion.mp3",
     "next": "corridor_5"
   },
-  {
+    {
     "id": "corridor_5",
     "bg": "images/backgrounds/schoolcorridor.webp",
     "charImg": null,
     "speaker": null,
-    "text": "I don't even need to think long to guess who left it there. It's probably the same stranger who always slips poems into my locker.",
+    "text": "You'd think the stranger who writes them has gotten into the habit of leaving me one every time.",
     "typeSpeed": 20,
     "music": "music/reflexion.mp3",
+    "next": "corridor_6"
+  },
+  {
+    "id": "corridor_6",
+    "bg": "images/backgrounds/schoolcorridor.webp",
+    "charImg": null,
+    "speaker": null,
+    "text": "I unfold the paper slowly.",
+    "typeSpeed": 20,
+    "music": "music/reflexion.mp3",
+    "next": "poem_1"
+  },
+  {
+    "id": "poem_1",
+    "type": "poem",
+    "bg": "images/backgrounds/schoolcorridor.webp",
+    "charImg": null,
+    "speaker": null,
+    "music": "music/reflexion.mp3",
+    "poem": [
+      "I adore thee as much as the nocturnal vault,",
+      "O vessel of sorrow, O tall, silent one,",
+      "And I love you the more, beautiful one, because you flee from me,",
+      "And because you seem, ornament of my nights,",
+      "Ironical, to multiply the distance",
+      "Which separates my arms from the blue immensities.",
+      "I advance to the attack, I climb to the assault,",
+      "Like a choir of worms after a corpse,",
+      "And I cherish, O implacable and cruel beast!",
+      "Even that coldness which makes you more beautiful to me."
+    ],
+    "author": "Charles Baudelaire",
     "next": "__suite_suivante__"
   }
 ]
