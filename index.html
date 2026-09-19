@@ -57,7 +57,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
   content:'\2756';position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);
   color:var(--blood);font-size:12px;
 }
-/* Ligne déco bas de page */
 .code-deco-line-bottom{
   position:absolute;bottom:0;left:50%;transform:translateX(-50%);
   width:1px;height:25%;
@@ -70,7 +69,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
   gap:2rem;text-align:center;
 }
 
-/* Symbole mystérieux à la place du titre */
 .code-mystery-symbol{
   font-size:clamp(2.5rem,8vw,4.5rem);
   color:var(--blood);
@@ -81,7 +79,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
   letter-spacing:.3em;
 }
 
-/* Divider */
 .code-divider{
   display:flex;align-items:center;gap:1rem;
   width:260px;
@@ -94,7 +91,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .code-divider::after{background:linear-gradient(to left,transparent,var(--blood))}
 .code-divider-icon{color:var(--crimson);font-size:.85rem}
 
-/* Bloc saisie */
 .code-entry-block{
   display:flex;flex-direction:column;align-items:center;
   gap:1.4rem;
@@ -244,16 +240,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 }
 .btn-chapters:hover,.btn-settings-title:hover{border-color:var(--gold);box-shadow:0 0 30px rgba(201,168,76,.2)}
 
-/* ── LANG ── */
-#lang-screen{background:radial-gradient(ellipse at 50% 50%,#0d0515 0%,var(--obsidian) 80%)}
-.lang-title{font-family:'Cinzel',serif;font-size:clamp(1.2rem,4vw,2rem);color:var(--silver);margin-bottom:.5rem;text-align:center}
-.lang-sub{font-size:clamp(.75rem,2vw,.95rem);color:var(--text-dim);font-style:italic;margin-bottom:3rem;text-align:center}
-.lang-choices{display:flex;gap:2rem;flex-wrap:wrap;justify-content:center}
-.lang-btn{display:flex;flex-direction:column;align-items:center;gap:1rem;padding:2rem 2.5rem;background:rgba(30,20,40,.8);border:1px solid var(--box-border);cursor:pointer;transition:all .3s ease;min-width:160px}
-.lang-btn:hover{border-color:var(--crimson);transform:translateY(-4px);box-shadow:0 10px 30px rgba(220,20,60,.2)}
-.lang-flag{font-size:3.5rem;line-height:1}
-.lang-name{font-family:'Cinzel',serif;font-size:.9rem;letter-spacing:.2em;color:var(--silver)}
-
 /* ── POLICY ── */
 #policy-screen{background:var(--obsidian);padding:1rem}
 .policy-container{width:100%;max-width:700px;display:flex;flex-direction:column;height:100vh;max-height:100vh;padding:2rem 1.5rem 1.5rem}
@@ -283,7 +269,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 /* ── SETTINGS SCREEN ── */
 #settings-screen{background:radial-gradient(ellipse at 50% 50%,#0d0515 0%,var(--obsidian) 80%);z-index:20;overflow-y:auto;flex-direction:column;justify-content:flex-start;align-items:center}
 
-/* Animation unique paramètres : particules de roses qui tombent */
 @keyframes settingsPetalDrop{
   0%{transform:translateY(-10vh) rotate(0deg) scale(0);opacity:0}
   10%{opacity:.7}
@@ -299,7 +284,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
   filter:blur(0.5px);
 }
 
-/* Pas de cadre — layout direct plein écran comme policy */
 .settings-container{
   width:100%;max-width:600px;
   display:flex;flex-direction:column;
@@ -339,17 +323,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
   text-align:center;margin-top:.4rem;
 }
 .settings-close-btn:hover{border-color:var(--crimson);color:var(--silver);background:rgba(139,0,0,.15)}
-/* Bouton lang switch */
-.settings-lang-row{display:flex;gap:.6rem;justify-content:flex-start;flex-wrap:wrap}
-.settings-lang-btn{
-  font-family:'Cinzel',serif;font-size:.75rem;letter-spacing:.2em;
-  background:transparent;border:1px solid var(--box-border);
-  color:var(--text-dim);padding:.65rem 1.4rem;cursor:pointer;transition:all .25s;
-  display:flex;align-items:center;gap:.4rem;
-}
-.settings-lang-btn:hover,.settings-lang-btn.active{
-  border-color:var(--crimson);color:var(--silver);background:rgba(139,0,0,.12);
-}
+
 /* Data buttons */
 .settings-data-row{display:flex;gap:.6rem;flex-wrap:wrap}
 .settings-data-btn{
@@ -361,6 +335,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .settings-data-btn:hover{border-color:var(--gold);color:var(--silver)}
 .settings-data-btn.danger-reset{border-color:rgba(255,107,107,.25);color:#ff9999}
 .settings-data-btn.danger-reset:hover{border-color:#ff6b6b;background:rgba(200,0,0,.12)}
+
 /* Share bar */
 .settings-share-row{
   display:flex;gap:1.2rem;align-items:flex-start;padding:.4rem 0;
@@ -382,6 +357,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .settings-share-icon:hover::before{opacity:1}
 .settings-share-label{font-family:'Cinzel',serif;font-size:.55rem;letter-spacing:.15em;color:var(--text-dim);text-align:center;margin-top:.3rem}
 .settings-share-item{display:flex;flex-direction:column;align-items:center;gap:.1rem}
+
 /* game-popup animation */
 @keyframes settingsPulse{
   0%,100%{box-shadow:0 0 15px rgba(139,0,0,.2)}
@@ -645,12 +621,11 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
   </div>
 </div>
 
-<!-- ══ CODE SECRET — sans titre du jeu ══ -->
+<!-- ══ CODE SECRET ══ -->
 <div id="code-screen" class="screen">
   <div class="code-deco-line"></div>
   <div class="code-deco-line-bottom"></div>
   <div class="code-inner">
-    <!-- Symbole mystérieux à la place du titre -->
     <div class="code-mystery-symbol">&#10022; &#10022; &#10022;</div>
     <div class="code-divider"><span class="code-divider-icon">&#10022;</span></div>
     <div class="code-entry-block">
@@ -695,13 +670,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <button id="settings-mute-btn">&#128266;</button>
     </div>
 
-    <!-- LANGUAGE -->
-    <div class="settings-section-label" id="settings-lang-label">LANGUAGE</div>
-    <div class="settings-lang-row">
-      <button class="settings-lang-btn" id="settings-lang-en" onclick="settingsSwitchLang('en')">&#127468;&#127463; ENGLISH</button>
-      <button class="settings-lang-btn" id="settings-lang-fr" onclick="settingsSwitchLang('fr')">&#127467;&#127479; FRANÇAIS</button>
-    </div>
-
     <!-- DATA -->
     <div class="settings-section-label" id="settings-data-label">DATA</div>
     <div class="settings-data-row">
@@ -739,7 +707,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
   </div>
 </div>
 
-<!-- ── GAME POPUP (reset / messages jeu) ── -->
+<!-- ── GAME POPUP ── -->
 <div id="game-popup-overlay">
   <div class="game-popup-panel">
     <div class="game-popup-symbol">&#10022; &#10022; &#10022;</div>
@@ -774,7 +742,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
   </div>
 
   <div id="chapters-main">
-    <div id="ch-status"><div class="spinner"></div><div id="ch-status-text">Loading…</div></div>
+    <div id="ch-status"><div id="ch-status-text">Loading…</div></div>
     <div id="ch-chapters-section" style="display:none">
       <div class="ch-section-title" id="ch-chapters-label">CHAPTERS</div>
       <div id="ch-chapters-grid"></div>
@@ -783,14 +751,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="ch-section-title" id="ch-endings-label">ENDINGS</div>
       <div id="ch-endings-container"></div>
     </div>
-  </div>
-</div>
-<div id="lang-screen" class="screen">
-  <div class="lang-title">Choose Your Language</div>
-  <div class="lang-sub">Choisissez votre langue</div>
-  <div class="lang-choices">
-    <button class="lang-btn" data-lang="en"><span class="lang-flag">&#127468;&#127463;</span><span class="lang-name">ENGLISH</span></button>
-    <button class="lang-btn" data-lang="fr"><span class="lang-flag">&#127467;&#127479;</span><span class="lang-name">FRAN&#199;AIS</span></button>
   </div>
 </div>
 
@@ -862,7 +822,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
     <button class="pause-btn" id="btn-save-quit">SAVE &amp; QUIT</button>
   </div>
 </div>
-<!-- hidden dummy elements so existing JS references don't break -->
+
 <input type="range" id="vol-slider" style="display:none" min="0" max="1" step="0.01" value="0.7">
 <button id="btn-mute" style="display:none"></button>
 <button class="pause-btn" id="btn-restart-game" style="display:none">RESTART FROM BEGINNING</button>
@@ -885,16 +845,12 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 'use strict';
 
 const GAME_CONFIG = {
-  secretCode: '1234',
+  secretCode: '1203',
   chapterFiles: ['chapter1.json'],
   introMusic: 'music/intro.mp3',
   preloadImages: []
 };
 
-/* ══════════════════════════════════════════════════
-   CLÉ SESSION : le code ne s'affiche qu'une fois
-   par session.
-══════════════════════════════════════════════════ */
 const SESSION_CODE_KEY = 'lmtd_code_ok';
 
 function isCodeValidated() {
@@ -904,7 +860,7 @@ function markCodeValidated() {
   try { sessionStorage.setItem(SESSION_CODE_KEY, '1'); } catch(e) {}
 }
 
-// ── I18N ──
+// ── I18N — ENGLISH ONLY ──
 const I18N = {
   en: {
     loading:'Loading', titleSub:'— a visual novel —', btnBegin:'BEGIN', btnContinue:'CONTINUE',
@@ -956,7 +912,7 @@ const I18N = {
     systemFallback:'No JSON file found. Place your scene files in the json/en/ folder to begin.',
     policyContent:`
       <h3>PRIVACY POLICY</h3>
-      <p>Love Me To Death is a browser-based visual novel. Progress data is stored locally on your device. No personal data is collected or shared.</p>
+      <p>Love You To Death is a browser-based visual novel. Progress data is stored locally on your device. No personal data is collected or shared.</p>
       <h3>TERMS OF USE</h3>
       <p>This game is intended for audiences aged 16 and above. All characters and events are fictional.</p>
       <h3>GAMEPLAY NOTES</h3>
@@ -968,75 +924,12 @@ const I18N = {
         <p>Development — Development Team</p>
         <p style="margin-top:1rem;color:var(--crimson)">\u2665 Love You To Death — Version 1.0 \u2665</p>
       </div>`
-  },
-  fr: {
-    loading:'Chargement', titleSub:'— un roman visuel —', btnBegin:'COMMENCER', btnContinue:'CONTINUER',
-    btnChapters:'&#9830; CHAPITRES', btnSettings:'&#9881; PARAM\u00c8TRES',
-    policyHeader:'Conditions, Confidentialit\u00e9 & Cr\u00e9dits', policyHint:"Faites d\u00e9filer jusqu'en bas pour accepter",
-    btnAccept:'ACCEPTER & JOUER', btnBack:'\u25C2 RETOUR', btnResume:'REPRENDRE', btnSaveQuit:'SAUVEGARDER & QUITTER',
-    btnRestart:'RECOMMENCER DEPUIS LE D\u00c9BUT', btnRestartEnd:'RECOMMENCER', musicLabel:'MUSIQUE',
-    historyTitle:'HISTORIQUE DES DIALOGUES', helpTitle:'COMMENT JOUER', helpClose:'FERMER',
-    codePrompt:'Entrez le code secret pour commencer',
-    codeError:'Code incorrect. R\u00e9essayez.',
-    settingsTitle:'— PARAM\u00c8TRES —', settingsAudio:'AUDIO', settingsBack:'\u25C4 RETOUR',
-    settingsLang:'LANGUE', settingsData:'DONN\u00c9ES',
-    exportBtn:'EXPORTER', importBtn:'IMPORTER', resetBtn:'R\u00c9INITIALISER', creditsBtn:'CR\u00c9DITS & INFO',
-    shareLabel:'PARTAGER',
-    settingsCredits:'CRÉDITS & INFO', settingsSocial:'RÉSEAUX',
-    resetPopupTitle:'R\u00c9INITIALISER',
-    resetPopupText:'Ceci effacera toute votre progression, les chapitres d\u00e9bloqu\u00e9s et vos choix. Cette action est irr\u00e9versible.',
-    resetConfirm:'R\u00c9INITIALISER', resetCancel:'ANNULER',
-    exportSuccess:'Donn\u00e9es export\u00e9es avec succ\u00e8s.',
-    importSuccess:'Donn\u00e9es import\u00e9es. Rechargement\u2026',
-    importError:'Fichier invalide. Veuillez s\u00e9lectionner une sauvegarde JSON valide.',
-    creditsTitle:'— CR\u00c9DITS & INFO —',
-    creditsContent:`
-      <h3>POLITIQUE DE CONFIDENTIALIT\u00c9</h3>
-      <p>Love Me To Death est un roman visuel jouable dans le navigateur. Les donn\u00e9es de progression sont stock\u00e9es localement. Aucune donn\u00e9e personnelle n\u2019est collect\u00e9e.</p>
-      <h3>CONDITIONS D\u2019UTILISATION</h3>
-      <p>Ce jeu est destin\u00e9 \u00e0 un public \u00e2g\u00e9 de 16 ans et plus. Tous les personnages et \u00e9v\u00e9nements sont fictifs.</p>
-      <h3>INFORMATIONS DE JEU</h3>
-      <p>Vos choix affectent le compteur d\u2019affinit\u00e9. La sauvegarde est automatique. Des mini-jeux peuvent appara\u00eetre entre les sc\u00e8nes.</p>
-      <h3>CR\u00c9DITS</h3>
-      <p>Histoire &amp; Direction — Game Director</p>
-      <p>Art des personnages — Artistes originaux</p>
-      <p>D\u00e9veloppement — \u00c9quipe de d\u00e9veloppement</p>
-      <p style="margin-top:.8rem;color:var(--crimson)">\u2665 Love You To Death — Version 1.0 \u2665</p>
-    `,
-    helpRows:[
-      ['TAP / CLIC',"Avancer le dialogue. Passe l\u2019effet machine \u00e0 \u00e9crire si en cours."],
-      ['CHOIX',"S\u00e9lectionnez une option. Votre choix peut affecter l\u2019affinit\u00e9."],
-      ['\u2665 AFFINIT\u00c9','Votre lien avec le personnage. Monte ou descend selon vos choix.'],
-      ['\u25C2 RETOUR',"Revenir \u00e0 la sc\u00e8ne pr\u00e9c\u00e9dente. Annule le delta d\u2019affinit\u00e9."],
-      ['\u{1F4DC} HISTORIQUE','Revoir les dialogues pass\u00e9s \u00e0 tout moment.'],
-      ['\u23F8 PAUSE','R\u00e9gler le volume, sauvegarder ou recommencer.'],
-      ['SAUVEGARDE AUTO','La progression est sauvegard\u00e9e automatiquement \u00e0 chaque sc\u00e8ne.'],
-      ['MINI-JEUX','Des moments interactifs sp\u00e9ciaux peuvent appara\u00eetre entre les sc\u00e8nes.'],
-    ],
-    confirmRestart:'Recommencer depuis le d\u00e9but\u00a0? Votre progression sera perdue.',
-    confirmRestartEnd:'Recommencer le jeu\u00a0?',
-    youLabel:'Vous', systemLabel:'— Syst\u00e8me —',
-    systemFallback:'Aucun fichier JSON trouv\u00e9 dans json/fr/.',
-    policyContent:`
-      <h3>POLITIQUE DE CONFIDENTIALIT\u00c9</h3>
-      <p>Love You To Death est un roman visuel jouable dans le navigateur. Les donn\u00e9es de progression sont stock\u00e9es localement. Aucune donn\u00e9e personnelle n\u2019est collect\u00e9e.</p>
-      <h3>CONDITIONS D\u2019UTILISATION</h3>
-      <p>Ce jeu est destin\u00e9 \u00e0 un public \u00e2g\u00e9 de 16 ans et plus. Tous les personnages et \u00e9v\u00e9nements sont fictifs.</p>
-      <h3>INFORMATIONS DE JEU</h3>
-      <p>Vos choix affectent le compteur d\u2019affinit\u00e9. La sauvegarde est automatique. Des mini-jeux peuvent appara\u00eetre entre les sc\u00e8nes.</p>
-      <h3>CR\u00c9DITS</h3>
-      <div class="credits">
-        <p>Histoire &amp; Direction — Game Director</p>
-        <p>Art des personnages — Artistes originaux</p>
-        <p>D\u00e9veloppement — \u00c9quipe de d\u00e9veloppement</p>
-        <p style="margin-top:1rem;color:var(--crimson)">\u2665 Love You To Death — Version 1.0 \u2665</p>
-      </div>`
   }
 };
 
 const LS_KEY      = 'lmtd_save_v3';
-const LS_VOL_KEY  = 'lmtd_volume';   // clé dédiée au volume (synchro globale)
-const LS_MUTE_KEY = 'lmtd_muted';    // clé dédiée au mute (synchro globale)
+const LS_VOL_KEY  = 'lmtd_volume';
+const LS_MUTE_KEY = 'lmtd_muted';
 
 const state = {
   lang:'en', firstTime:true, sceneIndex:0, scenes:[], navStack:[],
@@ -1044,40 +937,12 @@ const state = {
   isTyping:false, typing:null, awaitingChoice:false,
   pendingChoices:null,
   endingsData:{good:null,bad:null},
-  _settingsFrom:'title-screen'  // pour savoir où revenir depuis les settings
+  _settingsFrom:'title-screen'
 };
 
-function t(k){ return (I18N[state.lang]||I18N.en)[k]; }
+function t(k){ return I18N.en[k]; }
 
-/* ── SETTINGS LANG SWITCH (mémorise position chapitre) ── */
-function settingsSwitchLang(lang){
-  if(state.lang===lang) return;
-  // Sauvegarder la position actuelle avant de changer
-  saveGame();
-  state.lang=lang;
-  applyLang();
-  updateSettingsLangButtons();
-  // Si on est dans un chapitre, recharger les scènes dans la nouvelle langue
-  if(document.getElementById('game-screen').classList.contains('active')){
-    const savedIdx=state.sceneIndex;
-    Promise.all([loadChapters(),loadEndings()]).then(()=>{
-      state.sceneIndex=Math.min(savedIdx,state.scenes.length-1);
-      renderScene(state.scenes[state.sceneIndex]);
-    });
-  }
-}
-function updateSettingsLangButtons(){
-  ['en','fr'].forEach(l=>{
-    const btn=document.getElementById('settings-lang-'+l);
-    if(btn) btn.classList.toggle('active',state.lang===l);
-  });
-}
-
-/* ══════════════════════════════════════════════════
-   VOLUME — SOURCE UNIQUE DE VÉRITÉ
-   Toutes les lectures/écritures passent par ces fonctions.
-   Le localStorage est la référence partagée.
-══════════════════════════════════════════════════ */
+/* ══ VOLUME ══ */
 function loadVolumeFromStorage(){
   try{
     const v = parseFloat(localStorage.getItem(LS_VOL_KEY));
@@ -1085,34 +950,25 @@ function loadVolumeFromStorage(){
     state.muted = localStorage.getItem(LS_MUTE_KEY) === '1';
   }catch(e){}
 }
-
 function saveVolumeToStorage(){
   try{
     localStorage.setItem(LS_VOL_KEY, String(state.volume));
     localStorage.setItem(LS_MUTE_KEY, state.muted ? '1' : '0');
   }catch(e){}
 }
-
-/** Applique le volume à l'audio et synchronise TOUS les sliders / boutons mute de la page */
 function applyVolumeEverywhere(){
   const effectiveVol = state.muted ? 0 : state.volume;
-  // Apply to all audio elements
   document.querySelectorAll('audio').forEach(a => { a.volume = effectiveVol; });
-
-  // Sliders
   ['vol-slider','settings-vol-slider'].forEach(id=>{
     const el = document.getElementById(id);
     if(el) el.value = state.volume;
   });
-  // Boutons mute
   ['btn-mute','settings-mute-btn'].forEach(id=>{
     const el = document.getElementById(id);
     if(el) el.textContent = state.muted ? '\u{1F507}' : '\u{1F50A}';
   });
-
   saveVolumeToStorage();
 }
-
 function setVolume(v){
   state.volume = Math.max(0, Math.min(1, v));
   applyVolumeEverywhere();
@@ -1124,7 +980,7 @@ function toggleMute(){
 
 /* ══ CODE SECRET ══ */
 function initCodeScreen(){
-  const L = I18N[state.lang]||I18N.en;
+  const L = I18N.en;
   const input  = document.getElementById('code-input');
   const errEl  = document.getElementById('code-error');
   const btnEl  = document.getElementById('btn-code-enter');
@@ -1136,10 +992,9 @@ function initCodeScreen(){
       markCodeValidated();
       startIntroMusic();
       if(!checkHasSave()){
-        // Première fois : choisir la langue d'abord
-        fadeTransition(()=>showScreen('lang-screen'));
+        // First time : go to policy
+        fadeTransition(()=>showScreen('policy-screen'));
       } else {
-        // Save existante : aller au menu avec animation
         resetTitleAnimations();
         fadeTransition(()=>showScreen('title-screen'));
       }
@@ -1159,9 +1014,9 @@ function initCodeScreen(){
   btnEl.addEventListener('click', validateCode);
 }
 
-/* ══ LANG ══ */
+/* ══ LANG (fixed to EN) ══ */
 function applyLang(){
-  const L = I18N[state.lang]||I18N.en;
+  const L = I18N.en;
   document.getElementById('loading-label').textContent     = L.loading;
   document.getElementById('title-sub').textContent         = L.titleSub;
   document.getElementById('btn-start').textContent         = checkHasSave() ? L.btnContinue : L.btnBegin;
@@ -1183,8 +1038,6 @@ function applyLang(){
   document.getElementById('settings-screen-title').textContent       = L.settingsTitle;
   document.getElementById('settings-audio-label').textContent        = L.settingsAudio;
   document.getElementById('btn-settings-close').textContent          = '\u25C4 '+(L.settingsBack||'BACK').replace(/^[◄◂]\s*/,'');
-  // Nouveaux labels settings
-  const sll=document.getElementById('settings-lang-label'); if(sll) sll.textContent=L.settingsLang||'LANGUAGE';
   const sdl=document.getElementById('settings-data-label'); if(sdl) sdl.textContent=L.settingsData||'DATA';
   const scl=document.getElementById('settings-credits-label'); if(scl) scl.textContent=L.settingsCredits||'CREDITS & INFO';
   const ssl=document.getElementById('settings-social-label'); if(ssl) ssl.textContent=L.settingsSocial||'SOCIAL';
@@ -1194,9 +1047,7 @@ function applyLang(){
   const cred=document.getElementById('btn-open-credits'); if(cred) cred.textContent='♥ '+(L.creditsBtn||'CREDITS');
   const shl=document.getElementById('share-label-share'); if(shl) shl.textContent=L.shareLabel||'SHARE';
   const ctlb=document.getElementById('credits-title-label'); if(ctlb) ctlb.textContent=L.creditsTitle||'— CREDITS —';
-  // Pause title
   const ptl=document.getElementById('pause-title-label'); if(ptl) ptl.textContent='— '+(L.settingsTitle||'PAUSE').replace(/^[—\s]+|[—\s]+$/g,'') +' —';
-  updateSettingsLangButtons();
   const hr = document.getElementById('help-rows'); hr.innerHTML='';
   const rows = L.helpRows;
   if(Array.isArray(rows)){
@@ -1224,14 +1075,14 @@ function preloadImage(src){return new Promise(res=>{if(!src)return res();const i
 async function loadChapters(){
   let all=[];
   for(const file of GAME_CONFIG.chapterFiles){
-    const path='json/'+state.lang+'/'+file;
+    const path='json/en/'+file;
     try{
       const r=await fetch(path);if(!r.ok)throw new Error('HTTP '+r.status);
       const d=await r.json();all=all.concat(d);
     }catch(e){console.warn('Cannot load',path,e.message);}
   }
   if(!all.length){
-    const L=I18N[state.lang]||I18N.en;
+    const L=I18N.en;
     all=[{id:'s_demo',bg:null,charImg:null,speaker:L.systemLabel,text:L.systemFallback,typeSpeed:30,next:'__ending__'}];
   }
   state.scenes=all;
@@ -1249,10 +1100,9 @@ async function loadEndings(){
 function saveGame(){
   try{
     localStorage.setItem(LS_KEY,JSON.stringify({
-      lang:state.lang,firstTime:false,sceneIndex:state.sceneIndex,
+      lang:'en',firstTime:false,sceneIndex:state.sceneIndex,
       navStack:state.navStack.slice(-30),affinity:state.affinity,
       history:state.history.slice(-60),
-      // volume stocké séparément via LS_VOL_KEY / LS_MUTE_KEY
       currentMusic:state.currentMusic
     }));
   }catch(e){}
@@ -1261,12 +1111,11 @@ function loadSave(){
   try{
     const raw=localStorage.getItem(LS_KEY);if(!raw)return false;
     const d=JSON.parse(raw);
-    state.lang=d.lang||'en';state.firstTime=d.firstTime!==false;
+    state.lang='en';state.firstTime=d.firstTime!==false;
     state.sceneIndex=d.sceneIndex||0;
     state.navStack=(d.navStack||[]).map(e=>typeof e==='number'?{sceneIndex:e,affinityDelta:0}:e);
     state.affinity=d.affinity||0;state.history=d.history||[];
     state.currentMusic=d.currentMusic||null;
-    // volume chargé depuis ses propres clés
     loadVolumeFromStorage();
     return true;
   }catch(e){return false;}
@@ -1279,7 +1128,6 @@ function resetGame(){
     localStorage.removeItem(CH_LS_CHAPTERS);
     localStorage.removeItem(CH_LS_ENDINGS_SEEN);
   }catch(e){}
-  // Clear session so code screen shows again on reload
   try{ sessionStorage.removeItem(SESSION_CODE_KEY); }catch(e){}
   location.reload();
 }
@@ -1292,7 +1140,7 @@ function resetTitleAnimations(){
     if(!node)return;
     node.style.animation='none';
     node.style.opacity='0';
-    void node.offsetWidth; // force reflow
+    void node.offsetWidth;
     node.style.animation='';
     node.style.opacity='';
   });
@@ -1322,7 +1170,6 @@ function showAffinityDelta(d){
 /* ══ AUDIO ══ */
 const bgm=document.getElementById('bgm');
 
-// Synchroniser la position toutes les secondes
 setInterval(()=>{
   if(!bgm.paused && bgm.src && bgm.duration){
     try{ sessionStorage.setItem('lmtd_music_pos', JSON.stringify({src:bgm.src, pos:bgm.currentTime})); }catch(e){}
@@ -1515,7 +1362,7 @@ function exportData(){
     const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
     const url=URL.createObjectURL(blob);
     const a=document.createElement('a');a.href=url;
-    a.download='LoveMeToDeathSAVE.json';
+    a.download='LoveYouToDeathSAVE.json';
     document.body.appendChild(a);a.click();
     setTimeout(()=>{URL.revokeObjectURL(url);a.remove();},1000);
     showGamePopup(t('exportBtn')||'EXPORT',t('exportSuccess')||'Export OK.',[{label:'OK',fn:closeGamePopup}]);
@@ -1548,7 +1395,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 });
 
 function showResetPopup(){
-  const L=I18N[state.lang]||I18N.en;
+  const L=I18N.en;
   showGamePopup(
     L.resetPopupTitle||'RESET',
     L.resetPopupText||'This will erase all your progress.',
@@ -1580,36 +1427,29 @@ document.getElementById('game-popup-overlay').addEventListener('click',e=>{
   if(e.target===document.getElementById('game-popup-overlay')) closeGamePopup();
 });
 
-/* ══ CREDITS — réutilise policy-screen en mode "info seulement" ══ */
+/* ══ CREDITS ══ */
 function openCredits(){
-  const L=I18N[state.lang]||I18N.en;
-  // Remplir le contenu policy avec les infos/crédits de la langue courante
+  const L=I18N.en;
   document.getElementById('policy-header').textContent = L.policyHeader;
   document.getElementById('policy-scroll').innerHTML   = L.policyContent;
   document.getElementById('policy-bar').style.width   = '100%';
-  // Footer : cacher hint + accept, montrer un bouton retour settings
   document.getElementById('policy-hint').style.display    = 'none';
   document.getElementById('btn-accept').style.display     = 'none';
-  // Ajouter / réutiliser le bouton retour credits
   let backBtn = document.getElementById('btn-credits-policy-back');
   if(!backBtn){
     backBtn = document.createElement('button');
     backBtn.id = 'btn-credits-policy-back';
     backBtn.className = 'btn-accept ready';
     backBtn.style.cssText='opacity:1;pointer-events:all;background:transparent;border:1px solid rgba(200,160,200,.3);';
-    document.getElementById('policy-footer') || document.querySelector('.policy-footer').appendChild(backBtn);
     document.querySelector('.policy-footer').appendChild(backBtn);
     backBtn.addEventListener('click', closeCredits);
   }
-  backBtn.textContent = (L.settingsBack||'◄ BACK').replace(/^[◄◂]\s*/,'');
   backBtn.textContent = '◂ ' + (L.settingsBack||'BACK').replace(/^[◄◂◀]\s*/i,'');
   backBtn.style.display='';
-  // Marquer mode info pour ne pas déclencher le scroll-accept
   document.getElementById('policy-screen').dataset.infoMode='1';
   fadeTransition(()=>showScreen('policy-screen'));
 }
 function closeCredits(){
-  // Restaurer le policy-screen en mode normal pour la prochaine utilisation
   document.getElementById('policy-hint').style.display    = '';
   document.getElementById('btn-accept').style.display     = '';
   const backBtn = document.getElementById('btn-credits-policy-back');
@@ -1623,13 +1463,12 @@ document.addEventListener('DOMContentLoaded',()=>{
   const shareBtn=document.getElementById('share-link-btn');
   if(shareBtn){
     shareBtn.addEventListener('click',e=>{
-      // Si Web Share API dispo, l'utiliser ; sinon copier le lien
       if(navigator.share){
         e.preventDefault();
-        navigator.share({title:'Love You To Death',url:'https://pioupioucoder.github.io/LoveMeToDeath/'}).catch(()=>{});
+        navigator.share({title:'Love You To Death',url:'https://pioupioucoder.github.io/LoveYouToDeath/'}).catch(()=>{});
       } else if(navigator.clipboard){
         e.preventDefault();
-        navigator.clipboard.writeText('https://pioupioucoder.github.io/LoveMeToDeath/').then(()=>{
+        navigator.clipboard.writeText('https://pioupioucoder.github.io/LoveYouToDeath/').then(()=>{
           showGamePopup('SHARE','Link copied to clipboard!',[{label:'OK',fn:closeGamePopup}]);
         }).catch(()=>{});
       }
@@ -1651,18 +1490,16 @@ function spawnSettingsPetals(){
       'animation-duration:'+(8+Math.random()*14)+'s;'+
       'animation-delay:'+Math.random()*12+'s;'+
       'opacity:0;';
-    // Alterner couleurs
     const cols=['var(--crimson)','var(--blood)','rgba(201,168,76,.8)','rgba(200,100,150,.7)'];
     p.style.background='radial-gradient(circle at 40% 40%,'+cols[i%cols.length]+',transparent)';
     container.appendChild(p);
   }
 }
 
-/* ══ OPEN SETTINGS (accessible depuis le titre et la pause) ══ */
+/* ══ OPEN SETTINGS ══ */
 function openSettings(fromScreenId){
   state._settingsFrom = fromScreenId || 'title-screen';
   applyVolumeEverywhere();
-  updateSettingsLangButtons(); // reflect langue courante
   spawnSettingsPetals();
   fadeTransition(()=>showScreen('settings-screen'));
 }
@@ -1676,12 +1513,10 @@ function startGame(fromIdx){
 
 /* ══ BOOT ══ */
 async function boot(){
-  // Charger le volume depuis le localStorage EN PREMIER
   loadVolumeFromStorage();
-
   state.lang='en';
   applyLang();
-  applyVolumeEverywhere(); // initialise les sliders au bon niveau dès le départ
+  applyVolumeEverywhere();
   await preloadAssets();
 
   if(isCodeValidated()){
@@ -1709,7 +1544,8 @@ document.getElementById('btn-start').addEventListener('click',()=>{
       });
     });
   }else{
-    fadeTransition(()=>showScreen('lang-screen'));
+    // No save: go to policy
+    fadeTransition(()=>showScreen('policy-screen'));
   }
 });
 
@@ -1717,12 +1553,10 @@ document.getElementById('btn-chapters').addEventListener('click',()=>{
   openChaptersScreen();
 });
 
-// Bouton Settings dans le menu titre
 document.getElementById('btn-settings-title').addEventListener('click',()=>{
   openSettings('title-screen');
 });
 
-// Bouton retour depuis settings
 document.getElementById('btn-settings-close').addEventListener('click',()=>{
   saveVolumeToStorage();
   fadeTransition(()=>{
@@ -1733,23 +1567,11 @@ document.getElementById('btn-settings-close').addEventListener('click',()=>{
   });
 });
 
-// Slider volume dans settings
 document.getElementById('settings-vol-slider').addEventListener('input', e=>{
   setVolume(parseFloat(e.target.value));
 });
-// Bouton mute dans settings
 document.getElementById('settings-mute-btn').addEventListener('click', ()=>{
   toggleMute();
-});
-
-/* ══ EVENTS — LANG ══ */
-document.querySelectorAll('.lang-btn').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    state.lang=btn.dataset.lang;applyLang();
-    document.getElementById('policy-bar').style.width='0%';
-    document.getElementById('btn-accept').classList.remove('ready');
-    fadeTransition(()=>showScreen('policy-screen'));
-  });
 });
 
 /* ══ EVENTS — POLICY ══ */
@@ -1791,26 +1613,24 @@ document.getElementById('btn-save-quit').addEventListener('click',()=>{
   });
 });
 document.getElementById('btn-restart-game').addEventListener('click',()=>{
-  const L=I18N[state.lang]||I18N.en;
+  const L=I18N.en;
   showGamePopup(L.btnRestart||'RESTART',L.confirmRestart||'Restart?',[
     {label:L.resetCancel||'CANCEL',fn:closeGamePopup},
     {label:L.resetConfirm||'RESTART',fn:()=>{closeGamePopup();document.getElementById('pause-modal').style.display='none';resetGame();},cls:'confirm'}
   ]);
 });
 document.getElementById('btn-restart-end').addEventListener('click',()=>{
-  const L=I18N[state.lang]||I18N.en;
+  const L=I18N.en;
   showGamePopup(L.btnRestartEnd||'RESTART',L.confirmRestartEnd||'Restart?',[
     {label:L.resetCancel||'CANCEL',fn:closeGamePopup},
     {label:L.resetConfirm||'RESTART',fn:()=>{closeGamePopup();resetGame();},cls:'confirm'}
   ]);
 });
 
-// Slider volume dans la pause
 const volSlider=document.getElementById('vol-slider');
 volSlider.value=state.volume;
 volSlider.addEventListener('input',()=>{ setVolume(parseFloat(volSlider.value)); });
 
-// Bouton mute dans la pause
 const btnMute=document.getElementById('btn-mute');
 btnMute.addEventListener('click',()=>{ toggleMute(); });
 
@@ -1857,26 +1677,14 @@ const chState = {
 };
 
 const CH_LABELS = {
-  en:{
-    eyebrow:'— chapters —', backBtn:'◂ BACK',
-    locked:'Locked — complete the previous chapter to unlock.',
-    chapterNum:'CHAPTER', endings:'ENDINGS',
-    endingsLocked:'Complete chapters to unlock endings.',
-    good:'GOOD ENDING', bad:'BAD ENDING', affRange:'Affinity',
-    noChapters:'No chapters found in chapterIndex.json.',
-    chaptersLabel:'CHAPTERS', journeyLabel:'YOUR JOURNEY',
-    completeMsg:'✦ All stories told ✦',
-  },
-  fr:{
-    eyebrow:'— chapitres —', backBtn:'◂ RETOUR',
-    locked:'Verrouillé — terminez le chapitre précédent pour débloquer.',
-    chapterNum:'CHAPITRE', endings:'FINS',
-    endingsLocked:'Terminez des chapitres pour débloquer les fins.',
-    good:'BONNE FIN', bad:'MAUVAISE FIN', affRange:'Affinité',
-    noChapters:'Aucun chapitre trouvé dans chapterIndex.json.',
-    chaptersLabel:'CHAPITRES', journeyLabel:'VOTRE PÉRIPLE',
-    completeMsg:'✦ Toutes les histoires racontées ✦',
-  }
+  eyebrow:'— chapters —', backBtn:'◂ BACK',
+  locked:'Locked — complete the previous chapter to unlock.',
+  chapterNum:'CHAPTER', endings:'ENDINGS',
+  endingsLocked:'Complete chapters to unlock endings.',
+  good:'GOOD ENDING', bad:'BAD ENDING', affRange:'Affinity',
+  noChapters:'No chapters found in chapterIndex.json.',
+  chaptersLabel:'CHAPTERS', journeyLabel:'YOUR JOURNEY',
+  completeMsg:'✦ All stories told ✦',
 };
 
 function chLoadUnlocked(){
@@ -1893,7 +1701,7 @@ window.LMTD_UNLOCK_CHAPTER = function(id){
 };
 
 function chApplyLangUI(){
-  const L = CH_LABELS[state.lang]||CH_LABELS.en;
+  const L = CH_LABELS;
   document.getElementById('ch-eyebrow').textContent = L.eyebrow;
   document.getElementById('ch-progress-label').textContent = L.journeyLabel;
   document.getElementById('ch-chapters-label').textContent = L.chaptersLabel;
@@ -1944,7 +1752,7 @@ function chRenderProgressBar(){
 
   const endingsEl = document.getElementById('ch-progress-endings');
   endingsEl.innerHTML='';
-  const L = CH_LABELS[state.lang]||CH_LABELS.en;
+  const L = CH_LABELS;
   const hasGood = chState.goodEndings.length>0, hasBad = chState.badEndings.length>0;
   const goodSeen = [...chState.seenEndings].some(id=>id.startsWith('good'));
   const badSeen  = [...chState.seenEndings].some(id=>id.startsWith('bad'));
@@ -1962,13 +1770,13 @@ function chRenderProgressBar(){
   }
   if(total>0&&completed>=total&&(!hasGood||goodSeen)&&(!hasBad||badSeen)){
     const msg=document.createElement('div');msg.className='ch-progress-complete-msg show';
-    msg.textContent=(CH_LABELS[state.lang]||CH_LABELS.en).completeMsg;
+    msg.textContent=CH_LABELS.completeMsg;
     endingsEl.appendChild(msg);
   }
 }
 
 function chRenderAll(){
-  const L = CH_LABELS[state.lang]||CH_LABELS.en;
+  const L = CH_LABELS;
   const grid = document.getElementById('ch-chapters-grid');
   grid.innerHTML='';
 
@@ -1992,10 +1800,10 @@ function chRenderAll(){
     thumb.className='ch-card-thumb';
     if(ch.thumbnail) thumb.style.backgroundImage="url('"+ch.thumbnail+"')";
 
-    const charImg = ch['charImg_'+state.lang]||ch.charImg||null;
+    const charImg = ch.charImg||null;
     if(charImg){
       const cimg=document.createElement('img');cimg.className='ch-card-char-img';
-      cimg.src=charImg;cimg.alt=ch['charName_'+state.lang]||ch.charName||'';
+      cimg.src=charImg;cimg.alt=ch.charName||'';
       cimg.draggable=false;cimg.onerror=function(){this.style.display='none';};
       thumb.appendChild(cimg);
     } else {
@@ -2010,9 +1818,9 @@ function chRenderAll(){
 
     const body=document.createElement('div');body.className='ch-card-body';
     const title=document.createElement('div');title.className='ch-card-title';
-    title.textContent=ch['title_'+state.lang]||ch.title||('Chapter '+(idx+1));
+    title.textContent=ch.title||('Chapter '+(idx+1));
     const sub=document.createElement('div');sub.className='ch-card-subtitle';
-    sub.textContent=unlocked?(ch['description_'+state.lang]||ch.description||''):L.locked;
+    sub.textContent=unlocked?(ch.description||''):L.locked;
     const meta=document.createElement('div');meta.className='ch-card-meta';
     const tag=document.createElement('div');tag.className='ch-card-tag';tag.textContent=ch.tag||'';
     const arrow=document.createElement('div');arrow.className='ch-card-arrow';arrow.textContent='→';
@@ -2047,7 +1855,7 @@ function chRenderEndings(L){
     const typeLabel=e._type==='good'?L.good:L.bad;
     card.innerHTML=
       '<div class="ch-ending-card-type">'+typeLabel+'</div>'+
-      '<div class="ch-ending-card-title">'+(e['title_'+state.lang]||e.title||'—')+'</div>'+
+      '<div class="ch-ending-card-title">'+(e.title||'—')+'</div>'+
       '<div class="ch-ending-card-range">'+L.affRange+': '+e.minAffinity+' → '+e.maxAffinity+'</div>';
     wrap.appendChild(card);
   });
@@ -2058,7 +1866,7 @@ function chLaunchChapter(ch,idx){
   try{
     const raw=localStorage.getItem(LS_KEY)||'{}';
     const d=JSON.parse(raw);
-    d.lang=state.lang;
+    d.lang='en';
     d.firstTime=idx===0?d.firstTime:false;
     d.targetChapterFile=ch.file||('chapter'+(idx+1)+'.json');
     d.sceneIndex=0;
@@ -2081,7 +1889,6 @@ function chLaunchChapter(ch,idx){
 }
 
 async function openChaptersScreen(){
-  // Spawn particles for chapters screen if not yet done
   const chParts = document.getElementById('ch-particles');
   if(chParts && !chParts.dataset.spawned){
     chParts.dataset.spawned='1';
@@ -2098,7 +1905,7 @@ async function openChaptersScreen(){
 
   if(!chState.loaded){
     document.getElementById('ch-status').style.display='block';
-    document.getElementById('ch-status-text').textContent=(CH_LABELS[state.lang]||CH_LABELS.en).noChapters;
+    document.getElementById('ch-status-text').textContent=CH_LABELS.noChapters;
     try{chState.chaptersData=await fetch('json/chapterIndex.json').then(r=>r.json());}
     catch(e){chState.chaptersData=[];}
     try{chState.goodEndings=await fetch('json/good_ending.json').then(r=>r.json());}catch(e){chState.goodEndings=[];}
@@ -2106,7 +1913,6 @@ async function openChaptersScreen(){
     chState.loaded=true;
   }
 
-  // Reset animation state for re-entry
   const eyebrow=document.getElementById('ch-eyebrow');
   const divider=document.querySelector('#chapters-screen .ch-header-divider');
   const progress=document.getElementById('ch-progress-section');
@@ -2122,7 +1928,6 @@ async function openChaptersScreen(){
   setTimeout(()=>chRenderAll(),100);
 }
 
-// Back button from chapters screen
 document.getElementById('btn-chapters-back').addEventListener('click',()=>{
   fadeTransition(()=>{
     resetTitleAnimations();
