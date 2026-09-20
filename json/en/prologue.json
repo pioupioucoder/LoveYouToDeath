@@ -1,7 +1,7 @@
 [
   {
     "id": "prologue_1",
-    "bg": "images/backgrounds/sequestration.png",
+    "bg": "images/backgrounds/sequestration.webp",
     "charImg": null,
     "speaker": null,
     "text": "My thoughts crash against one another. I try to move. My body won't respond.",
@@ -11,7 +11,7 @@
   },
   {
     "id": "prologue_2",
-    "bg": "images/backgrounds/sequestration.png",
+    "bg": "images/backgrounds/sequestration.webp",
     "charImg": "images/characters/escrazyspeakneutral.png",
     "speaker": "???",
     "text": "It's Useless Etoile. The drug is still in your veins.",
@@ -21,7 +21,7 @@
   },
   {
     "id": "prologue_3",
-    "bg": "images/backgrounds/sequestration.png",
+    "bg": "images/backgrounds/sequestration.webp",
     "charImg": "images/characters/escrazyneutral.png",
     "speaker": null,
     "text": "I look up. A familiar face leans over me.",
@@ -31,7 +31,7 @@
   },
   {
     "id": "prologue_4",
-    "bg": "images/backgrounds/sequestration.png",
+    "bg": "images/backgrounds/sequestration.webp",
     "charImg": "images/characters/escrazysmile.png",
     "speaker": null,
     "text": "It is at once cold as ice and warm as fire, with a sinister smile.",
@@ -41,7 +41,7 @@
   },
   {
     "id": "prologue_5",
-    "bg": "images/backgrounds/sequestration.png",
+    "bg": "images/backgrounds/sequestration.webp",
     "charImg": "images/characters/escrazysmile.png",
     "speaker": null,
     "text": "No. That's not a smile.",
@@ -51,7 +51,7 @@
   },
   {
     "id": "prologue_6",
-    "bg": "images/backgrounds/sequestration.png",
+    "bg": "images/backgrounds/sequestration.webp",
     "charImg": "images/characters/escrazysmile.png",
     "speaker": null,
     "text": "It's madness.",
@@ -62,7 +62,7 @@
   },
   {
     "id": "prologue_7",
-    "bg": "images/backgrounds/sequestration.png",
+    "bg": "images/backgrounds/sequestration.webp",
     "charImg": "images/characters/escrazyneutral.png",
     "speaker": "Me",
     "text": "Why? Why did you kill them?",
@@ -72,7 +72,7 @@
   },
   {
     "id": "prologue_8",
-    "bg": "images/backgrounds/sequestration.png",
+    "bg": "images/backgrounds/sequestration.webp",
     "charImg": "images/characters/estalksmile1.png",
     "speaker": "???",
     "text": "Because I had to.",
@@ -82,7 +82,7 @@
   },
   {
     "id": "prologue_9",
-    "bg": "images/backgrounds/sequestration.png",
+    "bg": "images/backgrounds/sequestration.webp",
     "charImg": "images/characters/estalksmile2.png",
     "speaker": "???",
     "text": "I wanted you to need only me.",
@@ -92,7 +92,7 @@
   },
   {
     "id": "prologue_10",
-    "bg": "images/backgrounds/sequestration.png",
+    "bg": "images/backgrounds/sequestration.webp",
     "charImg": "images/characters/escrazyneutral.png",
     "speaker": "Me",
     "text": "I don't recognize you anymore. Untie me.",
@@ -102,7 +102,7 @@
   },
   {
     "id": "prologue_11",
-    "bg": "images/backgrounds/sequestration.png",
+    "bg": "images/backgrounds/sequestration.webp",
     "charImg": "images/characters/escrazyspeakneutral.png",
     "speaker": "???",
     "text": "I will. After I eat your legs.",
@@ -112,7 +112,7 @@
   },
   {
     "id": "prologue_12",
-    "bg": "images/backgrounds/sequestration.png",
+    "bg": "images/backgrounds/sequestration.webp",
     "charImg": "images/characters/escrazysmile.png",
     "speaker": null,
     "text": "Her voice doesn't tremble. Mine does.",
@@ -122,7 +122,7 @@
   },
   {
     "id": "prologue_13",
-    "bg": "images/backgrounds/sequestration.png",
+    "bg": "images/backgrounds/sequestration.webp",
     "charImg": "images/characters/estalksmile1.png",
     "speaker": "???",
     "text": "Those legs that always try to run away from me.",
@@ -132,7 +132,7 @@
   },
   {
     "id": "prologue_14",
-    "bg": "images/backgrounds/sequestration.png",
+    "bg": "images/backgrounds/sequestration.webp",
     "charImg": "images/characters/escrazysmile.png",
     "speaker": null,
     "text": "Panic rises in my throat. I have to find a way out. I have to…",
@@ -142,7 +142,7 @@
   },
   {
     "id": "prologue_15",
-    "bg": "images/backgrounds/sequestration.png",
+    "bg": "images/backgrounds/sequestration.webp",
     "charImg": "images/characters/escrazyneutral.png",
     "speaker": null,
     "text": "She leans closer. Her breath brushes my cheek. She smells of night, of metal, of blood…",
@@ -152,7 +152,7 @@
   },
   {
     "id": "prologue_16",
-    "bg": "images/backgrounds/sequestration.png",
+    "bg": "images/backgrounds/sequestration.webp",
     "charImg": "images/characters/estalksmile2.png",
     "speaker": "???",
     "text": "We're far from everything. Isolated. Just you and me.",
@@ -162,7 +162,7 @@
   },
   {
     "id": "prologue_17",
-    "bg": "images/backgrounds/sequestration.png",
+    "bg": "images/backgrounds/sequestration.webp",
     "charImg": "images/characters/estalksmile1.png",
     "speaker": "???",
     "text": "Is it time…",
@@ -172,7 +172,7 @@
   },
   {
     "id": "prologue_18",
-    "bg": "images/backgrounds/sequestration.png",
+    "bg": "images/backgrounds/sequestration.webp",
     "charImg": "images/characters/estalksmile2.png",
     "speaker": "???",
     "text": "at last…",
@@ -182,7 +182,7 @@
   },
   {
     "id": "prologue_19",
-    "bg": "images/backgrounds/sequestration.png",
+    "bg": "images/backgrounds/sequestration.webp",
     "charImg": null,
     "speaker": "???",
     "text": "you belong to me Etoile?",
@@ -192,7 +192,7 @@
   },
   {
     "id": "prologue_20",
-    "bg": "images/backgrounds/sequestration.png",
+    "bg": "images/backgrounds/sequestration.webp",
     "charImg": null,
     "speaker": null,
     "text": "I hold back a sob. I want to close my eyes. I want to wake up.",
@@ -203,7 +203,7 @@
   },
   {
     "id": "prologue_21",
-    "bg": "images/backgrounds/sequestration.png",
+    "bg": "images/backgrounds/sequestration.webp",
     "charImg": null,
     "speaker": null,
     "text": "My vision blurs.",
@@ -214,7 +214,7 @@
   },
   {
     "id": "prologue_22",
-    "bg": "images/backgrounds/sequestration.png",
+    "bg": "images/backgrounds/sequestration.webp",
     "charImg": null,
     "speaker": null,
     "text": "The edges of the world fade away one by one, swallowed by a strange scarlet glow.",
