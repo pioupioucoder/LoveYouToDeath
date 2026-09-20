@@ -163,7 +163,7 @@
   {
     "id": "prologue_17",
     "bg": "images/backgrounds/sequestration.webp",
-    "charImg": "images/characters/estalksmile1.png",
+    "charImg": "images/characters/escrazyinlovetalk.png",
     "speaker": "???",
     "text": "Is it time…",
     "typeSpeed": 22,
@@ -173,7 +173,7 @@
   {
     "id": "prologue_18",
     "bg": "images/backgrounds/sequestration.webp",
-    "charImg": "images/characters/estalksmile2.png",
+    "charImg": "images/characters/escrazyinlovetalk.png",
     "speaker": "???",
     "text": "at last…",
     "typeSpeed": 22,
@@ -183,7 +183,7 @@
   {
     "id": "prologue_19",
     "bg": "images/backgrounds/sequestration.webp",
-    "charImg": null,
+    "charImg": "images/characters/escrazyinlovetalk.png",
     "speaker": "???",
     "text": "you belong to me Etoile?",
     "typeSpeed": 22,
@@ -193,7 +193,7 @@
   {
     "id": "prologue_20",
     "bg": "images/backgrounds/sequestration.webp",
-    "charImg": null,
+    "charImg": "images/characters/escrazyinlovesmile.png",
     "speaker": null,
     "text": "I hold back a sob. I want to close my eyes. I want to wake up.",
     "typeSpeed": 22,
@@ -204,7 +204,7 @@
   {
     "id": "prologue_21",
     "bg": "images/backgrounds/sequestration.webp",
-    "charImg": null,
+     "charImg": "images/characters/escrazyinlovesmile.png",
     "speaker": null,
     "text": "My vision blurs.",
     "typeSpeed": 22,
@@ -215,7 +215,7 @@
   {
     "id": "prologue_22",
     "bg": "images/backgrounds/sequestration.webp",
-    "charImg": null,
+     "charImg": "images/characters/escrazyinlovesmile.png",
     "speaker": null,
     "text": "The edges of the world fade away one by one, swallowed by a strange scarlet glow.",
     "typeSpeed": 20,
