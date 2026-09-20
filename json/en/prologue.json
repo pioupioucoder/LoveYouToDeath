@@ -14,7 +14,7 @@
     "bg": "images/backgrounds/sequestration.webp",
     "charImg": "images/characters/escrazyspeakneutral.webp",
     "speaker": "???",
-    "text": "Useless. The drug is still in your veins.",
+    "text": "It's Useless Etoile. The drug is still in your veins.",
     "typeSpeed": 22,
     "music": "music/dark.mp3",
     "next": "prologue_3"
@@ -185,7 +185,7 @@
     "bg": "images/backgrounds/sequestration.webp",
     "charImg": null,
     "speaker": "???",
-    "text": "you belong to me?",
+    "text": "you belong to me Etoile?",
     "typeSpeed": 22,
     "music": "music/dark.mp3",
     "next": "prologue_20"
