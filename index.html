@@ -51,7 +51,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 #screen-glitch.active{opacity:1;animation:rgbGlitch .5s steps(3) infinite alternate}
 @keyframes rgbGlitch{0%{background:linear-gradient(90deg,rgba(255,0,0,.10),transparent 40%),linear-gradient(-90deg,rgba(0,255,255,.08),transparent 40%);transform:translate(0,0)}50%{background:linear-gradient(90deg,transparent 60%,rgba(255,0,80,.12)),linear-gradient(-90deg,transparent 60%,rgba(0,255,180,.10));transform:translate(-2px,1px)}100%{background:linear-gradient(90deg,rgba(255,0,0,.08),transparent 30%,rgba(0,255,255,.08));transform:translate(2px,-1px)}}
 
-/* ══ BLOOD REALISM — vignette + gouttes réalistes ══ */
 #blood-realism-overlay{
   position:fixed;inset:0;
   pointer-events:none;
@@ -131,7 +130,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
     transparent 90%);
   border-radius:50%;filter:blur(0.8px);pointer-events:none;
 }
-/* 🩸 GOUTTE EN BAS — RÉDUITE (était 2x / 2.4x) */
 .real-drip .drip-head{
   position:absolute;
   bottom:-3px;left:50%;
@@ -170,7 +168,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 }
 #blood-realism-overlay .final-red.active{opacity:1}
 
-/* ══ NEXT CHAPTER PROMPT (nouveau) ══ */
 #next-chapter-prompt{
   position:fixed;
   top:50%;left:50%;
@@ -212,7 +209,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
   animation:poemHintPulse 2s ease infinite;
 }
 
-/* ══ POEM OVERLAY ══ */
 #poem-overlay{position:fixed;inset:0;z-index:80;background:rgba(5,3,8,.85);backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;opacity:0;transition:opacity .6s ease;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 #poem-overlay.active{display:flex;opacity:1;pointer-events:auto}
 .poem-parchment{background:linear-gradient(135deg,#f2e8d2 0%,#e2d2b0 100%);background-image:radial-gradient(circle at 15% 20%,rgba(180,150,110,.15) 0%,transparent 35%),radial-gradient(circle at 85% 80%,rgba(160,130,95,.18) 0%,transparent 40%),linear-gradient(135deg,#f2e8d2 0%,#e2d2b0 100%);max-width:520px;width:82%;max-height:82vh;padding:2.8rem 2.4rem;border-radius:3px;box-shadow:0 20px 60px rgba(0,0,0,.7),0 0 40px rgba(220,20,60,.15),inset 0 0 60px rgba(140,110,70,.15);position:relative;transform:scaleY(0) rotateX(80deg);transform-origin:top center;transition:transform 1s cubic-bezier(.2,.9,.3,1);perspective:1000px;overflow-y:auto}
@@ -396,10 +392,10 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .ch-card:hover:not(.locked){border-color:rgba(220,20,60,.5);transform:translateY(-5px);box-shadow:0 20px 50px rgba(0,0,0,.6),0 0 25px rgba(220,20,60,.08)}
 .ch-card.locked{background:rgba(12,6,18,.9);border-color:rgba(80,40,80,.2);cursor:not-allowed;filter:saturate(.25) brightness(.7)}
 .ch-card-thumb{width:100%;height:160px;background-color:rgba(20,8,30,.9);background-size:cover;background-position:center top;position:relative;flex-shrink:0;overflow:hidden}
-.ch-card-thumb::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(10,10,15,0) 30%,rgba(10,10,15,.95) 100%)}
+.ch-card-thumb::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(10,10,15,0) 30%,rgba(10,10,15,.95) 100%);z-index:2;pointer-events:none}
 .ch-card-char-img{position:absolute;bottom:0;left:50%;transform:translateX(-50%);height:145px;object-fit:contain;filter:drop-shadow(0 0 18px rgba(0,0,0,.9));z-index:1;transition:transform .4s ease}
 .ch-card:hover:not(.locked) .ch-card-char-img{transform:translateX(-50%) scale(1.04) translateY(-4px)}
-.ch-card-thumb-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:3rem;opacity:.1;color:var(--crimson)}
+.ch-card-thumb-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:3rem;opacity:.1;color:var(--crimson);position:relative;z-index:1}
 .ch-card-num{position:absolute;top:.7rem;left:.7rem;z-index:3;font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.3em;color:var(--crimson);background:rgba(10,10,15,.85);border:1px solid rgba(220,20,60,.35);padding:.2rem .55rem}
 .ch-card.chapter-one .ch-card-num{color:var(--gold);border-color:rgba(201,168,76,.4)}
 .ch-card-badge-locked{position:absolute;top:.7rem;right:.7rem;z-index:3;font-size:1rem;opacity:.35}
@@ -519,7 +515,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 <div id="affinity-delta"></div>
 <div id="screen-glitch"></div>
 
-<!-- BLOOD REALISM overlay -->
 <div id="blood-realism-overlay">
   <div class="vignette-layer"></div>
   <div class="top-wound"></div>
@@ -527,7 +522,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
   <div class="final-red"></div>
 </div>
 
-<!-- NEXT CHAPTER PROMPT -->
 <div id="next-chapter-prompt">
   <div class="next-chapter-prompt-text" id="next-chapter-prompt-text"></div>
   <div class="next-chapter-prompt-hint" id="next-chapter-prompt-hint"></div>
@@ -965,7 +959,7 @@ function advanceBloodFade(){
   }
 }
 
-/* ══ BLOOD REALISM — gouttes réalistes + vignette progressive ══ */
+/* ══ BLOOD REALISM ══ */
 function createRealisticDrip(index, total){
   const drip = document.createElement('div');
   drip.className = 'real-drip';
@@ -1045,7 +1039,6 @@ async function showNextChapterPrompt(){
 
   state.nextChapterPromptActive = true;
 
-  // Vérifie s'il y a un chapitre suivant
   const index = await loadChapterIndex();
   const currentFile = GAME_CONFIG.chapterFiles[0] || '';
   let currentIdx = index.findIndex(ch => (ch.file||'') === currentFile);
@@ -1079,7 +1072,6 @@ async function showNextChapterPrompt(){
     prompt.classList.remove('active');
 
     setTimeout(()=>{
-      // Reset les opacités (au cas où)
       const dlg = document.getElementById('dialogue-wrap');
       if(dlg) dlg.style.opacity = '';
       const ch = document.getElementById('choices-wrap');
@@ -1208,6 +1200,24 @@ async function loadChapterIndex(){
   return chapterIndexCache;
 }
 
+/* 🆕 Dérive badge & titre depuis le NOM DE FICHIER :
+   prologue.json  → PROLOGUE / Prologue
+   chapter1.json  → CHAPTER 1 / Chapter 1
+   epilogue.json  → EPILOGUE / Epilogue          */
+function getChapterBadgeFromFile(file){
+  if(!file) return { badge:'', title:'' };
+  const base = String(file).replace(/\.json$/i,'').toLowerCase().trim();
+
+  if(base.includes('prologue')) return { badge:'PROLOGUE', title:'Prologue' };
+  if(base.includes('epilogue')) return { badge:'EPILOGUE', title:'Epilogue' };
+
+  const m = base.match(/chapter[\s_\-]*(\d+)/i);
+  if(m) return { badge:'CHAPTER '+m[1], title:'Chapter '+m[1] };
+
+  const pretty = base.replace(/[_\-]+/g,' ').replace(/\b\w/g,c=>c.toUpperCase());
+  return { badge: pretty.toUpperCase(), title: pretty };
+}
+
 async function goToNextChapter(){
   clearBloodRealism();
   const currentFile = (GAME_CONFIG.chapterFiles && GAME_CONFIG.chapterFiles[0]) || '';
@@ -1249,21 +1259,15 @@ async function goToNextChapter(){
   stopMusic();
   startIntroMusic();
 
-  const isPrologue = String(nextFile).toLowerCase().includes('prologue');
-  const num = nextChapter.number || (nextIdx+1);
-  const label = isPrologue
-    ? (nextChapter.label || 'Prologue')
-    : (nextChapter.label || ('Chapter ' + num));
-  const subtitle = isPrologue
-    ? (nextChapter.subtitle || '')
-    : (nextChapter.subtitle || nextChapter.chapterName || '');
+  const derived = getChapterBadgeFromFile(nextFile);
+  const label = nextChapter.label || derived.title;
+  const subtitle = nextChapter.subtitle || nextChapter.chapterName || '';
 
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   showChapterTitle(label, subtitle, ()=>{
     showScreen('game-screen');
     renderAffinity();
     lastBg = null;
-    // Reset opacités
     const dlg = document.getElementById('dialogue-wrap');
     if(dlg) dlg.style.opacity = '';
     const ch = document.getElementById('choices-wrap');
@@ -1643,15 +1647,12 @@ function advance(){
   if(state.isTyping){skipTyping(scene.text||'');return;}
   if(state.pendingChoices){renderChoices(state.pendingChoices);state.pendingChoices=null;return;}
 
-  // 🩸 Dernière scène → écran devient 100% rouge, musique stop, prompt ensuite
   if(scene.finalRed && scene.next === '__suite_suivante__'){
     state.finalRedTransitioning = true;
     setFinalRed(true);
 
-    // Stoppe la musique à la fin du monologue
     setTimeout(()=>{ stopMusic(); }, 1200);
 
-    // Affiche le prompt "Click to see the next chapter" après un délai
     setTimeout(()=>{
       showNextChapterPrompt();
     }, 2600);
@@ -1931,9 +1932,9 @@ document.getElementById('btn-start').addEventListener('click',()=>{
       };
 
       if(isFreshStart){
-        const isPrologue = String(file).toLowerCase().includes('prologue');
-        const label = isPrologue ? 'Prologue' : 'Chapter 1';
-        const subtitle = isPrologue ? '' : (GAME_CONFIG.firstChapterSubtitle || '');
+        const derived = getChapterBadgeFromFile(file);
+        const label = derived.title;
+        const subtitle = GAME_CONFIG.firstChapterSubtitle || '';
         startIntroMusic();
         document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
         showChapterTitle(label, subtitle, startGameNow);
@@ -2070,7 +2071,7 @@ document.addEventListener('keydown',e=>{
 /* ══ CHAPTERS ══ */
 const CH_LS_CHAPTERS='lmtd_chapters_v1';
 const CH_LS_ENDINGS_SEEN='lmtd_endings_seen_v1';
-const chState={chaptersData:[],goodEndings:[],badEndings:[],unlockedChapters:new Set(['chapter1']),seenEndings:new Set(),loaded:false};
+const chState={chaptersData:[],goodEndings:[],badEndings:[],unlockedChapters:new Set(),seenEndings:new Set(),loaded:false};
 const CH_LABELS={
   eyebrow:'— chapters —',backBtn:'◂ BACK',
   locked:'Locked — complete the previous chapter to unlock.',
@@ -2081,7 +2082,12 @@ const CH_LABELS={
   chaptersLabel:'CHAPTERS',journeyLabel:'YOUR JOURNEY',
   completeMsg:'✦ All stories told ✦',
 };
-function chLoadUnlocked(){try{const raw=localStorage.getItem(CH_LS_CHAPTERS);if(raw)JSON.parse(raw).forEach(id=>chState.unlockedChapters.add(id));}catch(e){}chState.unlockedChapters.add('chapter1');}
+function chLoadUnlocked(){
+  try{
+    const raw=localStorage.getItem(CH_LS_CHAPTERS);
+    if(raw) JSON.parse(raw).forEach(id=>chState.unlockedChapters.add(id));
+  }catch(e){}
+}
 function chLoadSeenEndings(){try{const raw=localStorage.getItem(CH_LS_ENDINGS_SEEN);if(raw)JSON.parse(raw).forEach(id=>chState.seenEndings.add(id));}catch(e){}}
 window.LMTD_UNLOCK_CHAPTER=function(id){chState.unlockedChapters.add(id);try{localStorage.setItem(CH_LS_CHAPTERS,JSON.stringify([...chState.unlockedChapters]));}catch(e){}};
 function chApplyLangUI(){
@@ -2167,42 +2173,84 @@ function chRenderAll(){
   document.getElementById('ch-status').style.display='none';
   document.getElementById('ch-chapters-section').style.display='block';
   setTimeout(()=>grid.classList.add('visible'),80);
+
   chState.chaptersData.forEach((ch,idx)=>{
-    const id=ch.id||('chapter'+(idx+1));
-    const unlocked=idx===0||chState.unlockedChapters.has(id);
-    const card=document.createElement('div');
-    card.className='ch-card'+(unlocked?'':' locked')+(idx===0?' chapter-one':'');
-    const thumb=document.createElement('div');
-    thumb.className='ch-card-thumb';
-    if(ch.thumbnail)thumb.style.backgroundImage="url('"+ch.thumbnail+"')";
-    const charImg=ch.charImg||null;
-    if(charImg){
-      const cimg=document.createElement('img');cimg.className='ch-card-char-img';
-      cimg.src=charImg;cimg.alt=ch.charName||'';
-      cimg.draggable=false;cimg.onerror=function(){this.style.display='none';};
-      thumb.appendChild(cimg);
-    }else{
-      thumb.innerHTML='<div class="ch-card-thumb-placeholder">&#9829;</div>';
+    const id = ch.id || ('chapter'+(idx+1));
+    const unlocked = idx===0 || chState.unlockedChapters.has(id);
+
+    const file = ch.file || ('chapter'+(idx+1)+'.json');
+    const derived = getChapterBadgeFromFile(file);
+
+    const card = document.createElement('div');
+    card.className = 'ch-card' + (unlocked?'':' locked') + (idx===0?' chapter-one':'');
+
+    const thumb = document.createElement('div');
+    thumb.className = 'ch-card-thumb';
+
+    const bgImage = ch.image || ch.thumbnail || null;
+    if(bgImage){
+      thumb.style.backgroundImage = "url('"+bgImage+"')";
     }
-    const numBadge=document.createElement('div');numBadge.className='ch-card-num';
-    numBadge.textContent=L.chapterNum+' '+(ch.number||idx+1);
+
+    const charImg = ch.charImg || null;
+    if(charImg){
+      const cimg = document.createElement('img');
+      cimg.className = 'ch-card-char-img';
+      cimg.src = charImg;
+      cimg.alt = ch.charName || '';
+      cimg.draggable = false;
+      cimg.onerror = function(){ this.style.display='none'; };
+      thumb.appendChild(cimg);
+    }
+
+    if(!bgImage && !charImg){
+      thumb.innerHTML = '<div class="ch-card-thumb-placeholder">&#9829;</div>';
+    }
+
+    const numBadge = document.createElement('div');
+    numBadge.className = 'ch-card-num';
+    numBadge.textContent = derived.badge;
     thumb.appendChild(numBadge);
-    if(!unlocked){const lb=document.createElement('div');lb.className='ch-card-badge-locked';lb.textContent='🔒';thumb.appendChild(lb);}
+
+    if(!unlocked){
+      const lb = document.createElement('div');
+      lb.className = 'ch-card-badge-locked';
+      lb.textContent = '🔒';
+      thumb.appendChild(lb);
+    }
     card.appendChild(thumb);
-    const body=document.createElement('div');body.className='ch-card-body';
-    const title=document.createElement('div');title.className='ch-card-title';
-    title.textContent=ch.title||('Chapter '+(idx+1));
-    const sub=document.createElement('div');sub.className='ch-card-subtitle';
-    sub.textContent=unlocked?(ch.description||''):L.locked;
-    const meta=document.createElement('div');meta.className='ch-card-meta';
-    const tag=document.createElement('div');tag.className='ch-card-tag';tag.textContent=ch.tag||'';
-    const arrow=document.createElement('div');arrow.className='ch-card-arrow';arrow.textContent='→';
-    meta.appendChild(tag);meta.appendChild(arrow);
-    body.appendChild(title);body.appendChild(sub);body.appendChild(meta);
+
+    const body = document.createElement('div');
+    body.className = 'ch-card-body';
+
+    const title = document.createElement('div');
+    title.className = 'ch-card-title';
+    title.textContent = ch.title || derived.title;
+
+    const sub = document.createElement('div');
+    sub.className = 'ch-card-subtitle';
+    sub.textContent = unlocked ? (ch.description||'') : L.locked;
+
+    const meta = document.createElement('div');
+    meta.className = 'ch-card-meta';
+    const tag = document.createElement('div');
+    tag.className = 'ch-card-tag';
+    tag.textContent = ch.tag || derived.badge;
+    const arrow = document.createElement('div');
+    arrow.className = 'ch-card-arrow';
+    arrow.textContent = '→';
+    meta.appendChild(tag);
+    meta.appendChild(arrow);
+
+    body.appendChild(title);
+    body.appendChild(sub);
+    body.appendChild(meta);
     card.appendChild(body);
-    if(unlocked)card.addEventListener('click',()=>chLaunchChapter(ch,idx));
+
+    if(unlocked) card.addEventListener('click',()=>chLaunchChapter(ch,idx));
     grid.appendChild(card);
   });
+
   chRenderEndings(L);
   chRenderProgressBar();
 }
@@ -2253,20 +2301,14 @@ function chLaunchChapter(ch,idx){
     Promise.all([loadChapters(),loadEndings()]).then(()=>{
       stopMusic();
       startIntroMusic();
-      const isPrologue = String(file).toLowerCase().includes('prologue');
-      const num = (ch && ch.number) || (idx + 1);
-      const label = isPrologue
-        ? (ch.label || 'Prologue')
-        : (ch.label || ('Chapter ' + num));
-      const subtitle = isPrologue
-        ? (ch.subtitle || '')
-        : (ch.subtitle || ch.chapterName || '');
+      const derived = getChapterBadgeFromFile(file);
+      const label = ch.label || derived.title;
+      const subtitle = ch.subtitle || ch.chapterName || '';
       document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
       showChapterTitle(label, subtitle, ()=>{
         showScreen('game-screen');
         renderAffinity();
         lastBg=null;
-        // Reset opacités
         const dlg = document.getElementById('dialogue-wrap');
         if(dlg) dlg.style.opacity = '';
         const chw = document.getElementById('choices-wrap');
