@@ -50,6 +50,162 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 #screen-glitch{position:fixed;inset:0;pointer-events:none;z-index:9997;opacity:0;mix-blend-mode:screen}
 #screen-glitch.active{opacity:1;animation:rgbGlitch .5s steps(3) infinite alternate}
 @keyframes rgbGlitch{0%{background:linear-gradient(90deg,rgba(255,0,0,.10),transparent 40%),linear-gradient(-90deg,rgba(0,255,255,.08),transparent 40%);transform:translate(0,0)}50%{background:linear-gradient(90deg,transparent 60%,rgba(255,0,80,.12)),linear-gradient(-90deg,transparent 60%,rgba(0,255,180,.10));transform:translate(-2px,1px)}100%{background:linear-gradient(90deg,rgba(255,0,0,.08),transparent 30%,rgba(0,255,255,.08));transform:translate(2px,-1px)}}
+
+/* ══ BLOOD REALISM — vignette + gouttes réalistes ══ */
+#blood-realism-overlay{
+  position:fixed;inset:0;
+  pointer-events:none;
+  z-index:30;
+  opacity:0;
+  transition:opacity 1.5s ease;
+  overflow:hidden;
+  --level: 0;
+}
+#blood-realism-overlay.active{opacity:1}
+
+/* Vignette : assombrit les bords, laisse le centre clair */
+#blood-realism-overlay .vignette-layer{
+  position:absolute;inset:0;
+  box-shadow:
+    inset 0 0 calc(var(--level) * 1.6px) calc(var(--level) * 0.9px) rgba(60,0,0, calc(var(--level) / 100 * 0.9)),
+    inset 0 0 calc(var(--level) * 3.2px) calc(var(--level) * 1.8px) rgba(25,0,0, calc(var(--level) / 100 * 0.7));
+  transition:box-shadow 2.6s cubic-bezier(.4,0,.2,1);
+  pointer-events:none;
+}
+
+/* Bandeau supérieur : suinte comme une plaie au-dessus de l'écran */
+#blood-realism-overlay .top-wound{
+  position:absolute;
+  top:0;left:0;right:0;
+  height:0;
+  background:linear-gradient(to bottom,
+    rgba(70,0,0,.95) 0%,
+    rgba(100,0,5,.85) 40%,
+    rgba(60,0,0,.5) 80%,
+    transparent 100%);
+  transition:height 2.6s cubic-bezier(.4,0,.2,1);
+  pointer-events:none;
+  filter:blur(1px);
+}
+#blood-realism-overlay.active .top-wound{
+  height:calc(var(--level) * 0.6px);
+}
+
+.drips-layer{
+  position:absolute;inset:0;
+  overflow:hidden;
+}
+
+/* Une goutte individuelle */
+.real-drip{
+  position:absolute;
+  top:0;
+  width:var(--w, 5px);
+  height:var(--h, 0);
+  transform-origin:top center;
+  transition:height 2.6s cubic-bezier(.35,0,.25,1);
+  filter:drop-shadow(0 1px 2px rgba(0,0,0,.7));
+  will-change:height;
+}
+.real-drip .drip-body{
+  position:absolute;inset:0;
+  background:linear-gradient(to right,
+    rgba(40,0,0,.75) 0%,
+    rgba(75,0,5,.92) 18%,
+    rgba(120,0,12,.98) 45%,
+    rgba(105,0,10,.95) 72%,
+    rgba(40,0,0,.75) 100%);
+  border-radius:0 0 45% 45% / 0 0 6px 6px;
+  overflow:hidden;
+}
+.real-drip .drip-body::before{
+  /* reflet / brillance */
+  content:'';
+  position:absolute;
+  left:28%;right:28%;
+  top:6%;bottom:8%;
+  background:linear-gradient(to bottom,
+    rgba(200,40,50,.35) 0%,
+    rgba(180,30,40,.18) 40%,
+    transparent 85%);
+  border-radius:50%;
+  filter:blur(1.2px);
+  pointer-events:none;
+}
+.real-drip .drip-body::after{
+  /* assombrissement du bas (coagulation) */
+  content:'';
+  position:absolute;
+  left:0;right:0;bottom:0;
+  height:35%;
+  background:linear-gradient(to top,
+    rgba(35,0,0,.55),
+    transparent 100%);
+  pointer-events:none;
+}
+.real-drip .drip-splatter{
+  /* tache élargie en haut — comme un point d'attache */
+  position:absolute;
+  top:-4px;left:50%;
+  transform:translateX(-50%);
+  width:calc(var(--w, 5px) * 2.8);
+  height:12px;
+  background:radial-gradient(ellipse at 50% 40%,
+    rgba(120,0,12,.95) 0%,
+    rgba(70,0,0,.75) 55%,
+    transparent 90%);
+  border-radius:50%;
+  filter:blur(0.8px);
+  pointer-events:none;
+}
+.real-drip .drip-head{
+  /* goutte qui se forme au bout */
+  position:absolute;
+  bottom:-6px;left:50%;
+  transform:translateX(-50%);
+  width:calc(var(--w, 5px) * 2);
+  height:calc(var(--w, 5px) * 2.4);
+  background:radial-gradient(circle at 40% 30%,
+    rgba(190,25,35,.98) 0%,
+    rgba(130,0,15,.98) 35%,
+    rgba(75,0,5,.95) 70%,
+    rgba(40,0,0,.85) 100%);
+  border-radius:50%;
+  box-shadow:
+    0 1px 3px rgba(0,0,0,.6),
+    inset -1px -1px 2px rgba(50,0,0,.7),
+    inset 1px 1px 2px rgba(200,50,60,.35);
+  pointer-events:none;
+}
+.real-drip .drip-side{
+  /* petite coulure secondaire */
+  position:absolute;
+  top:25%;
+  left:calc(var(--w, 5px) - 1px);
+  width:calc(var(--w, 5px) * 0.55);
+  height:45%;
+  background:linear-gradient(to bottom,
+    rgba(90,0,5,.9) 0%,
+    rgba(70,0,0,.7) 100%);
+  border-radius:0 0 50% 50%;
+  transform:skewX(-10deg);
+  pointer-events:none;
+}
+
+/* Voile rouge final (dernière scène) */
+#blood-realism-overlay .final-red{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse at center,
+    rgba(130,0,5,.94) 0%,
+    rgba(90,0,0,.97) 45%,
+    rgba(50,0,0,1) 100%);
+  opacity:0;
+  transition:opacity 2.5s ease;
+  pointer-events:none;
+}
+#blood-realism-overlay .final-red.active{opacity:1}
+
+/* ══ POEM OVERLAY ══ */
 #poem-overlay{position:fixed;inset:0;z-index:80;background:rgba(5,3,8,.85);backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;opacity:0;transition:opacity .6s ease;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 #poem-overlay.active{display:flex;opacity:1;pointer-events:auto}
 .poem-parchment{background:linear-gradient(135deg,#f2e8d2 0%,#e2d2b0 100%);background-image:radial-gradient(circle at 15% 20%,rgba(180,150,110,.15) 0%,transparent 35%),radial-gradient(circle at 85% 80%,rgba(160,130,95,.18) 0%,transparent 40%),linear-gradient(135deg,#f2e8d2 0%,#e2d2b0 100%);max-width:520px;width:82%;max-height:82vh;padding:2.8rem 2.4rem;border-radius:3px;box-shadow:0 20px 60px rgba(0,0,0,.7),0 0 40px rgba(220,20,60,.15),inset 0 0 60px rgba(140,110,70,.15);position:relative;transform:scaleY(0) rotateX(80deg);transform-origin:top center;transition:transform 1s cubic-bezier(.2,.9,.3,1);perspective:1000px;overflow-y:auto}
@@ -271,7 +427,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 #char-img{max-height:calc(100vh * var(--char-scale));max-width:calc(60vw * var(--char-scale));object-fit:contain;filter:drop-shadow(0 0 30px rgba(0,0,0,.8))}
 @media(max-width:600px){#char-img{max-width:calc(100vw * var(--char-scale))}}
 @media(min-width:1200px){#char-img{max-width:calc(100vw * var(--char-scale))}}
-#hud{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:.8rem 1.2rem;z-index:10;background:linear-gradient(to bottom,rgba(0,0,0,.6),transparent)}
+#hud{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:.8rem 1.2rem;z-index:10;background:linear-gradient(to bottom,rgba(0,0,0,.6),transparent);transition:opacity .8s ease}
 .hud-left,.hud-right{display:flex;align-items:center;gap:.8rem}
 #affinity-wrap{display:flex;align-items:center;gap:.5rem}
 .affinity-icon{font-size:1.1rem;filter:drop-shadow(0 0 4px var(--crimson));transition:filter .5s}
@@ -280,7 +436,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 #affinity-val{font-family:'Cinzel',serif;font-size:.7rem;color:var(--mist);min-width:2.5rem;text-align:center;transition:color .5s}
 .hud-btn{background:rgba(10,10,15,.7);border:1px solid var(--box-border);color:var(--mist);cursor:pointer;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-size:.95rem;transition:all .2s;border-radius:2px}
 .hud-btn:hover{border-color:var(--crimson);color:var(--silver)}
-#dialogue-wrap{position:absolute;bottom:0;left:0;right:0;z-index:10;padding:0 1rem 1rem}
+#dialogue-wrap{position:absolute;bottom:0;left:0;right:0;z-index:10;padding:0 1rem 1rem;transition:opacity .8s ease}
 #dialogue-box{background:var(--box-bg);border:1px solid var(--box-border);border-radius:2px;backdrop-filter:blur(12px);overflow:hidden}
 #speaker-bar{padding:.4rem 1.2rem;border-bottom:1px solid var(--box-border);display:flex;align-items:center;gap:.5rem}
 #speaker-name{font-family:'Cinzel',serif;font-size:clamp(.75rem,2vw,.9rem);color:var(--crimson);letter-spacing:.15em}
@@ -292,7 +448,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 #btn-back-dialogue:hover{border-color:var(--crimson);color:var(--rose)}
 #dialogue-continue{color:var(--blood);font-size:.75rem;animation:blink 1.5s infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
-#choices-wrap{position:absolute;bottom:0;left:0;right:0;z-index:11;padding:0 1rem 1rem;display:none;flex-direction:column;gap:.6rem}
+#choices-wrap{position:absolute;bottom:0;left:0;right:0;z-index:11;padding:0 1rem 1rem;display:none;flex-direction:column;gap:.6rem;transition:opacity .8s ease}
 .choice-btn{background:var(--choice-bg);border:1px solid var(--box-border);color:var(--silver);padding:.9rem 1.5rem;font-family:'IM Fell English',serif;font-size:clamp(.85rem,2.2vw,1rem);cursor:pointer;text-align:left;transition:all .25s ease;backdrop-filter:blur(10px);border-radius:2px;position:relative;overflow:hidden}
 .choice-btn::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--crimson);transform:scaleY(0);transition:transform .2s}
 .choice-btn:hover{background:var(--choice-hover);border-color:rgba(220,20,60,.5);transform:translateX(4px)}
@@ -355,6 +511,14 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 <div id="fade-overlay"></div>
 <div id="affinity-delta"></div>
 <div id="screen-glitch"></div>
+
+<!-- BLOOD REALISM overlay -->
+<div id="blood-realism-overlay">
+  <div class="vignette-layer"></div>
+  <div class="top-wound"></div>
+  <div class="drips-layer"></div>
+  <div class="final-red"></div>
+</div>
 
 <div id="loading-screen" class="screen active">
   <div class="loading-inner">
@@ -664,10 +828,12 @@ const state = {
   _settingsFrom:'title-screen',
   bloodFadeScenesLeft: 0,
   poemActive: false,
-  titleCardActive: false
+  titleCardActive: false,
+  finalRedTransitioning: false
 };
 
 let chapterIndexCache = null;
+let bloodDripsInitialized = false;
 
 function t(k){return I18N.en[k];}
 
@@ -678,7 +844,7 @@ function syncDialogueHeight(){
   document.documentElement.style.setProperty('--dialogue-h',h+'px');
 }
 
-/* ══ EFFET SANG ══ */
+/* ══ EFFET SANG (splat) ══ */
 function rand(min,max){return min+Math.random()*(max-min);}
 function makeIrregularRadius(){
   return `${rand(30,70)}% ${rand(30,70)}% ${rand(30,70)}% ${rand(30,70)}% / ${rand(30,70)}% ${rand(30,70)}% ${rand(30,70)}% ${rand(30,70)}%`;
@@ -783,6 +949,107 @@ function advanceBloodFade(){
       }
     },1600);
   }
+}
+
+/* ══ BLOOD REALISM — gouttes réalistes + vignette progressive ══ */
+function createRealisticDrip(index, total){
+  const drip = document.createElement('div');
+  drip.className = 'real-drip';
+
+  // Position horizontale : répartie + variation
+  const basePos = (index + 0.5) / total * 100;
+  const pos = basePos + (Math.random() - 0.5) * 7;
+  drip.style.left = Math.max(2, Math.min(98, pos)) + '%';
+
+  // Largeur variable (2.5 à 10px)
+  const w = 2.5 + Math.random() * 7.5;
+  drip.style.setProperty('--w', w + 'px');
+
+  // Hauteur max (à 100% de level) — 18 à 70vh
+  const maxH = 18 + Math.random() * 52;
+  drip.style.setProperty('--max-h', maxH);
+
+  // Légère inclinaison pour l'irrégularité
+  const skew = (Math.random() - 0.5) * 6;
+  drip.style.transform = `skewX(${skew}deg)`;
+
+  // Délai pour que ça coule à des vitesses différentes
+  drip.style.transitionDelay = (Math.random() * 0.6) + 's';
+
+  // Contenu
+  const body = document.createElement('div');
+  body.className = 'drip-body';
+  drip.appendChild(body);
+
+  const splatter = document.createElement('div');
+  splatter.className = 'drip-splatter';
+  drip.appendChild(splatter);
+
+  const head = document.createElement('div');
+  head.className = 'drip-head';
+  drip.appendChild(head);
+
+  // Coulure secondaire (50% de chance)
+  if (Math.random() > 0.55) {
+    const side = document.createElement('div');
+    side.className = 'drip-side';
+    side.style.height = (25 + Math.random() * 40) + '%';
+    drip.appendChild(side);
+  }
+
+  // Certaines gouttes ont un "débit" plus petit en haut (rétrécissement)
+  // → var --w contrôlée
+  return drip;
+}
+
+function initBloodDrips(){
+  if (bloodDripsInitialized) return;
+  bloodDripsInitialized = true;
+  const container = document.querySelector('#blood-realism-overlay .drips-layer');
+  if (!container) return;
+  const count = 14;
+  for (let i = 0; i < count; i++) {
+    container.appendChild(createRealisticDrip(i, count));
+  }
+}
+
+function setBloodRealism(level){
+  const ov = document.getElementById('blood-realism-overlay');
+  if (!ov) return;
+  const lvl = Math.max(0, Math.min(100, Number(level) || 0));
+
+  if (lvl <= 0) {
+    clearBloodRealism();
+    return;
+  }
+
+  initBloodDrips();
+  ov.classList.add('active');
+  ov.style.setProperty('--level', lvl);
+
+  // Met à jour la hauteur de chaque goutte selon son --max-h
+  const drips = ov.querySelectorAll('.real-drip');
+  drips.forEach(d => {
+    const maxH = parseFloat(d.style.getPropertyValue('--max-h')) || 30;
+    const h = (maxH * lvl) / 100;
+    d.style.height = h + 'vh';
+  });
+}
+
+function setFinalRed(on){
+  const fr = document.querySelector('#blood-realism-overlay .final-red');
+  if (!fr) return;
+  if (on) fr.classList.add('active');
+  else fr.classList.remove('active');
+}
+
+function clearBloodRealism(){
+  const ov = document.getElementById('blood-realism-overlay');
+  if (!ov) return;
+  ov.classList.remove('active');
+  ov.style.setProperty('--level', 0);
+  ov.querySelectorAll('.real-drip').forEach(d => { d.style.height = '0'; });
+  setFinalRed(false);
 }
 
 /* ══ POEM OVERLAY ══ */
@@ -900,12 +1167,12 @@ async function loadChapterIndex(){
 }
 
 async function goToNextChapter(){
+  clearBloodRealism();
   const currentFile = (GAME_CONFIG.chapterFiles && GAME_CONFIG.chapterFiles[0]) || '';
   const index = await loadChapterIndex();
 
   if(!index.length){ triggerEnding(); return; }
 
-  // Trouve la position du chapitre courant
   let currentIdx = index.findIndex(ch => (ch.file||'') === currentFile);
   if(currentIdx === -1){
     const baseName = currentFile.replace('.json','');
@@ -919,7 +1186,6 @@ async function goToNextChapter(){
   const nextChapter = index[nextIdx];
   const nextFile = nextChapter.file || ('chapter'+(nextIdx+1)+'.json');
 
-  // Sauvegarde l'état
   try{
     const raw = localStorage.getItem(LS_KEY) || '{}';
     const d = JSON.parse(raw);
@@ -950,9 +1216,7 @@ async function goToNextChapter(){
     ? (nextChapter.subtitle || '')
     : (nextChapter.subtitle || nextChapter.chapterName || '');
 
-  // ⚠️ Cache TOUS les écrans avant d'afficher la carte
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-
   showChapterTitle(label, subtitle, ()=>{
     showScreen('game-screen');
     renderAffinity();
@@ -1263,6 +1527,19 @@ function renderScene(scene,fromBack){
     advanceBloodFade();
   }
 
+  // 🩸 Sang réaliste progressif
+  if(typeof scene.bloodRealism === 'number'){
+    setBloodRealism(scene.bloodRealism);
+  }
+
+  // Voile rouge final (peut être activé dès la scène)
+  if(scene.finalRed){
+    // On active le rouge en fondu si pas déjà en train de transitionner
+    if(!state.finalRedTransitioning){
+      setFinalRed(true);
+    }
+  }
+
   if(scene.type==='minigame'){
     triggerMinigame(scene,function(){
       if(scene.next&&scene.next!=='__ending__')navigateTo(scene.next);
@@ -1314,9 +1591,40 @@ function advance(){
   if(state.poemActive)return;
   if(state.titleCardActive)return;
   if(state.awaitingChoice)return;
+  if(state.finalRedTransitioning)return;
   const scene=state.scenes[state.sceneIndex];if(!scene)return;
   if(state.isTyping){skipTyping(scene.text||'');return;}
   if(state.pendingChoices){renderChoices(state.pendingChoices);state.pendingChoices=null;return;}
+
+  // 🩸 Dernière scène → écran devient 100% rouge, puis transition
+  if(scene.finalRed && scene.next === '__suite_suivante__'){
+    state.finalRedTransitioning = true;
+    setFinalRed(true);
+
+    // Le texte continue d'être lisible tant que le joueur ne clique pas.
+    // Une fois qu'il clique : on efface l'UI, on attend 2s, puis fade → chapitre suivant
+    const dlg = document.getElementById('dialogue-wrap');
+    const ch  = document.getElementById('choices-wrap');
+    const hud = document.getElementById('hud');
+    setTimeout(()=>{
+      if(dlg) dlg.style.opacity = '0';
+      if(ch)  ch.style.opacity  = '0';
+      if(hud) hud.style.opacity = '0';
+    }, 800);
+
+    setTimeout(()=>{
+      fadeTransition(()=>{
+        clearBloodRealism();
+        if(dlg) dlg.style.opacity = '';
+        if(ch)  ch.style.opacity  = '';
+        if(hud) hud.style.opacity = '';
+        state.finalRedTransitioning = false;
+        goToNextChapter();
+      });
+    }, 3200);
+    return;
+  }
+
   if(scene.next==='__ending__'){triggerEnding();return;}
   if(scene.next==='__suite_suivante__'){goToNextChapter();return;}
   if(scene.next)navigateTo(scene.next);
@@ -1537,6 +1845,7 @@ function openSettings(fromScreenId){
 
 function startGame(fromIdx){
   fromIdx=fromIdx||0;stopMusic();
+  clearBloodRealism();
   state.sceneIndex=fromIdx;lastBg=null;
   showScreen('game-screen');renderAffinity();renderScene(state.scenes[fromIdx]);
 }
@@ -1585,7 +1894,6 @@ document.getElementById('btn-start').addEventListener('click',()=>{
         const label = isPrologue ? 'Prologue' : 'Chapter 1';
         const subtitle = isPrologue ? '' : (GAME_CONFIG.firstChapterSubtitle || '');
         startIntroMusic();
-        // ⚠️ Cache l'écran titre AVANT la carte pour éviter le clignotement
         document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
         showChapterTitle(label, subtitle, startGameNow);
       } else {
@@ -1888,13 +2196,13 @@ function chLaunchChapter(ch,idx){
   fadeTransition(()=>{
     state.sceneIndex=0;
     state.navStack=[];
+    clearBloodRealism();
     const file=ch.file||('chapter'+(idx+1)+'.json');
     GAME_CONFIG.chapterFiles=[file];
     applyLang();
     Promise.all([loadChapters(),loadEndings()]).then(()=>{
       stopMusic();
       startIntroMusic();
-
       const isPrologue = String(file).toLowerCase().includes('prologue');
       const num = (ch && ch.number) || (idx + 1);
       const label = isPrologue
@@ -1903,8 +2211,6 @@ function chLaunchChapter(ch,idx){
       const subtitle = isPrologue
         ? (ch.subtitle || '')
         : (ch.subtitle || ch.chapterName || '');
-
-      // ⚠️ Cache l'écran chapitres AVANT la carte
       document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
       showChapterTitle(label, subtitle, ()=>{
         showScreen('game-screen');
