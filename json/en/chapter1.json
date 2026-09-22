@@ -1,42 +1,46 @@
 [
   {
     "id": "chapter1_1",
-    "bg": "images/backgrounds/school_hallway.webp",
+    "bg": null,
     "charImg": null,
     "speaker": null,
     "text": "A shiver runs through me.",
     "typeSpeed": 22,
-    "music": "music/day.mp3",
+    "music": "music/eyes.mp3",
+    "eyesEffect": true,
     "next": "chapter1_2"
   },
   {
     "id": "chapter1_2",
-    "bg": "images/backgrounds/school_hallway.webp",
+    "bg": null,
     "charImg": null,
     "speaker": null,
     "text": "That feeling again.",
     "typeSpeed": 22,
-    "music": "music/day.mp3",
+    "music": "music/eyes.mp3",
+    "eyesEffect": true,
     "next": "chapter1_3"
   },
   {
     "id": "chapter1_3",
-    "bg": "images/backgrounds/school_hallway.webp",
+    "bg": null,
     "charImg": null,
     "speaker": null,
     "text": "As if someone were watching me.",
     "typeSpeed": 22,
-    "music": "music/day.mp3",
+    "music": "music/eyes.mp3",
+    "eyesEffect": true,
     "next": "chapter1_4"
   },
   {
     "id": "chapter1_4",
-    "bg": "images/backgrounds/school_hallway.webp",
+    "bg": null,
     "charImg": null,
     "speaker": null,
     "text": "Even when I sleep, I can't seem to shake it.",
     "typeSpeed": 22,
-    "music": "music/day.mp3",
+    "music": "music/eyes.mp3",
+    "eyesEffect": true,
     "next": "chapter1_5"
   },
   {

@@ -173,6 +173,93 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 }
 #blood-realism-overlay .final-red.active{opacity:1}
 
+#eyes-overlay{
+  position:absolute;
+  inset:0;
+  z-index:1; /* ⚠️ au-dessus de game-bg (0), sous char-wrap (2) et dialogue (10) */
+  pointer-events:none;
+  opacity:0;
+  transition:opacity 1.2s ease;
+  background:linear-gradient(to bottom,
+    rgba(0,0,0,0.98) 0%,
+    rgba(0,0,0,0.95) 40%,
+    rgba(0,0,0,0.55) 65%,
+    transparent 100%);
+}
+#eyes-overlay.active{opacity:1;}
+.eyes-layer{position:absolute;inset:0;overflow:hidden;}
+
+.eye-unit{
+  position:absolute;
+  opacity:0;
+  transform:scale(.3);
+  transition:opacity .7s ease, transform .7s ease;
+  will-change:opacity, transform;
+}
+.eye-unit.visible{
+  opacity:1;
+  transform:scale(1);
+}
+.eye-drift{
+  animation:eyeDrift 10s ease-in-out infinite;
+  transform-origin:center;
+  will-change:transform;
+}
+.eye-shape{
+  position:relative;
+  width:var(--eye-w, 60px);
+  height:var(--eye-h, 30px);
+  border-radius:50% / 55% 55% 45% 45%;
+  background:radial-gradient(ellipse at 50% 40%,
+    #fff 0%,
+    #f0d0d0 30%,
+    #8B0000 65%,
+    #1a0000 100%);
+  box-shadow:
+    0 0 15px rgba(220,20,60,.65),
+    0 0 32px rgba(139,0,0,.45),
+    inset 0 0 8px rgba(0,0,0,.55);
+  transform-origin:center;
+  animation:eyeBlink 3.2s ease-in-out infinite;
+  will-change:transform;
+}
+.eye-shape::before{
+  content:'';
+  position:absolute;
+  top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  width:calc(var(--eye-w, 60px) * 0.36);
+  height:calc(var(--eye-w, 60px) * 0.36);
+  border-radius:50%;
+  background:radial-gradient(circle at 40% 35%,
+    #000 0%,
+    #200000 50%,
+    #8B0000 85%,
+    #4a0000 100%);
+}
+.eye-shape::after{
+  content:'';
+  position:absolute;
+  top:20%; left:28%;
+  width:22%; height:22%;
+  border-radius:50%;
+  background:rgba(255,210,210,.85);
+}
+
+@keyframes eyeBlink{
+  0%, 30%, 34% { transform:scaleY(1); }
+  32% { transform:scaleY(0.05); }
+  65%, 68% { transform:scaleY(1); }
+  66.5% { transform:scaleY(0.05); }
+  100% { transform:scaleY(1); }
+}
+@keyframes eyeDrift{
+  0%, 100%{ transform:translate(0, 0); }
+  25%{ transform:translate(5px, -3px); }
+  50%{ transform:translate(-4px, 4px); }
+  75%{ transform:translate(2px, 5px); }
+}
+
 #next-chapter-prompt{
   position:fixed;
   top:50%;left:50%;
@@ -529,6 +616,8 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
   <div class="final-red"></div>
 </div>
 
+
+
 <div id="next-chapter-prompt">
   <div class="next-chapter-prompt-text" id="next-chapter-prompt-text"></div>
   <div class="next-chapter-prompt-hint" id="next-chapter-prompt-hint"></div>
@@ -682,6 +771,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 
 <div id="game-screen" class="screen">
   <div id="game-bg"></div>
+  <div id="eyes-overlay">
+    <div class="eyes-layer"></div>
+  </div>
   <div id="blood-overlay"></div>
   <div id="char-wrap"><img id="char-img" src="" alt="" onerror="this.style.display='none'"></div>
   <div id="hud">
@@ -774,8 +866,6 @@ const GAME_CONFIG = {
   firstChapterSubtitle: ''
 };
 
-/* 🔒 Chapitres toujours verrouillés (même si débloqués en localStorage).
-   Vide ce tableau pour les rendre à nouveau contrôlables par le localStorage. */
 const FORCE_LOCKED_CHAPTERS = [];
 
 const SESSION_CODE_KEY = 'lmtd_code_ok';
@@ -1042,6 +1132,85 @@ function clearBloodRealism(){
   setFinalRed(false);
 }
 
+/* ══ EYES EFFECT — yeux qui observent dans le noir ══ */
+let _eyesActive = false;
+
+function triggerEyesEffect(){
+  const ov = document.getElementById('eyes-overlay');
+  const layer = ov ? ov.querySelector('.eyes-layer') : null;
+  if(!ov || !layer) return;
+  if(_eyesActive) return;
+  _eyesActive = true;
+
+  layer.innerHTML = '';
+  ov.classList.add('active');
+
+  const pairCount = 6 + Math.floor(Math.random() * 3); // 6 à 8 paires
+
+  const w = window.innerWidth;
+  const h = window.innerHeight;
+
+  let appearDelay = 0;
+  for(let i = 0; i < pairCount; i++){
+    const cx = (i + 0.5) / pairCount * w + (Math.random() - 0.5) * 80;
+    const cy = h * (0.10 + Math.random() * 0.28);
+
+    const size = 55 + Math.random() * 45;
+    const eyeW = size;
+    const eyeH = size * 0.5;
+    const gap = size * 1.3;
+    appearDelay += 0.15 + Math.random() * 0.25;
+
+    // 🎯 Timing de clignement UNIQUE pour cette PAIRE
+    // → les 2 yeux de la paire partagent ces valeurs
+    const pairBlinkSpeed = (2.6 + Math.random() * 2).toFixed(2);  // 2.6 à 4.6s
+    const pairBlinkDelay = (Math.random() * 3).toFixed(2);        // 0 à 3s
+
+    // 🎯 Dérive UNIQUE pour cette PAIRE aussi
+    const pairDriftSpeed = (8 + Math.random() * 5).toFixed(2);
+    const pairDriftDelay = (Math.random() * 3).toFixed(2);
+
+    [cx - gap/2, cx + gap/2].forEach(ex => {
+      const unit = document.createElement('div');
+      unit.className = 'eye-unit';
+      unit.style.left = ex + 'px';
+      unit.style.top = cy + 'px';
+      unit.style.setProperty('--eye-w', eyeW + 'px');
+      unit.style.setProperty('--eye-h', eyeH + 'px');
+      unit.style.transitionDelay = appearDelay + 's';
+
+      const drift = document.createElement('div');
+      drift.className = 'eye-drift';
+      drift.style.animationDelay = pairDriftDelay + 's';
+      drift.style.animationDuration = pairDriftSpeed + 's';
+
+      const eye = document.createElement('div');
+      eye.className = 'eye-shape';
+      eye.style.animationDelay = pairBlinkDelay + 's';
+      eye.style.animationDuration = pairBlinkSpeed + 's';
+
+      drift.appendChild(eye);
+      unit.appendChild(drift);
+      layer.appendChild(unit);
+
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        unit.classList.add('visible');
+      }));
+    });
+  }
+}
+
+function clearEyesEffect(){
+  if(!_eyesActive) return;
+  _eyesActive = false;
+  const ov = document.getElementById('eyes-overlay');
+  const layer = ov ? ov.querySelector('.eyes-layer') : null;
+  if(ov) ov.classList.remove('active');
+  if(layer){
+    setTimeout(()=>{ layer.innerHTML = ''; }, 1800);
+  }
+}
+
 /* ══ CLEANUP : efface tout résidu du game screen ══ */
 function clearGameScreen(){
   const gb = document.getElementById('game-bg');
@@ -1060,7 +1229,6 @@ function clearGameScreen(){
   _lastCharSrc = null;
 }
 
-/* 🆕 Vérifie si un chapitre est débloqué (avec blocage forcé) */
 function isChapterUnlocked(id){
   if(!id) return false;
   if(FORCE_LOCKED_CHAPTERS.includes(id)) return false;
@@ -1074,11 +1242,11 @@ function isChapterUnlocked(id){
   return false;
 }
 
-/* 🆕 Retour propre au titre */
 function returnToTitle(){
   fadeTransition(()=>{
     clearGameScreen();
     clearBloodRealism();
+    clearEyesEffect();
     state.finalRedTransitioning = false;
     state.nextChapterPromptActive = false;
     resetTitleAnimations();
@@ -1089,7 +1257,6 @@ function returnToTitle(){
   });
 }
 
-/* ══ NEXT CHAPTER PROMPT ══ */
 async function showNextChapterPrompt(){
   const prompt = document.getElementById('next-chapter-prompt');
   const txt = document.getElementById('next-chapter-prompt-text');
@@ -1149,7 +1316,6 @@ async function showNextChapterPrompt(){
   prompt.addEventListener('touchend', handleClick, {passive:false});
 }
 
-/* ══ POEM OVERLAY ══ */
 function showPoem(scene, onDone){
   const ov=document.getElementById('poem-overlay');
   const lines=document.getElementById('poem-lines');
@@ -1199,7 +1365,6 @@ function showPoem(scene, onDone){
   ov.addEventListener('touchend',close,{passive:false});
 }
 
-/* ══ CHAPTER TITLE CARD ══ */
 function showChapterTitle(label, subtitle, callback){
   const screen = document.getElementById('chapter-title-screen');
   const labelEl = document.getElementById('ch-title-label');
@@ -1237,7 +1402,6 @@ function showChapterTitle(label, subtitle, callback){
   setTimeout(advance, 4500);
 }
 
-/* ══ CHAÎNAGE DES CHAPITRES ══ */
 async function loadChapterIndex(){
   if(chapterIndexCache) return chapterIndexCache;
   try{
@@ -1267,6 +1431,7 @@ function getChapterBadgeFromFile(file){
 
 async function goToNextChapter(){
   clearBloodRealism();
+  clearEyesEffect();
   const currentFile = (GAME_CONFIG.chapterFiles && GAME_CONFIG.chapterFiles[0]) || '';
   const index = await loadChapterIndex();
 
@@ -1324,7 +1489,6 @@ async function goToNextChapter(){
   });
 }
 
-/* ══ VOLUME ══ */
 function loadVolumeFromStorage(){
   try{
     const v=parseFloat(localStorage.getItem(LS_VOL_KEY));
@@ -1354,7 +1518,6 @@ function applyVolumeEverywhere(){
 function setVolume(v){state.volume=Math.max(0,Math.min(1,v));applyVolumeEverywhere();}
 function toggleMute(){state.muted=!state.muted;applyVolumeEverywhere();}
 
-/* ══ CODE SECRET ══ */
 function initCodeScreen(){
   const L=I18N.en;
   const input=document.getElementById('code-input');
@@ -1387,7 +1550,6 @@ function initCodeScreen(){
   btnEl.addEventListener('click',validateCode);
 }
 
-/* ══ LANG ══ */
 function applyLang(){
   const L=I18N.en;
   document.getElementById('loading-label').textContent=L.loading;
@@ -1430,7 +1592,6 @@ function applyLang(){
   }
 }
 
-/* ══ PRELOAD — charge TOUTES les images du jeu ══ */
 function checkHasSave(){
   try{const d=JSON.parse(localStorage.getItem(LS_KEY)||'{}');return d.firstTime===false;}catch(e){return false;}
 }
@@ -1541,7 +1702,6 @@ async function loadEndings(){
   }
 }
 
-/* ══ SAVE / LOAD ══ */
 function saveGame(){
   try{
     localStorage.setItem(LS_KEY,JSON.stringify({
@@ -1581,7 +1741,6 @@ function resetGame(){
   location.reload();
 }
 
-/* ══ SCREENS ══ */
 function resetTitleAnimations(){
   const screen=document.getElementById('title-screen');
   ['.title-sub','.title-main','.title-line','.title-btns'].forEach(sel=>{
@@ -1594,7 +1753,6 @@ function resetTitleAnimations(){
 function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
 function fadeTransition(cb){const fo=document.getElementById('fade-overlay');fo.classList.add('fade-in');setTimeout(()=>{cb();setTimeout(()=>fo.classList.remove('fade-in'),100);},500);}
 
-/* ══ AFFINITY ══ */
 function updateAffinity(d){if(!d)return;state.affinity=Math.max(-100,Math.min(100,state.affinity+d));renderAffinity();showAffinityDelta(d);}
 function renderAffinity(){
   const aff=state.affinity;
@@ -1613,7 +1771,6 @@ function showAffinityDelta(d){
   el.style.color=d>0?'var(--crimson)':'#9333ea';void el.offsetWidth;el.className='show';
 }
 
-/* ══ AUDIO ══ */
 const bgm=document.getElementById('bgm');
 setInterval(()=>{
   if(!bgm.paused&&bgm.src&&bgm.duration){
@@ -1641,7 +1798,6 @@ function playMusic(src){
 }
 function stopMusic(){bgm.pause();bgm.src='';state.currentMusic=null;}
 
-/* ══ BG / CHAR ══ */
 async function setBg(src){
   if(!src || src===lastBg) return;
   await preloadImage(src);
@@ -1665,7 +1821,6 @@ async function setCharacter(img){
   requestAnimationFrame(syncDialogueHeight);
 }
 
-/* ══ TYPEWRITER ══ */
 const DEFAULT_TYPE_SPEED=22;
 function typeText(el,text,speed,onDone){
   el.textContent='';state.isTyping=true;let i=0;
@@ -1678,7 +1833,6 @@ function typeText(el,text,speed,onDone){
 }
 function skipTyping(text){if(state.typing){clearInterval(state.typing);state.typing=null;}state.isTyping=false;document.getElementById('dialogue-text').textContent=text;}
 
-/* ══ HISTORY ══ */
 function addToHistory(sp,tx,ic){state.history.push({speaker:sp,text:tx,isChoice:ic});}
 function renderHistory(){
   const list=document.getElementById('history-list');list.innerHTML='';
@@ -1690,7 +1844,6 @@ function renderHistory(){
   list.scrollTop=list.scrollHeight;
 }
 
-/* ══ BACK ══ */
 function updateBackBtn(){
   const b=document.getElementById('btn-back-dialogue');
   state.navStack.length>0&&!state.awaitingChoice?b.classList.add('visible'):b.classList.remove('visible');
@@ -1703,7 +1856,6 @@ document.getElementById('btn-back-dialogue').addEventListener('click',()=>{
   state.sceneIndex=entry.sceneIndex;renderScene(state.scenes[entry.sceneIndex],true);
 });
 
-/* ══ SCENES ══ */
 function getSceneIndex(id){return state.scenes.findIndex(s=>s.id===id);}
 function renderScene(scene,fromBack){
   if(!scene){triggerEnding();return;}
@@ -1716,6 +1868,12 @@ function renderScene(scene,fromBack){
 
   if(typeof scene.bloodRealism === 'number'){
     setBloodRealism(scene.bloodRealism);
+  }
+
+  if(scene.eyesEffect === true){
+    triggerEyesEffect();
+  } else {
+    clearEyesEffect();
   }
 
   if(scene.type==='minigame'){
@@ -1782,7 +1940,6 @@ function advance(){
 
     setTimeout(()=>{ stopMusic(); }, 1200);
 
-    // 🆕 Auto-débloque le chapitre suivant AVANT d'afficher le prompt
     (async () => {
       try{
         const index = await loadChapterIndex();
@@ -1846,7 +2003,6 @@ function renderChoices(choices){
   requestAnimationFrame(syncDialogueHeight);
 }
 
-/* ══ ENDING ══ */
 async function triggerEnding(){
   const aff=state.affinity;
   const endingType=aff>=0?'good':'bad';
@@ -1870,7 +2026,6 @@ async function triggerEnding(){
   else playMusic(endingType==='bad'?'music/bad_ending.mp3':'music/true_ending.mp3');
 }
 
-/* ══ MINIGAME ══ */
 function triggerMinigame(scene,onComplete){
   const file=scene.minigameFile||('minigames/'+(scene.name||scene.minigame)+'.html');
   const ov=document.getElementById('minigame-overlay'),frm=document.getElementById('minigame-frame');
@@ -1882,7 +2037,6 @@ function triggerMinigame(scene,onComplete){
   frm.src=file;ov.style.display='block';
 }
 
-/* ══ EXPORT / IMPORT / RESET ══ */
 function exportData(){
   try{
     const data={
@@ -1955,7 +2109,6 @@ document.getElementById('game-popup-overlay').addEventListener('click',e=>{
   if(e.target===document.getElementById('game-popup-overlay'))closeGamePopup();
 });
 
-/* ══ CREDITS ══ */
 function openCredits(){
   const L=I18N.en;
   document.getElementById('policy-header').textContent=L.policyHeader;
@@ -1987,7 +2140,6 @@ function closeCredits(){
   fadeTransition(()=>showScreen('settings-screen'));
 }
 
-/* ══ SHARE ══ */
 document.addEventListener('DOMContentLoaded',()=>{
   const shareBtn=document.getElementById('share-link-btn');
   if(shareBtn){
@@ -2005,7 +2157,6 @@ document.addEventListener('DOMContentLoaded',()=>{
   }
 });
 
-/* ══ SETTINGS PETALS ══ */
 function spawnSettingsPetals(){
   const container=document.getElementById('settings-petals-container');
   if(!container||container.dataset.spawned)return;
@@ -2034,6 +2185,7 @@ function openSettings(fromScreenId){
 function startGame(fromIdx){
   fromIdx=fromIdx||0;stopMusic();
   clearBloodRealism();
+  clearEyesEffect();
   state.sceneIndex=fromIdx;
   state.finalRedTransitioning=false;
   state.nextChapterPromptActive=false;
@@ -2043,7 +2195,6 @@ function startGame(fromIdx){
   renderScene(state.scenes[fromIdx]);
 }
 
-/* ══ BOOT ══ */
 async function boot(){
   loadVolumeFromStorage();
   state.lang='en';
@@ -2069,9 +2220,7 @@ async function boot(){
   }
 }
 
-/* ══ EVENTS — TITLE ══ */
 document.getElementById('btn-start').addEventListener('click',async()=>{
-  // Pas de save → écran de politique (première fois)
   const rawSave = localStorage.getItem(LS_KEY);
   if(!rawSave){
     fadeTransition(()=>showScreen('policy-screen'));
@@ -2088,7 +2237,6 @@ document.getElementById('btn-start').addEventListener('click',async()=>{
 
   applyLang();
 
-  // 🎯 Détecte si c'est BEGIN (nouvelle partie) ou CONTINUE (reprise)
   const isFreshGame = saveData.sceneIndex === 0
                    && (!saveData.navStack || saveData.navStack.length === 0)
                    && !saveData.targetChapterFile;
@@ -2099,8 +2247,6 @@ document.getElementById('btn-start').addEventListener('click',async()=>{
     return;
   }
 
-  // 🆕 Si CONTINUE → on reprend là où on était
-  // 🆕 Si BEGIN  → on repart du premier chapitre (prologue)
   let targetFile;
   if(isFreshGame){
     const firstEntry = index[0];
@@ -2111,8 +2257,7 @@ document.getElementById('btn-start').addEventListener('click',async()=>{
     state.affinity = 0;
   } else {
     targetFile = saveData.targetChapterFile || (index[0].file || 'prologue.json');
-    // sceneIndex/navStack/affinity/history sont déjà restaurés par loadSave()
-    loadSave(); // recharge tout depuis localStorage
+    loadSave();
   }
 
   GAME_CONFIG.chapterFiles = [targetFile];
@@ -2141,7 +2286,6 @@ document.getElementById('btn-start').addEventListener('click',async()=>{
     });
   };
 
-  // Si c'est une reprise en cours de partie (pas au tout début du chapitre), on saute le titre
   const isResumingMidChapter = !isFreshGame && (state.sceneIndex > 0 || (state.navStack && state.navStack.length > 0));
 
   if(isResumingMidChapter){
@@ -2167,7 +2311,6 @@ document.getElementById('btn-settings-close').addEventListener('click',()=>{
 document.getElementById('settings-vol-slider').addEventListener('input',e=>{setVolume(parseFloat(e.target.value));});
 document.getElementById('settings-mute-btn').addEventListener('click',()=>{toggleMute();});
 
-/* ══ EVENTS — POLICY ══ */
 const policyScroll=document.getElementById('policy-scroll');
 policyScroll.addEventListener('scroll',()=>{
   if(document.getElementById('policy-screen').dataset.infoMode==='1')return;
@@ -2185,7 +2328,6 @@ document.getElementById('btn-accept').addEventListener('click',async()=>{
   fadeTransition(()=>showScreen('title-screen'));
 });
 
-/* ══ EVENTS — GAME ══ */
 document.getElementById('dialogue-box').addEventListener('click',e=>{if(e.target.id==='btn-back-dialogue')return;advance();});
 document.getElementById('game-bg').addEventListener('click',advance);
 document.getElementById('char-wrap').addEventListener('click',advance);
@@ -2225,7 +2367,6 @@ volSlider.addEventListener('input',()=>{setVolume(parseFloat(volSlider.value));}
 const btnMute=document.getElementById('btn-mute');
 btnMute.addEventListener('click',()=>{toggleMute();});
 
-/* ══ PARTICLES + RIPPLE + KEYBOARD ══ */
 (function(){
   const c=document.getElementById('particles'),colors=['#DC143C','#8B0000','#FF6B8A','#C9A84C'];
   for(let i=0;i<20;i++){
@@ -2275,7 +2416,6 @@ document.addEventListener('keydown',e=>{
   }
 });
 
-/* ══ CHAPTERS ══ */
 const CH_LS_CHAPTERS='lmtd_chapters_v1';
 const CH_LS_ENDINGS_SEEN='lmtd_endings_seen_v1';
 const chState={chaptersData:[],goodEndings:[],badEndings:[],unlockedChapters:new Set(),seenEndings:new Set(),loaded:false};
@@ -2504,6 +2644,7 @@ function chLaunchChapter(ch,idx){
     state.finalRedTransitioning=false;
     state.nextChapterPromptActive=false;
     clearBloodRealism();
+    clearEyesEffect();
     clearGameScreen();
 
     const file=ch.file||('chapter'+(idx+1)+'.json');
