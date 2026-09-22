@@ -667,7 +667,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
     <div class="policy-progress"><div class="policy-progress-bar" id="policy-bar"></div></div>
     <div class="policy-footer">
       <span class="policy-hint" id="policy-hint">Scroll to the bottom to accept</span>
-     <button class="btn-accept" id="btn-accept" type="button">Just Chippy (OK)</button>
+      <button class="btn-accept" id="btn-accept" type="button">Just Chippy (OK)</button>
     </div>
   </div>
 </div>
@@ -776,7 +776,7 @@ const GAME_CONFIG = {
 
 /* 🔒 Chapitres toujours verrouillés (même si débloqués en localStorage).
    Vide ce tableau pour les rendre à nouveau contrôlables par le localStorage. */
-const FORCE_LOCKED_CHAPTERS = ['chapter1'];
+const FORCE_LOCKED_CHAPTERS = [];
 
 const SESSION_CODE_KEY = 'lmtd_code_ok';
 function isCodeValidated(){try{return sessionStorage.getItem(SESSION_CODE_KEY)==='1';}catch(e){return false;}}
@@ -787,7 +787,7 @@ const I18N = {
     loading:'Loading', titleSub:'— a visual novel —', btnBegin:'BEGIN', btnContinue:'CONTINUE',
     btnChapters:'&#9830; CHAPTERS', btnSettings:'&#9881; SETTINGS',
     policyHeader:'My dear Etoile, please read', policyHint:'Scroll to the bottom to accept',
-  btnAccept:'Just Chippy (OK)', btnBack:'\u25C2 BACK', btnResume:'RESUME', btnSaveQuit:'SAVE & QUIT',
+    btnAccept:'Just Chippy (OK)', btnBack:'\u25C2 BACK', btnResume:'RESUME', btnSaveQuit:'SAVE & QUIT',
     btnRestart:'RESTART FROM BEGINNING', btnRestartEnd:'RESTART', musicLabel:'MUSIC',
     historyTitle:'DIALOGUE HISTORY', helpTitle:'HOW TO PLAY', helpClose:'CLOSE',
     codePrompt:'Enter the secret code to begin',
@@ -817,7 +817,7 @@ const I18N = {
     confirmRestartEnd:'Restart the game?',
     youLabel:'You', systemLabel:'— System —',
     systemFallback:'No JSON file found. Place your scene files in the json/en/ folder to begin.',
-       policyContent:`
+    policyContent:`
       <h3>CREDITS</h3>
       <p>It's just you, Etoile, who's coming here — so no need for a big credits section. But if you ask me to, I'll make one.</p>
       <h3>HOW TO PLAY</h3>
@@ -828,7 +828,8 @@ const I18N = {
       <p>The site saves your progress through your browser's cache. To avoid losing your progress by accident, don't forget to make a local backup in the settings.</p>
       <div class="credits">
         <p style="margin-top:1rem;color:var(--crimson)">\u2665 And don't forget: I love you very much, Etoile. \u2665</p>
-      </div>`}
+      </div>`
+  }
 };
 
 const LS_KEY='lmtd_save_v3';
@@ -1435,10 +1436,8 @@ function preloadImage(src){return new Promise(res=>{if(!src)return res();const i
 async function collectAllImagePaths(){
   const set = new Set();
 
-  // 1) Images de GAME_CONFIG
   (GAME_CONFIG.preloadImages || []).forEach(s => { if(s) set.add(s); });
 
-  // 2) Chapter index + images de cartes + tous les bg/charImg de chaque chapitre
   let chapterIndex = [];
   try {
     const r = await fetch('json/chapterIndex.json?v='+Date.now(), {cache:'no-store'});
@@ -1474,7 +1473,6 @@ async function preloadAssets(){
   const label = document.getElementById('loading-pct');
   const detail = document.getElementById('loading-detail');
 
-  // Étape 1 : collecter toutes les images
   if(detail) detail.textContent = 'Scanning chapters…';
   bar.style.width = '2%';
   label.textContent = '0%';
@@ -1493,7 +1491,6 @@ async function preloadAssets(){
     return;
   }
 
-  // Étape 2 : précharger toutes les images
   if(detail) detail.textContent = 'Loading images (0 / '+list.length+')…';
 
   let loaded = 0;
@@ -1509,7 +1506,7 @@ async function preloadAssets(){
   await Promise.all(list.map(src => new Promise(resolve => {
     const img = new Image();
     img.onload = () => { update(); resolve(); };
-    img.onerror = () => { update(); resolve(); }; // continue même si erreur
+    img.onerror = () => { update(); resolve(); };
     img.src = src;
   })));
 
@@ -1782,9 +1779,32 @@ function advance(){
 
     setTimeout(()=>{ stopMusic(); }, 1200);
 
-    setTimeout(()=>{
-      showNextChapterPrompt();
-    }, 2600);
+    // 🆕 Auto-débloque le chapitre suivant avant d'afficher le prompt
+    (async () => {
+      try{
+        const index = await loadChapterIndex();
+        const currentFile = GAME_CONFIG.chapterFiles[0] || '';
+        let currentIdx = index.findIndex(ch => (ch.file||'') === currentFile);
+        if(currentIdx === -1){
+          const baseName = currentFile.replace('.json','');
+          currentIdx = index.findIndex(ch => (ch.id||'') === baseName);
+        }
+        if(currentIdx === -1) currentIdx = 0;
+        const next = index[currentIdx + 1];
+        if(next && next.id){
+          // Ajoute au localStorage → débloque pour de bon
+          chLoadUnlocked();
+          chState.unlockedChapters.add(next.id);
+          try{
+            localStorage.setItem(CH_LS_CHAPTERS, JSON.stringify([...chState.unlockedChapters]));
+          }catch(e){}
+        }
+      }catch(e){ console.warn('auto-unlock failed', e); }
+
+      setTimeout(()=>{
+        showNextChapterPrompt();
+      }, 1400);
+    })();
     return;
   }
 
@@ -2027,7 +2047,6 @@ async function boot(){
   applyLang();
   applyVolumeEverywhere();
 
-  // 🆕 Préchargement COMPLET avant d'afficher quoi que ce soit
   await preloadAssets();
 
   syncDialogueHeight();
@@ -2048,41 +2067,61 @@ async function boot(){
 }
 
 /* ══ EVENTS — TITLE ══ */
-document.getElementById('btn-start').addEventListener('click',()=>{
+document.getElementById('btn-start').addEventListener('click',async()=>{
   const saved=loadSave();
-  if(saved && !state.firstTime){
-    applyLang();
-    Promise.all([loadChapters(),loadEndings()]).then(()=>{
-      const file = GAME_CONFIG.chapterFiles[0] || '';
-      const isFreshStart = state.sceneIndex === 0 && state.navStack.length === 0;
+  if(!saved || state.firstTime){
+    fadeTransition(()=>showScreen('policy-screen'));
+    return;
+  }
 
-      const startGameNow = ()=>{
-        fadeTransition(()=>{
-          stopMusic();
-          showScreen('game-screen');
-          renderAffinity();
-          clearGameScreen();
-          const scene=state.scenes[state.sceneIndex]||state.scenes[0];
-          renderScene(scene);
-        });
-      };
+  applyLang();
 
-      if(isFreshStart){
-        const derived = getChapterBadgeFromFile(file);
-        const label = derived.title;
-        const subtitle = GAME_CONFIG.firstChapterSubtitle || '';
-        startIntroMusic();
+  // 🆕 Vérifie que le chapitre cible est jouable.
+  // Si ce n'est pas le 1er chapitre ET qu'il n'est pas débloqué
+  // → on force le retour au premier chapitre (prologue).
+  const index = await loadChapterIndex();
+  const targetFile = GAME_CONFIG.chapterFiles[0] || '';
+  const targetEntry = index.find(ch => (ch.file||'') === targetFile);
+  const targetId = targetEntry ? targetEntry.id : String(targetFile).replace(/\.json$/i,'');
+  const isFirstChapter = index.length > 0 && index[0].file === targetFile;
 
-        fadeTransition(()=>{
-          document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-          showChapterTitle(label, subtitle, startGameNow);
-        });
-      } else {
-        startGameNow();
-      }
+  if(!isFirstChapter && !isChapterUnlocked(targetId)){
+    const firstFile = (index[0] && index[0].file) || 'prologue.json';
+    GAME_CONFIG.chapterFiles = [firstFile];
+    state.sceneIndex = 0;
+    state.navStack = [];
+    state.history = [];
+    state.affinity = 0;
+  }
+
+  await Promise.all([loadChapters(),loadEndings()]);
+
+  const file = GAME_CONFIG.chapterFiles[0] || '';
+  const isFreshStart = state.sceneIndex === 0 && state.navStack.length === 0;
+
+  const startGameNow = ()=>{
+    fadeTransition(()=>{
+      stopMusic();
+      showScreen('game-screen');
+      renderAffinity();
+      clearGameScreen();
+      const scene = state.scenes[state.sceneIndex] || state.scenes[0];
+      renderScene(scene);
+    });
+  };
+
+  if(isFreshStart){
+    const derived = getChapterBadgeFromFile(file);
+    const label = derived.title;
+    const subtitle = GAME_CONFIG.firstChapterSubtitle || '';
+    startIntroMusic();
+
+    fadeTransition(()=>{
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      showChapterTitle(label, subtitle, startGameNow);
     });
   } else {
-    fadeTransition(()=>showScreen('policy-screen'));
+    startGameNow();
   }
 });
 document.getElementById('btn-chapters').addEventListener('click',()=>{openChaptersScreen();});
