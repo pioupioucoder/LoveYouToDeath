@@ -1114,6 +1114,9 @@ async function showNextChapterPrompt(){
   if(hasNext && nextUnlocked){
     txt.textContent = 'Click to see the next chapter';
     hint.textContent = 'tap to continue';
+  } else if(hasNext){
+    txt.textContent = 'Chapter locked';
+    hint.textContent = 'tap to return home';
   } else {
     txt.textContent = 'Return';
     hint.textContent = 'tap to return home';
@@ -1779,7 +1782,7 @@ function advance(){
 
     setTimeout(()=>{ stopMusic(); }, 1200);
 
-    // 🆕 Auto-débloque le chapitre suivant avant d'afficher le prompt
+    // 🆕 Auto-débloque le chapitre suivant AVANT d'afficher le prompt
     (async () => {
       try{
         const index = await loadChapterIndex();
@@ -1792,11 +1795,11 @@ function advance(){
         if(currentIdx === -1) currentIdx = 0;
         const next = index[currentIdx + 1];
         if(next && next.id){
-          // Ajoute au localStorage → débloque pour de bon
           chLoadUnlocked();
           chState.unlockedChapters.add(next.id);
           try{
             localStorage.setItem(CH_LS_CHAPTERS, JSON.stringify([...chState.unlockedChapters]));
+            console.log('✅ Auto-unlocked:', next.id);
           }catch(e){}
         }
       }catch(e){ console.warn('auto-unlock failed', e); }
@@ -2068,60 +2071,86 @@ async function boot(){
 
 /* ══ EVENTS — TITLE ══ */
 document.getElementById('btn-start').addEventListener('click',async()=>{
-  const saved=loadSave();
-  if(!saved || state.firstTime){
+  // Pas de save → écran de politique (première fois)
+  const rawSave = localStorage.getItem(LS_KEY);
+  if(!rawSave){
+    fadeTransition(()=>showScreen('policy-screen'));
+    return;
+  }
+
+  let saveData = null;
+  try{ saveData = JSON.parse(rawSave); }catch(e){ saveData = null; }
+
+  if(!saveData || saveData.firstTime !== false){
     fadeTransition(()=>showScreen('policy-screen'));
     return;
   }
 
   applyLang();
 
-  // 🆕 Vérifie que le chapitre cible est jouable.
-  // Si ce n'est pas le 1er chapitre ET qu'il n'est pas débloqué
-  // → on force le retour au premier chapitre (prologue).
-  const index = await loadChapterIndex();
-  const targetFile = GAME_CONFIG.chapterFiles[0] || '';
-  const targetEntry = index.find(ch => (ch.file||'') === targetFile);
-  const targetId = targetEntry ? targetEntry.id : String(targetFile).replace(/\.json$/i,'');
-  const isFirstChapter = index.length > 0 && index[0].file === targetFile;
+  // 🎯 Détecte si c'est BEGIN (nouvelle partie) ou CONTINUE (reprise)
+  const isFreshGame = saveData.sceneIndex === 0
+                   && (!saveData.navStack || saveData.navStack.length === 0)
+                   && !saveData.targetChapterFile;
 
-  if(!isFirstChapter && !isChapterUnlocked(targetId)){
-    const firstFile = (index[0] && index[0].file) || 'prologue.json';
-    GAME_CONFIG.chapterFiles = [firstFile];
+  const index = await loadChapterIndex();
+  if(!index.length){
+    console.warn('chapterIndex.json is empty');
+    return;
+  }
+
+  // 🆕 Si CONTINUE → on reprend là où on était
+  // 🆕 Si BEGIN  → on repart du premier chapitre (prologue)
+  let targetFile;
+  if(isFreshGame){
+    const firstEntry = index[0];
+    targetFile = firstEntry.file || 'prologue.json';
     state.sceneIndex = 0;
     state.navStack = [];
     state.history = [];
     state.affinity = 0;
+  } else {
+    targetFile = saveData.targetChapterFile || (index[0].file || 'prologue.json');
+    // sceneIndex/navStack/affinity/history sont déjà restaurés par loadSave()
+    loadSave(); // recharge tout depuis localStorage
   }
 
-  await Promise.all([loadChapters(),loadEndings()]);
+  GAME_CONFIG.chapterFiles = [targetFile];
+  state.finalRedTransitioning = false;
+  state.nextChapterPromptActive = false;
 
-  const file = GAME_CONFIG.chapterFiles[0] || '';
-  const isFreshStart = state.sceneIndex === 0 && state.navStack.length === 0;
+  await Promise.all([loadChapters(), loadEndings()]);
 
-  const startGameNow = ()=>{
-    fadeTransition(()=>{
+  const entry = index.find(ch => (ch.file||'') === targetFile) || index[0];
+  const derived = getChapterBadgeFromFile(targetFile);
+  const label = entry.title || derived.title;
+  const subtitle = entry.subtitle || GAME_CONFIG.firstChapterSubtitle || '';
+
+  startIntroMusic();
+
+  const startNow = ()=>{
+    fadeTransition(() => {
       stopMusic();
       showScreen('game-screen');
       renderAffinity();
       clearGameScreen();
-      const scene = state.scenes[state.sceneIndex] || state.scenes[0];
+      const sceneIdx = Math.max(0, Math.min(state.scenes.length-1, state.sceneIndex || 0));
+      const scene = state.scenes[sceneIdx] || state.scenes[0];
+      state.sceneIndex = sceneIdx;
       renderScene(scene);
     });
   };
 
-  if(isFreshStart){
-    const derived = getChapterBadgeFromFile(file);
-    const label = derived.title;
-    const subtitle = GAME_CONFIG.firstChapterSubtitle || '';
-    startIntroMusic();
+  // Si c'est une reprise en cours de partie (pas au tout début du chapitre), on saute le titre
+  const isResumingMidChapter = !isFreshGame && (state.sceneIndex > 0 || (state.navStack && state.navStack.length > 0));
 
+  if(isResumingMidChapter){
+    startNow();
+  } else {
     fadeTransition(()=>{
       document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-      showChapterTitle(label, subtitle, startGameNow);
+      showChapterTitle(label, subtitle, startNow);
     });
-  } else {
-    startGameNow();
   }
 });
 document.getElementById('btn-chapters').addEventListener('click',()=>{openChaptersScreen();});
@@ -2484,7 +2513,7 @@ function chLaunchChapter(ch,idx){
       stopMusic();
       startIntroMusic();
       const derived = getChapterBadgeFromFile(file);
-      const label = ch.label || derived.title;
+      const label = ch.label || ch.title || derived.title;
       const subtitle = ch.subtitle || ch.chapterName || '';
       document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
       showChapterTitle(label, subtitle, ()=>{
