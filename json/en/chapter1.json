@@ -48,7 +48,7 @@
     "bg": "images/backgrounds/school_hallway.webp",
     "charImg": null,
     "speaker": null,
-    "text": "Sunlight streams through the large windows of the school, spilling across the hallway. I walk quickly toward my locker, glancing around every now and then without really knowing why.",
+    "text": "Sunlight streams through the large windows of the school, spilling across the hallway. ",
     "typeSpeed": 22,
     "music": "music/day.mp3",
     "next": "chapter1_6"
@@ -58,7 +58,7 @@
     "bg": "images/backgrounds/school_hallway.webp",
     "charImg": null,
     "speaker": null,
-    "text": "I notice a piece of paper sticking out of my locker.",
+    "text": "I walk quickly toward my locker, glancing around every now and then without really knowing why.",
     "typeSpeed": 22,
     "music": "music/day.mp3",
     "next": "chapter1_7"
@@ -68,7 +68,7 @@
     "bg": "images/backgrounds/school_hallway.webp",
     "charImg": null,
     "speaker": null,
-    "text": "I slow down.",
+    "text": "I notice a piece of paper sticking out of my locker. I slow down.",
     "typeSpeed": 22,
     "music": "music/day.mp3",
     "next": "chapter1_8"
