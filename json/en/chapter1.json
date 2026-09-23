@@ -556,7 +556,7 @@
   {
     "id": "chapter1_56",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": null,
+    "charImg":  "images/characters/rosehappytalk.png",
     "speaker": "Rose",
     "text": "Oh, look who's here. A new face?",
     "typeSpeed": 22,
@@ -566,7 +566,7 @@
   {
     "id": "chapter1_57",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": null,
+    "charImg":   "images/characters/miratalkneutral.png",
     "speaker": "Mira",
     "text": "You're late, Étoile. I hope you have a good excuse. We're already behind on the project.",
     "typeSpeed": 22,
@@ -576,7 +576,7 @@
   {
     "id": "chapter1_58",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": null,
+    "charImg":  "images/characters/rosetalkneutral.png",
     "speaker": "Rose",
     "text": "Oh, stop. You're going to scare her.",
     "typeSpeed": 22,
@@ -586,7 +586,7 @@
   {
     "id": "chapter1_59",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": null,
+    "charImg":  "images/characters/miratalkneutral.png",
     "speaker": "Mira",
     "text": "I'm not scaring her. I'm just saying—",
     "typeSpeed": 22,
@@ -596,7 +596,7 @@
   {
     "id": "chapter1_60",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": "images/characters/roseneutral.png",
+    "charImg": "images/characters/rosehappytalk.png",
     "speaker": "Rose",
     "text": "A new member?",
     "typeSpeed": 22,
@@ -616,7 +616,7 @@
   {
     "id": "chapter1_62",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": "images/characters/miraneutral.png",
+    "charImg": "images/characters/miratalkneutral.png",
     "speaker": "Mira",
     "text": "What do you mean, \"new member\"?",
     "typeSpeed": 22,
@@ -626,7 +626,7 @@
   {
     "id": "chapter1_63",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": "images/characters/roseneutral.png",
+    "charImg": "images/characters/rosesmile.png",
     "speaker": null,
     "text": "Rose shrugs slightly.",
     "typeSpeed": 22,
@@ -636,7 +636,7 @@
   {
     "id": "chapter1_64",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": "images/characters/miraneutral.png",
+    "charImg": "images/characters/miratalkneutral.png",
     "speaker": "Mira",
     "text": "You can't just decide that on your own. There are procedures for—",
     "typeSpeed": 22,
@@ -646,9 +646,9 @@
   {
     "id": "chapter1_65",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": null,
+    "charImg":"images/characters/plumneutral.png",
     "speaker": "Étoile",
-    "text": "She's just here to look around. She already reads our magazines.",
+   "text": "She's just here to look around. She's a loyal reader.",
     "typeSpeed": 22,
     "music": "music/club.mp3",
     "next": "chapter1_66"
@@ -656,7 +656,7 @@
   {
     "id": "chapter1_66",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": "images/characters/plumshy.png",
+    "charImg": "images/characters/plumtalkneutral.png",
     "speaker": "Plum",
     "text": "Hello…",
     "typeSpeed": 22,
@@ -666,7 +666,7 @@
   {
     "id": "chapter1_67",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": "images/characters/rosesmile.png",
+    "charImg": "images/characters/rosehappytalk.png",
     "speaker": "Rose",
     "text": "Nice to meet you! I'm Rose.",
     "typeSpeed": 22,
@@ -686,7 +686,7 @@
   {
     "id": "chapter1_69",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": "images/characters/rosesmile.png",
+    "charImg": "images/characters/rosehappytalk.png",
     "speaker": "Rose",
     "text": "I'm the poet of the group. I co-write with Étoile.",
     "typeSpeed": 22,
@@ -696,7 +696,7 @@
   {
     "id": "chapter1_70",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": "images/characters/rosesmug.png",
+    "charImg": "images/characters/rosesmile.png",
     "speaker": null,
     "text": "Rose glances at Étoile.",
     "typeSpeed": 22,
