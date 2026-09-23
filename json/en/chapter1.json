@@ -97,8 +97,9 @@
     "id": "chapter1_10",
     "bg": "images/backgrounds/school_hallway.webp",
     "charImg": null,
+    "overlayImg": "images/objects/confession.png",
     "speaker": null,
-    "text": "[Letter appears]",
+    "text": "…",
     "typeSpeed": 22,
     "music": "music/day.mp3",
     "next": "chapter1_11"

@@ -771,6 +771,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 
 <div id="game-screen" class="screen">
   <div id="game-bg"></div>
+  <img id="overlay-img" src="" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;z-index:1;opacity:0;transition:opacity .6s ease;pointer-events:none;">
   <div id="eyes-overlay">
     <div class="eyes-layer"></div>
   </div>
@@ -1260,8 +1261,8 @@ function clearGameScreen(){
   if(sn) sn.textContent = '';
   const cw = document.getElementById('char-wrap');
   if(cw) cw.style.opacity = '0';
-  const ci = document.getElementById('char-img');
-  if(ci) ci.src = '';
+  const oi = document.getElementById('overlay-img');
+  if(oi){ oi.src=''; oi.style.opacity='0'; }
   const cwrap = document.getElementById('choices-wrap');
   if(cwrap){ cwrap.style.display='none'; cwrap.innerHTML=''; }
   lastBg = null;
@@ -1843,6 +1844,14 @@ async function setBg(src){
   document.getElementById('game-bg').style.backgroundImage="url('"+src+"')";
   lastBg=src;
 }
+async function setOverlayImage(src){
+  const el = document.getElementById('overlay-img');
+  if(!el) return;
+  if(!src){ el.style.opacity='0'; el.src=''; return; }
+  await preloadImage(src);
+  el.src = src;
+  el.style.opacity = '1';
+}
 async function setCharacter(img){
   const wrap=document.getElementById('char-wrap'),el=document.getElementById('char-img');
   const newSrc = img || '';
@@ -1938,8 +1947,9 @@ function renderScene(scene,fromBack){
     return;
   }
 
-  if(scene.bg)setBg(scene.bg);
+    if(scene.bg)setBg(scene.bg);
   setCharacter(scene.charImg||null);
+  setOverlayImage(scene.overlayImg||null);
   if(scene.music)playMusic(scene.music);
   document.getElementById('speaker-name').textContent=scene.speaker||'';
   const cw=document.getElementById('choices-wrap');
