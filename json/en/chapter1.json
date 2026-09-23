@@ -206,7 +206,7 @@
   {
     "id": "chapter1_21",
     "bg": "images/backgrounds/school_hallway.webp",
-    "charImg": "images/characters/plumscared.png",
+    "charImg": "images/characters/plumtalkneutral.png",
     "speaker": "Plum",
     "text": "Uh… sorry!",
     "typeSpeed": 22,
@@ -216,7 +216,7 @@
   {
     "id": "chapter1_22",
     "bg": "images/backgrounds/school_hallway.webp",
-    "charImg": "images/characters/plumsurprised.webp",
+    "charImg": "images/characters/plumreallyscared.png",
     "speaker": null,
     "text": "She raises her hands slightly, as if to defend herself.",
     "typeSpeed": 22,
@@ -226,7 +226,7 @@
   {
     "id": "chapter1_23",
     "bg": "images/backgrounds/school_hallway.webp",
-    "charImg": "images/characters/plumshy.webp",
+    "charImg": "images/characters/plumtalkneutral.png",
     "speaker": "Plum",
     "text": "I didn't mean to scare you…",
     "typeSpeed": 22,
@@ -236,7 +236,7 @@
   {
     "id": "chapter1_24",
     "bg": "images/backgrounds/school_hallway.webp",
-    "charImg": "images/characters/plumshy.webp",
+    "charImg": "images/characters/plumscared.png",
     "speaker": "Me",
     "text": "It's nothing. I was just distracted.",
     "typeSpeed": 22,
@@ -246,7 +246,7 @@
   {
     "id": "chapter1_25",
     "bg": "images/backgrounds/school_hallway.webp",
-    "charImg": "images/characters/plumshy.webp",
+    "charImg": "images/characters/plumneutral.png",
     "speaker": null,
     "text": "I discreetly slip the paper into my notebook before looking at her.",
     "typeSpeed": 22,
@@ -256,7 +256,7 @@
   {
     "id": "chapter1_26",
     "bg": "images/backgrounds/school_hallway.webp",
-    "charImg": "images/characters/plumneutral.webp",
+    "charImg": "images/characters/plumneutral.png",
     "speaker": "Me",
     "text": "Did you need something?",
     "typeSpeed": 22,
@@ -266,7 +266,7 @@
   {
     "id": "chapter1_27",
     "bg": "images/backgrounds/school_hallway.webp",
-    "charImg": "images/characters/plumshy.webp",
+    "charImg": "images/characters/plumtalkneutral.png",
     "speaker": "Plum",
     "text": "Well… I'm one of your readers from the magazine club. I particularly liked the article where you wrote about…",
     "typeSpeed": 22,
@@ -276,7 +276,7 @@
   {
     "id": "chapter1_28",
     "bg": "images/backgrounds/school_hallway.webp",
-    "charImg": "images/characters/plumshy.webp",
+    "charImg": "images/characters/plumneutral.png",
     "speaker": null,
     "text": "She hesitates for a moment, as if trying to find the right words.",
     "typeSpeed": 22,
@@ -286,7 +286,7 @@
   {
     "id": "chapter1_29",
     "bg": "images/backgrounds/school_hallway.webp",
-    "charImg": "images/characters/plumshy.webp",
+    "charImg": "images/characters/plumtalkneutral.png",
     "speaker": "Plum",
     "text": "I mean… I really liked it.",
     "typeSpeed": 22,
@@ -296,7 +296,7 @@
   {
     "id": "chapter1_30",
     "bg": "images/backgrounds/school_hallway.webp",
-    "charImg": "images/characters/plumneutral.webp",
+    "charImg": "images/characters/plumneutral.png",
     "speaker": "Me",
     "text": "Oh, thank you.",
     "typeSpeed": 22,
@@ -306,7 +306,7 @@
   {
     "id": "chapter1_31",
     "bg": "images/backgrounds/school_hallway.webp",
-    "charImg": "images/characters/plumneutral.webp",
+    "charImg": "images/characters/plumneutral.png",
     "speaker": null,
     "text": "I smile at her.",
     "typeSpeed": 22,
@@ -316,9 +316,9 @@
   {
     "id": "chapter1_32",
     "bg": "images/backgrounds/school_hallway.webp",
-    "charImg": "images/characters/plumneutral.webp",
+    "charImg": "images/characters/plumneutral.png",
     "speaker": "Me",
-    "text": "That really means a lot to me. This club means a lot to me. I like being able to share the things I love with other people.",
+    "text": "That really means a lot. Writing for this club… it's the one place where I feel like I can share what I love with others.",
     "typeSpeed": 22,
     "music": "music/day.mp3",
     "next": "chapter1_33"
@@ -326,7 +326,7 @@
   {
     "id": "chapter1_33",
     "bg": "images/backgrounds/school_hallway.webp",
-    "charImg": "images/characters/plumshy.webp",
+    "charImg": "images/characters/plumshy.png",
     "speaker": null,
     "text": "She lowers her eyes slightly, fidgeting with her fingers.",
     "typeSpeed": 22,
@@ -336,7 +336,7 @@
   {
     "id": "chapter1_34",
     "bg": "images/backgrounds/school_hallway.webp",
-    "charImg": "images/characters/plumshy.webp",
+    "charImg": "images/characters/plumshy.png",
     "speaker": "Plum",
     "text": "Um… hmm…",
     "typeSpeed": 22,
@@ -346,7 +346,7 @@
   {
     "id": "chapter1_35",
     "bg": "images/backgrounds/school_hallway.webp",
-    "charImg": "images/characters/plumneutral.webp",
+    "charImg": "images/characters/plumneutral.png",
     "speaker": null,
     "text": "She finally looks back up at me.",
     "typeSpeed": 22,
@@ -356,7 +356,7 @@
   {
     "id": "chapter1_36",
     "bg": "images/backgrounds/school_hallway.webp",
-    "charImg": "images/characters/plumhopeful.webp",
+    "charImg": "images/characters/plumhopeful.png",
     "speaker": "Plum",
     "text": "Could we be friends?",
     "typeSpeed": 22,
@@ -366,7 +366,7 @@
   {
     "id": "chapter1_37",
     "bg": "images/backgrounds/school_hallway.webp",
-    "charImg": "images/characters/plumhopeful.webp",
+    "charImg": "images/characters/plumhopeful.png",
     "speaker": "Me",
     "text": "Of course.",
     "typeSpeed": 22,
@@ -376,7 +376,7 @@
   {
     "id": "chapter1_38",
     "bg": "images/backgrounds/school_hallway.webp",
-    "charImg": "images/characters/plumhopeful.webp",
+    "charImg": "images/characters/plumhopeful.png",
     "speaker": null,
     "text": "I tilt my head slightly.",
     "typeSpeed": 22,
@@ -386,7 +386,7 @@
   {
     "id": "chapter1_39",
     "bg": "images/backgrounds/school_hallway.webp",
-    "charImg": "images/characters/plumhopeful.webp",
+    "charImg": "images/characters/plumhopeful.png",
     "speaker": "Me",
     "text": "What's your name?",
     "typeSpeed": 22,
@@ -396,7 +396,7 @@
   {
     "id": "chapter1_40",
     "bg": "images/backgrounds/school_hallway.webp",
-    "charImg": "images/characters/plumshy.webp",
+    "charImg": "images/characters/plumshy.png",
     "speaker": "Plum",
     "text": "My name…?",
     "typeSpeed": 22,
@@ -406,7 +406,7 @@
   {
     "id": "chapter1_41",
     "bg": "images/backgrounds/school_hallway.webp",
-    "charImg": "images/characters/plumshy.webp",
+    "charImg": "images/characters/plumshy.png",
     "speaker": "Plum",
     "text": "Plu… Plum.",
     "typeSpeed": 22,
@@ -416,7 +416,7 @@
   {
     "id": "chapter1_42",
     "bg": "images/backgrounds/school_hallway.webp",
-    "charImg": "images/characters/plumneutral.webp",
+    "charImg": "images/characters/plumneutral.png",
     "speaker": "Me",
     "text": "Nice to meet you, Plum. I'm Étoile.",
     "typeSpeed": 22,
@@ -446,7 +446,7 @@
   {
     "id": "chapter1_45",
     "bg": "images/backgrounds/school_hallway.webp",
-    "charImg": "images/characters/plumsurprised.webp",
+    "charImg": "images/characters/plumsurprised.png",
     "speaker": null,
     "text": "Plum blinks, as if she wasn't expecting that.",
     "typeSpeed": 22,
@@ -456,7 +456,7 @@
   {
     "id": "chapter1_46",
     "bg": "images/backgrounds/school_hallway.webp",
-    "charImg": "images/characters/plumsurprised.webp",
+    "charImg": "images/characters/plumsurprised.png",
     "speaker": "Plum",
     "text": "Really?",
     "typeSpeed": 22,
@@ -466,7 +466,7 @@
   {
     "id": "chapter1_47",
     "bg": "images/backgrounds/school_hallway.webp",
-    "charImg": "images/characters/plumshy.webp",
+    "charImg": "images/characters/plumshy.png",
     "speaker": null,
     "text": "She tucks a strand of hair behind her ear and quickly looks down.",
     "typeSpeed": 22,
@@ -476,7 +476,7 @@
   {
     "id": "chapter1_48",
     "bg": "images/backgrounds/school_hallway.webp",
-    "charImg": "images/characters/plumshy.webp",
+    "charImg": "images/characters/plumshy.png",
     "speaker": "Plum",
     "text": "You don't mind?",
     "typeSpeed": 22,
@@ -486,7 +486,7 @@
   {
     "id": "chapter1_49",
     "bg": "images/backgrounds/school_hallway.webp",
-    "charImg": "images/characters/plumneutral.webp",
+    "charImg": "images/characters/plumneutral.png",
     "speaker": "Me",
     "text": "Not at all. My friends will be happy to meet you. It's been a while since we've had someone new at the club.",
     "typeSpeed": 22,
@@ -496,7 +496,7 @@
   {
     "id": "chapter1_50",
     "bg": "images/backgrounds/school_hallway.webp",
-    "charImg": "images/characters/plumshy.webp",
+    "charImg": "images/characters/plumshy.png",
     "speaker": "Plum",
     "text": "Okay…",
     "typeSpeed": 22,
@@ -506,7 +506,7 @@
   {
     "id": "chapter1_51",
     "bg": "images/backgrounds/school_hallway.webp",
-    "charImg": "images/characters/plumhopeful.webp",
+    "charImg": "images/characters/plumhopeful.png",
     "speaker": null,
     "text": "She timidly looks back up at me.",
     "typeSpeed": 22,
@@ -516,7 +516,7 @@
   {
     "id": "chapter1_52",
     "bg": "images/backgrounds/school_hallway.webp",
-    "charImg": "images/characters/plumhopeful.webp",
+    "charImg": "images/characters/plumhopeful.png",
     "speaker": "Plum",
     "text": "I'd like that.",
     "typeSpeed": 22,
@@ -526,7 +526,7 @@
   {
     "id": "chapter1_53",
     "bg": "images/backgrounds/school_hallway.webp",
-    "charImg": "images/characters/plumsmile.webp",
+    "charImg": "images/characters/plumsmile.png",
     "speaker": null,
     "text": "A barely noticeable smile escapes her before she looks away again.",
     "typeSpeed": 22,
@@ -596,7 +596,7 @@
   {
     "id": "chapter1_60",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": "images/characters/roseneutral.webp",
+    "charImg": "images/characters/roseneutral.png",
     "speaker": "Rose",
     "text": "A new member?",
     "typeSpeed": 22,
@@ -606,7 +606,7 @@
   {
     "id": "chapter1_61",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": "images/characters/miraneutral.webp",
+    "charImg": "images/characters/miraneutral.png",
     "speaker": null,
     "text": "Mira slowly turns her head toward Rose.",
     "typeSpeed": 22,
@@ -616,7 +616,7 @@
   {
     "id": "chapter1_62",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": "images/characters/miraneutral.webp",
+    "charImg": "images/characters/miraneutral.png",
     "speaker": "Mira",
     "text": "What do you mean, \"new member\"?",
     "typeSpeed": 22,
@@ -626,7 +626,7 @@
   {
     "id": "chapter1_63",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": "images/characters/roseneutral.webp",
+    "charImg": "images/characters/roseneutral.png",
     "speaker": null,
     "text": "Rose shrugs slightly.",
     "typeSpeed": 22,
@@ -636,7 +636,7 @@
   {
     "id": "chapter1_64",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": "images/characters/miraneutral.webp",
+    "charImg": "images/characters/miraneutral.png",
     "speaker": "Mira",
     "text": "You can't just decide that on your own. There are procedures for—",
     "typeSpeed": 22,
@@ -656,7 +656,7 @@
   {
     "id": "chapter1_66",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": "images/characters/plumshy.webp",
+    "charImg": "images/characters/plumshy.png",
     "speaker": "Plum",
     "text": "Hello…",
     "typeSpeed": 22,
@@ -666,7 +666,7 @@
   {
     "id": "chapter1_67",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": "images/characters/rosesmile.webp",
+    "charImg": "images/characters/rosesmile.png",
     "speaker": "Rose",
     "text": "Nice to meet you! I'm Rose.",
     "typeSpeed": 22,
@@ -676,7 +676,7 @@
   {
     "id": "chapter1_68",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": "images/characters/rosesmile.webp",
+    "charImg": "images/characters/rosesmile.png",
     "speaker": null,
     "text": "Rose smiles at Plum.",
     "typeSpeed": 22,
@@ -686,7 +686,7 @@
   {
     "id": "chapter1_69",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": "images/characters/rosesmile.webp",
+    "charImg": "images/characters/rosesmile.png",
     "speaker": "Rose",
     "text": "I'm the poet of the group. I co-write with Étoile.",
     "typeSpeed": 22,
@@ -696,7 +696,7 @@
   {
     "id": "chapter1_70",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": "images/characters/rosesmug.webp",
+    "charImg": "images/characters/rosesmug.png",
     "speaker": null,
     "text": "Rose glances at Étoile.",
     "typeSpeed": 22,
@@ -706,7 +706,7 @@
   {
     "id": "chapter1_71",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": "images/characters/rosesmug.webp",
+    "charImg": "images/characters/rosesmug.png",
     "speaker": "Rose",
     "text": "Well… most of the best ideas usually come from me.",
     "typeSpeed": 22,
@@ -726,7 +726,7 @@
   {
     "id": "chapter1_73",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": "images/characters/rosesmug.webp",
+    "charImg": "images/characters/rosesmug.png",
     "speaker": "Rose",
     "text": "You know it's true.",
     "typeSpeed": 22,
@@ -736,7 +736,7 @@
   {
     "id": "chapter1_74",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": "images/characters/miraneutral.webp",
+    "charImg": "images/characters/miraneutral.png",
     "speaker": null,
     "text": "Mira moves a few sheets of paper aside before looking at Plum.",
     "typeSpeed": 22,
@@ -746,7 +746,7 @@
   {
     "id": "chapter1_75",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": "images/characters/miraneutral.webp",
+    "charImg": "images/characters/miraneutral.png",
     "speaker": "Mira",
     "text": "Mira. I'm the president of the club.",
     "typeSpeed": 22,
@@ -756,7 +756,7 @@
   {
     "id": "chapter1_76",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": "images/characters/miraneutral.webp",
+    "charImg": "images/characters/miraneutral.png",
     "speaker": "Mira",
     "text": "If you need anything, you can come to me. Just avoid touching my documents.",
     "typeSpeed": 22,
@@ -766,7 +766,7 @@
   {
     "id": "chapter1_77",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": "images/characters/plumshy.webp",
+    "charImg": "images/characters/plumshy.png",
     "speaker": "Plum",
     "text": "Okay…",
     "typeSpeed": 22,
@@ -786,7 +786,7 @@
   {
     "id": "chapter1_79",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": "images/characters/miraneutral.webp",
+    "charImg": "images/characters/miraneutral.png",
     "speaker": "Mira",
     "text": "Like what?",
     "typeSpeed": 22,
@@ -816,7 +816,7 @@
   {
     "id": "chapter1_82",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": "images/characters/miraneutral.webp",
+    "charImg": "images/characters/miraneutral.png",
     "speaker": "Mira",
     "text": "Because you really were about to give up.",
     "typeSpeed": 22,
@@ -856,7 +856,7 @@
   {
     "id": "chapter1_86",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": "images/characters/miraneutral.webp",
+    "charImg": "images/characters/miraneutral.png",
     "speaker": "Mira",
     "text": "Because you always gave them to me at the last minute.",
     "typeSpeed": 22,
@@ -866,7 +866,7 @@
   {
     "id": "chapter1_87",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": "images/characters/rosesmug.webp",
+    "charImg": "images/characters/rosesmug.png",
     "speaker": "Rose",
     "text": "That hasn't changed.",
     "typeSpeed": 22,
@@ -896,7 +896,7 @@
   {
     "id": "chapter1_90",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": "images/characters/rosesmug.webp",
+    "charImg": "images/characters/rosesmug.png",
     "speaker": "Rose",
     "text": "\"Pretty well\"?",
     "typeSpeed": 22,
@@ -916,7 +916,7 @@
   {
     "id": "chapter1_92",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": "images/characters/rosesmile.webp",
+    "charImg": "images/characters/rosesmile.png",
     "speaker": "Rose",
     "text": "There we go.",
     "typeSpeed": 22,
