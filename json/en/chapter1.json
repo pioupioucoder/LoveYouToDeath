@@ -647,7 +647,7 @@
     "id": "chapter1_65",
     "bg": "images/backgrounds/club_room.webp",
     "charImg":"images/characters/plumneutral.png",
-    "speaker": "Étoile",
+    "speaker": "Me",
    "text": "She's just here to look around. She's a loyal reader.",
     "typeSpeed": 22,
     "music": "music/club.mp3",
@@ -706,7 +706,7 @@
   {
     "id": "chapter1_71",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": "images/characters/rosesmug.png",
+    "charImg": "images/characters/roseshowoff.png",
     "speaker": "Rose",
     "text": "Well… most of the best ideas usually come from me.",
     "typeSpeed": 22,
@@ -716,8 +716,8 @@
   {
     "id": "chapter1_72",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": null,
-    "speaker": "Étoile",
+    "charImg": "images/characters/rosesmile.png",
+    "speaker": "Me",
     "text": "What a show-off.",
     "typeSpeed": 22,
     "music": "music/club.mp3",
@@ -726,7 +726,7 @@
   {
     "id": "chapter1_73",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": "images/characters/rosesmug.png",
+    "charImg": "images/characters/rosehappytalk.png",
     "speaker": "Rose",
     "text": "You know it's true.",
     "typeSpeed": 22,
@@ -746,7 +746,7 @@
   {
     "id": "chapter1_75",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": "images/characters/miraneutral.png",
+    "charImg": "images/characters/miratalkneutral.png",
     "speaker": "Mira",
     "text": "Mira. I'm the president of the club.",
     "typeSpeed": 22,
@@ -756,7 +756,7 @@
   {
     "id": "chapter1_76",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": "images/characters/miraneutral.png",
+    "charImg": "images/characters/miratalkneutral.png",
     "speaker": "Mira",
     "text": "If you need anything, you can come to me. Just avoid touching my documents.",
     "typeSpeed": 22,
@@ -766,7 +766,7 @@
   {
     "id": "chapter1_77",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": "images/characters/plumshy.png",
+    "charImg": "images/characters/plumtalkneutral.png",
     "speaker": "Plum",
     "text": "Okay…",
     "typeSpeed": 22,
@@ -776,8 +776,8 @@
   {
     "id": "chapter1_78",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": null,
-    "speaker": "Étoile",
+    "charImg": "images/characters/plumneutral.png",
+    "speaker": "Me",
     "text": "Don't mind Mira, Plum. She's always been like this.",
     "typeSpeed": 22,
     "music": "music/club.mp3",
@@ -786,7 +786,7 @@
   {
     "id": "chapter1_79",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": "images/characters/miraneutral.png",
+    "charImg": "images/characters/miratalkneutral.png",
     "speaker": "Mira",
     "text": "Like what?",
     "typeSpeed": 22,
@@ -796,8 +796,8 @@
   {
     "id": "chapter1_80",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": null,
-    "speaker": "Étoile",
+    "charImg": "images/characters/miraneutral.png",
+    "speaker": "Me",
     "text": "Serious.",
     "typeSpeed": 22,
     "music": "music/club.mp3",
@@ -806,8 +806,8 @@
   {
     "id": "chapter1_81",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": null,
-    "speaker": "Étoile",
+    "charImg":  "images/characters/miraneutral.png",
+    "speaker":  "Me",
     "text": "I've known her since my old school. She always told me not to give up on the magazine.",
     "typeSpeed": 22,
     "music": "music/club.mp3",
@@ -816,7 +816,7 @@
   {
     "id": "chapter1_82",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": "images/characters/miraneutral.png",
+    "charImg": "images/characters/miratalkneutral.png",
     "speaker": "Mira",
     "text": "Because you really were about to give up.",
     "typeSpeed": 22,
@@ -826,8 +826,8 @@
   {
     "id": "chapter1_83",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": null,
-    "speaker": "Étoile",
+    "charImg":  "images/characters/miraneutral.png",
+    "speaker": "Me",
     "text": "I thought about it.",
     "typeSpeed": 22,
     "music": "music/club.mp3",
@@ -836,7 +836,7 @@
   {
     "id": "chapter1_84",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": null,
+    "charImg":  "images/characters/plumsmile.png",
     "speaker": null,
     "text": "I shrug slightly.",
     "typeSpeed": 22,
@@ -846,8 +846,8 @@
   {
     "id": "chapter1_85",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": null,
-    "speaker": "Étoile",
+    "charImg":"images/characters/plumsmile.png",
+    "speaker": "Me",
     "text": "She helped me write my first articles. Well… sometimes, she practically wrote them for me.",
     "typeSpeed": 22,
     "music": "music/club.mp3",
@@ -856,7 +856,7 @@
   {
     "id": "chapter1_86",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": "images/characters/miraneutral.png",
+    "charImg": "images/characters/miratalkneutral.png",
     "speaker": "Mira",
     "text": "Because you always gave them to me at the last minute.",
     "typeSpeed": 22,
@@ -866,7 +866,7 @@
   {
     "id": "chapter1_87",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": "images/characters/rosesmug.png",
+    "charImg": "images/characters/roseshowoff.png",
     "speaker": "Rose",
     "text": "That hasn't changed.",
     "typeSpeed": 22,
@@ -876,9 +876,9 @@
   {
     "id": "chapter1_88",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": null,
+    "charImg":  "images/characters/rosesmile.png",
     "speaker": null,
-    "text": "Étoile glances at Rose.",
+    "text": "I glances at Rose.",
     "typeSpeed": 22,
     "music": "music/club.mp3",
     "next": "chapter1_89"
@@ -886,8 +886,8 @@
   {
     "id": "chapter1_89",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": null,
-    "speaker": "Étoile",
+    "charImg":"images/characters/rosesmile.png",
+    "speaker": "Me",
     "text": "And Rose and I get along pretty well. That's why we write together.",
     "typeSpeed": 22,
     "music": "music/club.mp3",
@@ -896,7 +896,7 @@
   {
     "id": "chapter1_90",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": "images/characters/rosesmug.png",
+    "charImg": "images/characters/rosetalkneutral.png",
     "speaker": "Rose",
     "text": "\"Pretty well\"?",
     "typeSpeed": 22,
@@ -906,8 +906,8 @@
   {
     "id": "chapter1_91",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": null,
-    "speaker": "Étoile",
+    "charImg":"images/characters/rosesmile.png",
+    "speaker": "Me",
     "text": "Very well, if you prefer.",
     "typeSpeed": 22,
     "music": "music/club.mp3",
@@ -916,7 +916,7 @@
   {
     "id": "chapter1_92",
     "bg": "images/backgrounds/club_room.webp",
-    "charImg": "images/characters/rosesmile.png",
+    "charImg": "images/characters/rosehappytalk.png",
     "speaker": "Rose",
     "text": "There we go.",
     "typeSpeed": 22,
