@@ -156,7 +156,7 @@
   {
     "id": "chapter1_16",
     "bg": "images/backgrounds/school_hallway.webp",
-    "charImg": null,
+    "charImg": "images/characters/plumtalkneutral.png",
     "speaker": "Plum",
     "text": "Hi!",
     "typeSpeed": 22,
@@ -166,7 +166,7 @@
   {
     "id": "chapter1_17",
     "bg": "images/backgrounds/school_hallway.webp",
-    "charImg": null,
+    "charImg": "images/characters/plumscared.png",
     "speaker": "Me",
     "text": "Haaa!",
     "typeSpeed": 22,
@@ -176,7 +176,7 @@
   {
     "id": "chapter1_18",
     "bg": "images/backgrounds/school_hallway.webp",
-    "charImg": null,
+    "charImg": "images/characters/plumscared.png",
     "speaker": null,
     "text": "I jump and quickly turn around.",
     "typeSpeed": 22,
@@ -186,7 +186,7 @@
   {
     "id": "chapter1_19",
     "bg": "images/backgrounds/school_hallway.webp",
-    "charImg": "images/characters/plumneutral.webp",
+    "charImg": "images/characters/plumneutral.png",
     "speaker": null,
     "text": "A girl is standing behind me.",
     "typeSpeed": 22,
@@ -196,7 +196,7 @@
   {
     "id": "chapter1_20",
     "bg": "images/backgrounds/school_hallway.webp",
-    "charImg": "images/characters/plumneutral.webp",
+    "charImg": "images/characters/plumneutral.png",
     "speaker": null,
     "text": "Her long lavender hair falls on either side of her face, with a few strands framing her eyes. She looks just as surprised as I am.",
     "typeSpeed": 22,
@@ -206,7 +206,7 @@
   {
     "id": "chapter1_21",
     "bg": "images/backgrounds/school_hallway.webp",
-    "charImg": "images/characters/plumsurprised.webp",
+    "charImg": "images/characters/plumscared.png",
     "speaker": "Plum",
     "text": "Uh… sorry!",
     "typeSpeed": 22,
