@@ -69,8 +69,9 @@ const chairH = 60;
 
 // ✅ Couteaux alignés sur la CHAISE de Plum (centre bas du corps)
 // La pointe du couteau visera exactement le milieu de la chaise.
-const spawnYCenter = chairY + chairH * 0.5;   // ≈ 516
-const spawnYJitter = 8;                        // très légère variation (pas "trop haut")
+// ✅ Couteaux en BAS de l'écran (sous la chaise), répartis sur plusieurs hauteurs
+const spawnYMin = chairY + chairH + 15;       // juste sous la chaise
+const spawnYMax = chairY + chairH + 130;      // plus bas encore                   // très légère variation (pas "trop haut")
 
 // ✅ Centre X de Plum — l'impact se déclenche uniquement quand
 //    la pointe atteint réellement le corps (plus de mort dans le vide)
@@ -150,10 +151,9 @@ function spawnKnife(){
   const fromLeft = Math.random() < 0.5;
   const kw = 80;
   const kh = 20;
-  // ✅ Y centré sur la chaise, avec une toute petite variation
-  const ky = spawnYCenter - kh * 0.5 + (Math.random() - 0.5) * spawnYJitter * 2;
+  // ✅ Y aléatoire en BAS de l'écran (sous la chaise, sur plusieurs niveaux)
+  const ky = spawnYMin + Math.random() * (spawnYMax - spawnYMin);
   const speed = 130 + Math.random() * 40 + state.time * 8;
-
   state.knives.push({
     x: fromLeft ? -kw - 10 : W + 10,
     y: ky,
