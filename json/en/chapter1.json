@@ -996,13 +996,14 @@
     "type": "eyes_close",
     "next": "chapter1_100"
   },
-  {  
+    {
     "id": "chapter1_100",
     "bg": null,
     "charImg": null,
     "speaker": null,
     "text": "Wasn't I writing a poem…?",
     "typeSpeed": 22,
+    "music": "music/dark.mp3",
     "next": "chapter1_101"
   },
   {
@@ -1012,6 +1013,7 @@
     "speaker": null,
     "text": "Everything went black.",
     "typeSpeed": 22,
+    "music": "music/dark.mp3",
     "next": "chapter1_102"
   },
   {
@@ -1021,6 +1023,7 @@
     "speaker": null,
     "text": "I blink, but nothing changes.",
     "typeSpeed": 22,
+    "music": "music/dark.mp3",
     "next": "chapter1_103"
   },
   {
@@ -1030,6 +1033,7 @@
     "speaker": null,
     "text": "My eyes start to sting from searching for something in the darkness.",
     "typeSpeed": 22,
+    "music": "music/dark.mp3",
     "next": "chapter1_104"
   },
   {
@@ -1039,6 +1043,7 @@
     "speaker": "???",
     "text": "It hurts…",
     "typeSpeed": 22,
+    "music": "music/dark.mp3",
     "next": "chapter1_105"
   },
   {
@@ -1048,6 +1053,7 @@
     "speaker": null,
     "text": "A shiver slides down my neck.",
     "typeSpeed": 22,
+    "music": "music/dark.mp3",
     "next": "chapter1_106"
   },
   {
@@ -1057,6 +1063,7 @@
     "speaker": "Me",
     "text": "Is someone there?",
     "typeSpeed": 22,
+    "music": "music/dark.mp3",
     "next": "chapter1_107"
   },
   {
@@ -1066,6 +1073,7 @@
     "speaker": null,
     "text": "My throat is dry.",
     "typeSpeed": 22,
+    "music": "music/dark.mp3",
     "next": "chapter1_108"
   },
   {
@@ -1075,6 +1083,7 @@
     "speaker": null,
     "text": "I turn my head, searching for where the voice comes from, but the darkness seems to smother it.",
     "typeSpeed": 22,
+    "music": "music/dark.mp3",
     "next": "chapter1_109"
   },
   {
@@ -1084,6 +1093,7 @@
     "speaker": "???",
     "text": "No matter how I push them away…",
     "typeSpeed": 22,
+    "music": "music/dark.mp3",
     "next": "chapter1_110"
   },
   {
@@ -1093,6 +1103,7 @@
     "speaker": null,
     "text": "My fingers tighten slightly.",
     "typeSpeed": 22,
+    "music": "music/dark.mp3",
     "next": "chapter1_111"
   },
   {
@@ -1102,6 +1113,7 @@
     "speaker": "???",
     "text": "But they always come closer.",
     "typeSpeed": 22,
+    "music": "music/dark.mp3",
     "next": "chapter1_112"
   },
   {
@@ -1111,6 +1123,7 @@
     "speaker": null,
     "text": "My heart pounds against my chest.",
     "typeSpeed": 22,
+    "music": "music/dark.mp3",
     "next": "chapter1_113"
   },
   {
@@ -1120,6 +1133,7 @@
     "speaker": "???",
     "text": "Like moths drawn to a flame…",
     "typeSpeed": 22,
+    "music": "music/dark.mp3",
     "next": "chapter1_114"
   },
   {
@@ -1129,6 +1143,7 @@
     "speaker": null,
     "text": "I instinctively hold my breath.",
     "typeSpeed": 22,
+    "music": "music/dark.mp3",
     "next": "chapter1_115"
   },
   {
@@ -1138,6 +1153,7 @@
     "speaker": "???",
     "text": "…until their wings stop beating.",
     "typeSpeed": 22,
+    "music": "music/dark.mp3",
     "next": "chapter1_116"
   },
   {
@@ -1147,6 +1163,7 @@
     "speaker": null,
     "text": "An unpleasant cold runs down my back.",
     "typeSpeed": 22,
+    "music": "music/dark.mp3",
     "next": "chapter1_117"
   },
   {
@@ -1156,6 +1173,7 @@
     "speaker": "Me",
     "text": "What…? Who's there?",
     "typeSpeed": 22,
+    "music": "music/dark.mp3",
     "next": "chapter1_118"
   },
   {
@@ -1165,6 +1183,7 @@
     "speaker": null,
     "text": "My voice trembles slightly.",
     "typeSpeed": 22,
+    "music": "music/dark.mp3",
     "next": "chapter1_119"
   },
   {
@@ -1174,6 +1193,7 @@
     "speaker": null,
     "text": "I step back, but my legs suddenly feel too heavy.",
     "typeSpeed": 22,
+    "music": "music/dark.mp3",
     "next": "chapter1_120"
   },
   {
@@ -1183,6 +1203,7 @@
     "speaker": null,
     "text": "Then a laugh rises in the darkness.",
     "typeSpeed": 22,
+    "music": "music/dark.mp3",
     "next": "chapter1_121"
   },
   {
@@ -1192,6 +1213,7 @@
     "speaker": "???",
     "text": "Hahahaha…",
     "typeSpeed": 22,
+    "music": "music/dark.mp3",
     "next": "__suite_suivante__"
   }
 ]

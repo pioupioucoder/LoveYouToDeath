@@ -46,13 +46,6 @@
     width: 2px; background: rgba(220,20,60,.35); pointer-events: none; z-index: 1;
   }
 
-  .notebook-title {
-    position: fixed; top: 70px; left: 60px;
-    font-size: 1.4rem; color: #4a2a1a; letter-spacing: .05em;
-    opacity: 0; transition: opacity .8s .3s; z-index: 5;
-  }
-  #notebook.visible .notebook-title { opacity: 1; }
-  .notebook-subtitle { font-size: .8rem; color: #8a6a5a; font-style: italic; }
 
   .lives {
     position: fixed; top: 70px; right: 20px;
@@ -269,10 +262,7 @@
 </div>
 
 <div id="notebook">
-  <div class="notebook-title">
-    Rose &amp; Étoile
-    <div class="notebook-subtitle">&mdash; a poem in two hands &mdash;</div>
-  </div>
+
   <div class="lives">
     <span class="heart" data-life="0">&#9829;</span>
     <span class="heart" data-life="1">&#9829;</span>
