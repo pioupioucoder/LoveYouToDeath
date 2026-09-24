@@ -57,24 +57,25 @@ plumLeft.src   = '../images/characters/plumleft.png';
 plumRight.src  = '../images/characters/plumright.png';
 plumDied.src   = '../images/characters/plumdied.png';
 
-plumIntact.onerror = ()=>console.error('❌ introuvable :', plumIntact.src);
-plumLeft.onerror   = ()=>console.error('❌ introuvable :', plumLeft.src);
-plumRight.onerror  = ()=>console.error('❌ introuvable :', plumRight.src);
-plumDied.onerror   = ()=>console.error('❌ introuvable :', plumDied.src);
-
 // ── POSITION DE PLUM ──
 const plumW = 280;
 const plumH = 500;
 const plumX = (W - plumW) / 2;
 const plumY = H - plumH - 40;
 
-// Zone de collision (bas de Plum)
+// Zone de collision (bas de Plum / chaise)
 const chairY = plumY + plumH * 0.72;
 const chairH = 60;
 
-// Zone d'apparition des couteaux (plus bas que la chaise)
-const spawnYTop = chairY + chairH + 10;
-const spawnYRange = 50;
+// ✅ Couteaux alignés sur la CHAISE de Plum (centre bas du corps)
+// La pointe du couteau visera exactement le milieu de la chaise.
+const spawnYCenter = chairY + chairH * 0.5;   // ≈ 516
+const spawnYJitter = 8;                        // très légère variation (pas "trop haut")
+
+// ✅ Centre X de Plum — l'impact se déclenche uniquement quand
+//    la pointe atteint réellement le corps (plus de mort dans le vide)
+const plumCenterX = plumX + plumW / 2;        // = 187.5
+const plumHitRadius = 18;                      // la pointe doit être à ±18px du centre
 
 // ── STATE ──
 const state = {
@@ -90,7 +91,7 @@ const state = {
   dyingTimer: 0
 };
 
-// ── DESSIN COUTEAU PIXEL (inversé : pointe vers Plum) ──
+// ── DESSIN COUTEAU PIXEL ──
 function drawKnifePixel(k){
   const px = offX + k.x * scale;
   const py = offY + k.y * scale;
@@ -104,8 +105,6 @@ function drawKnifePixel(k){
   const handleHi    = '#6A3E18';
   const guardColor  = '#8B0000';
 
-  // dir = 1 : vient de la GAUCHE, manche à gauche, pointe à DROITE
-  // dir = -1 : vient de la DROITE, manche à droite, pointe à GAUCHE
   let bladeStart, bladeEnd, handleStart, handleEnd, guardX, tipBaseX, tipEndX;
   if(k.dir === 1){
     handleStart = px;
@@ -125,16 +124,12 @@ function drawKnifePixel(k){
     tipEndX     = px - 10 * scale;
   }
 
-  // Lame
   ctx.fillStyle = bladeColor;
   ctx.fillRect(bladeStart, py + h*0.35, bladeEnd - bladeStart, h*0.30);
-  // Reflet
   ctx.fillStyle = bladeHi;
   ctx.fillRect(bladeStart, py + h*0.40, bladeEnd - bladeStart, h*0.08);
-  // Bas de lame (ombre)
   ctx.fillStyle = bladeLo;
   ctx.fillRect(bladeStart, py + h*0.58, bladeEnd - bladeStart, h*0.07);
-  // Pointe
   ctx.fillStyle = bladeColor;
   ctx.beginPath();
   ctx.moveTo(tipBaseX, py + h*0.35);
@@ -142,10 +137,8 @@ function drawKnifePixel(k){
   ctx.lineTo(tipBaseX, py + h*0.65);
   ctx.closePath();
   ctx.fill();
-  // Garde (entre lame et manche)
   ctx.fillStyle = guardColor;
   ctx.fillRect(guardX, py + h*0.20, w*0.05, h*0.60);
-  // Manche
   ctx.fillStyle = handleColor;
   ctx.fillRect(handleStart, py + h*0.35, handleEnd - handleStart, h*0.30);
   ctx.fillStyle = handleHi;
@@ -157,8 +150,8 @@ function spawnKnife(){
   const fromLeft = Math.random() < 0.5;
   const kw = 80;
   const kh = 20;
-  // Plus bas que la chaise, comme demandé
-  const ky = spawnYTop + Math.random() * spawnYRange;
+  // ✅ Y centré sur la chaise, avec une toute petite variation
+  const ky = spawnYCenter - kh * 0.5 + (Math.random() - 0.5) * spawnYJitter * 2;
   const speed = 130 + Math.random() * 40 + state.time * 8;
 
   state.knives.push({
@@ -194,10 +187,11 @@ function update(dt){
     const k = state.knives[i];
     k.x += k.vx * dt;
 
+    // ✅ Position réelle de la POINTE (bout de la lame)
     const tipX = k.fromLeft ? k.x + k.w : k.x;
-    const inPlumX = tipX > plumX + plumW*0.15 && tipX < plumX + plumW*0.85;
 
-    if(inPlumX){
+    // ✅ Impact uniquement quand la pointe touche vraiment le centre de Plum
+    if(Math.abs(tipX - plumCenterX) < plumHitRadius){
       handleHit(tipX);
       state.knives.splice(i,1);
       continue;
