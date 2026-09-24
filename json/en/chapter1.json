@@ -1378,13 +1378,36 @@
     "typeSpeed": 22,
     "music": "music/dark.mp3",
     "next": "chapter1_121"
-  },
-  {
+  },  {
     "id": "chapter1_121",
     "bg": null,
     "charImg": null,
     "speaker": "???",
     "text": "Hahahaha…",
+    "typeSpeed": 22,
+    "music": "music/dark.mp3",
+    "next": "chapter1_mission"
+  },
+  {
+    "id": "chapter1_mission",
+    "type": "mission",
+    "missionTitle": "PROTECT PLUM",
+    "music": "music/dark.mp3",
+    "next": "chapter1_protect_minigame"
+  },
+  {
+    "id": "chapter1_protect_minigame",
+    "type": "minigame",
+    "minigameFile": "minigames/protect_plum.html",
+    "nextSuccess": "chapter1_plum_survived",
+    "next": "chapter1_plum_survived"
+  },
+  {
+    "id": "chapter1_plum_survived",
+    "bg": null,
+    "charImg": null,
+    "speaker": "Es",
+    "text": "Good. She lives. For now.",
     "typeSpeed": 22,
     "music": "music/dark.mp3",
     "next": "__suite_suivante__"

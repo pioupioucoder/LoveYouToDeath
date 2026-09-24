@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>Protect Plum</title>
+<style>
+html,body{margin:0;padding:0;background:#000;overflow:hidden;width:100%;height:100%;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;touch-action:none;overscroll-behavior:none}
+#game{display:block;width:100vw;height:100vh;image-rendering:pixelated;image-rendering:crisp-edges;touch-action:none}
+#hud{position:fixed;top:0;left:0;right:0;padding:12px 16px;display:flex;justify-content:space-between;pointer-events:none;z-index:10;font-family:'Courier New',monospace;font-size:12px;letter-spacing:2px;color:#DC143C;text-shadow:0 0 8px #8B0000}
+#death-flash{position:fixed;inset:0;background:#8B0000;opacity:0;pointer-events:none;z-index:20;transition:opacity .3s}
+#start-overlay{position:fixed;inset:0;background:rgba(0,0,0,.92);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;z-index:30;padding:24px;color:#E8DDF0;font-family:'Courier New',monospace}
+#start-overlay h1{font-size:22px;letter-spacing:6px;color:#DC143C;margin:0 0 16px;text-shadow:0 0 20px #8B0000}
+#start-overlay p{font-size:13px;letter-spacing:2px;color:#C8B8D0;margin:0 0 24px;max-width:340px;line-height:1.8}
+#start-overlay button{background:transparent;border:1px solid #DC143C;color:#E8DDF0;padding:14px 40px;font-family:inherit;font-size:13px;letter-spacing:4px;cursor:pointer;text-transform:uppercase}
+#start-overlay button:active{background:#8B0000}
+#start-overlay.hidden{display:none}
+</style>
+</head>
+<body>
+<canvas id="game"></canvas>
+<div id="hud"><span>◆ PROTECT</span><span id="time">0.0s</span></div>
+<div id="death-flash"></div>
+<div id="start-overlay">
+  <h1>PROTECT PLUM</h1>
+  <p>Click the knives before they hit her.<br>She can only take one hit.</p>
+  <button id="start-btn">BEGIN</button>
+</div>
+<script>
+(function(){
+'use strict';
+
+const W = 375, H = 666;
+const canvas = document.getElementById('game');
+const ctx = canvas.getContext('2d');
+
+let scale = 1, offX = 0, offY = 0;
+function resize(){
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  scale = Math.min(canvas.width / W, canvas.height / H);
+  offX = (canvas.width - W * scale) / 2;
+  offY = (canvas.height - H * scale) / 2;
+  ctx.imageSmoothingEnabled = false;
+}
+window.addEventListener('resize', resize);
+window.addEventListener('orientationchange', ()=>setTimeout(resize,200));
+resize();
+
+// ── IMAGES ──
+const plumIntact = new Image();
+const plumLeft   = new Image();
+const plumRight  = new Image();
+const plumDied   = new Image();
+plumIntact.src = '../images/characters/plumintact.png';
+plumLeft.src   = '../images/characters/plumleft.png';
+plumRight.src  = '../images/characters/plumright.png';
+plumDied.src   = '../images/characters/plumdied.png';
+
+plumIntact.onerror = ()=>console.error('❌ introuvable :', plumIntact.src);
+plumLeft.onerror   = ()=>console.error('❌ introuvable :', plumLeft.src);
+plumRight.onerror  = ()=>console.error('❌ introuvable :', plumRight.src);
+plumDied.onerror   = ()=>console.error('❌ introuvable :', plumDied.src);
+
+// ── POSITION DE PLUM ──
+const plumW = 280;
+const plumH = 500;
+const plumX = (W - plumW) / 2;
+const plumY = H - plumH - 40;
+
+// Zone de collision (bas de Plum)
+const chairY = plumY + plumH * 0.72;
+const chairH = 60;
+
+// Zone d'apparition des couteaux (plus bas que la chaise)
+const spawnYTop = chairY + chairH + 10;
+const spawnYRange = 50;
+
+// ── STATE ──
+const state = {
+  plumState: 'intact',
+  knives: [],
+  particles: [],
+  time: 0,
+  spawnTimer: 2.5,
+  running: false,
+  shake: 0,
+  hurtFlash: 0,
+  ended: false,
+  dyingTimer: 0
+};
+
+// ── DESSIN COUTEAU PIXEL (inversé : pointe vers Plum) ──
+function drawKnifePixel(k){
+  const px = offX + k.x * scale;
+  const py = offY + k.y * scale;
+  const w = k.w * scale;
+  const h = k.h * scale;
+
+  const bladeColor = '#C8C8C8';
+  const bladeHi    = '#F0F0F0';
+  const bladeLo    = '#888888';
+  const handleColor = '#4A2A10';
+  const handleHi    = '#6A3E18';
+  const guardColor  = '#8B0000';
+
+  // dir = 1 : vient de la GAUCHE, manche à gauche, pointe à DROITE
+  // dir = -1 : vient de la DROITE, manche à droite, pointe à GAUCHE
+  let bladeStart, bladeEnd, handleStart, handleEnd, guardX, tipBaseX, tipEndX;
+  if(k.dir === 1){
+    handleStart = px;
+    handleEnd   = px + w * 0.25;
+    guardX      = px + w * 0.25;
+    bladeStart  = px + w * 0.30;
+    bladeEnd    = px + w;
+    tipBaseX    = px + w;
+    tipEndX     = px + w + 10 * scale;
+  } else {
+    handleStart = px + w * 0.75;
+    handleEnd   = px + w;
+    guardX      = px + w * 0.70;
+    bladeStart  = px;
+    bladeEnd    = px + w * 0.70;
+    tipBaseX    = px;
+    tipEndX     = px - 10 * scale;
+  }
+
+  // Lame
+  ctx.fillStyle = bladeColor;
+  ctx.fillRect(bladeStart, py + h*0.35, bladeEnd - bladeStart, h*0.30);
+  // Reflet
+  ctx.fillStyle = bladeHi;
+  ctx.fillRect(bladeStart, py + h*0.40, bladeEnd - bladeStart, h*0.08);
+  // Bas de lame (ombre)
+  ctx.fillStyle = bladeLo;
+  ctx.fillRect(bladeStart, py + h*0.58, bladeEnd - bladeStart, h*0.07);
+  // Pointe
+  ctx.fillStyle = bladeColor;
+  ctx.beginPath();
+  ctx.moveTo(tipBaseX, py + h*0.35);
+  ctx.lineTo(tipEndX, py + h*0.50);
+  ctx.lineTo(tipBaseX, py + h*0.65);
+  ctx.closePath();
+  ctx.fill();
+  // Garde (entre lame et manche)
+  ctx.fillStyle = guardColor;
+  ctx.fillRect(guardX, py + h*0.20, w*0.05, h*0.60);
+  // Manche
+  ctx.fillStyle = handleColor;
+  ctx.fillRect(handleStart, py + h*0.35, handleEnd - handleStart, h*0.30);
+  ctx.fillStyle = handleHi;
+  ctx.fillRect(handleStart, py + h*0.40, handleEnd - handleStart, h*0.06);
+}
+
+// ── SPAWN ──
+function spawnKnife(){
+  const fromLeft = Math.random() < 0.5;
+  const kw = 80;
+  const kh = 20;
+  // Plus bas que la chaise, comme demandé
+  const ky = spawnYTop + Math.random() * spawnYRange;
+  const speed = 130 + Math.random() * 40 + state.time * 8;
+
+  state.knives.push({
+    x: fromLeft ? -kw - 10 : W + 10,
+    y: ky,
+    w: kw, h: kh,
+    vx: fromLeft ? speed : -speed,
+    dir: fromLeft ? 1 : -1,
+    fromLeft
+  });
+}
+
+// ── UPDATE ──
+function update(dt){
+  if(!state.running) return;
+  state.time += dt;
+  state.spawnTimer -= dt;
+
+  if(state.plumState === 'left' || state.plumState === 'right'){
+    state.dyingTimer -= dt;
+    if(state.dyingTimer <= 0){
+      killPlum();
+    }
+  }
+
+  if(state.spawnTimer <= 0 && state.plumState === 'intact'){
+    spawnKnife();
+    const base = Math.max(0.35, 1.6 - state.time * 0.05);
+    state.spawnTimer = base + Math.random() * 0.5;
+  }
+
+  for(let i=state.knives.length-1;i>=0;i--){
+    const k = state.knives[i];
+    k.x += k.vx * dt;
+
+    const tipX = k.fromLeft ? k.x + k.w : k.x;
+    const inPlumX = tipX > plumX + plumW*0.15 && tipX < plumX + plumW*0.85;
+
+    if(inPlumX){
+      handleHit(tipX);
+      state.knives.splice(i,1);
+      continue;
+    }
+
+    if(k.x < -300 || k.x > W + 300){
+      state.knives.splice(i,1);
+    }
+  }
+
+  if(state.shake > 0) state.shake -= dt;
+  if(state.hurtFlash > 0) state.hurtFlash -= dt;
+}
+
+// ── 1er IMPACT ──
+function handleHit(tipX){
+  if(state.ended || state.plumState !== 'intact') return;
+
+  const centerX = plumX + plumW / 2;
+  const side = tipX < centerX ? 'left' : 'right';
+  state.plumState = side;
+  state.shake = 0.6;
+  state.hurtFlash = 0.4;
+  spawnBlood(tipX, chairY + 20, 25);
+  state.dyingTimer = 1.6;
+}
+
+// ── MORT ──
+function killPlum(){
+  if(state.ended) return;
+  state.plumState = 'died';
+  state.running = false;
+  state.ended = true;
+  state.shake = 1;
+  state.hurtFlash = 1;
+  spawnBlood(plumX + plumW/2, chairY + 20, 60);
+
+  document.getElementById('death-flash').style.opacity = '0.9';
+  setTimeout(()=>{ document.getElementById('death-flash').style.opacity = '0'; }, 300);
+
+  setTimeout(gameOver, 2200);
+}
+
+// ── SANG ──
+function spawnBlood(x, y, count){
+  for(let i=0;i<count;i++){
+    state.particles.push({
+      x, y,
+      vx: (Math.random()-0.5) * 400,
+      vy: (Math.random()-0.5) * 400 - 80,
+      life: 0.8 + Math.random() * 0.9,
+      color: Math.random() < 0.5 ? '#DC143C' : '#8B0000',
+      size: 2 + Math.random() * 6
+    });
+  }
+}
+function updateParticles(dt){
+  for(let i=state.particles.length-1;i>=0;i--){
+    const p = state.particles[i];
+    p.x += p.vx * dt;
+    p.y += p.vy * dt;
+    p.vy += 400 * dt;
+    p.life -= dt;
+    if(p.life <= 0) state.particles.splice(i,1);
+  }
+}
+
+// ── DRAW ──
+function drawPlum(){
+  let img;
+  if(state.plumState === 'died') img = plumDied;
+  else if(state.plumState === 'left') img = plumLeft;
+  else if(state.plumState === 'right') img = plumRight;
+  else img = plumIntact;
+
+  if(img && img.complete && img.naturalWidth > 0){
+    ctx.drawImage(img, offX + plumX * scale, offY + plumY * scale, plumW * scale, plumH * scale);
+  } else {
+    ctx.fillStyle = state.plumState === 'died' ? '#3A0000' :
+                    state.plumState === 'intact' ? '#3A2A4A' : '#8B0000';
+    ctx.fillRect(offX + plumX * scale, offY + plumY * scale, plumW * scale, plumH * scale);
+    ctx.fillStyle = '#FF00FF';
+    ctx.font = (20 * scale) + 'px monospace';
+    ctx.fillText('IMG MISSING', offX + (plumX + 40) * scale, offY + (plumY + plumH/2) * scale);
+  }
+}
+
+function drawParticles(){
+  state.particles.forEach(p=>{
+    ctx.fillStyle = p.color;
+    const s = p.size * scale;
+    ctx.fillRect(offX + p.x * scale - s/2, offY + p.y * scale - s/2, s, s);
+  });
+}
+
+function draw(){
+  ctx.fillStyle = '#0A0A0F';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  let sx = 0, sy = 0;
+  if(state.shake > 0){
+    sx = (Math.random()-0.5) * state.shake * 30;
+    sy = (Math.random()-0.5) * state.shake * 30;
+  }
+  const oldOffX = offX, oldOffY = offY;
+  offX += sx;
+  offY += sy;
+
+  drawPlum();
+  state.knives.forEach(drawKnifePixel);
+  drawParticles();
+
+  offX = oldOffX;
+  offY = oldOffY;
+
+  if(state.hurtFlash > 0){
+    ctx.fillStyle = 'rgba(180,0,0,' + (state.hurtFlash * 0.6) + ')';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  }
+}
+
+// ── CLIC / TOUCH ──
+function pointToLogical(clientX, clientY){
+  const r = canvas.getBoundingClientRect();
+  const x = ((clientX - r.left) - offX) / scale;
+  const y = ((clientY - r.top) - offY) / scale;
+  return { x, y };
+}
+
+function tryDestroy(clientX, clientY){
+  if(!state.running || state.plumState !== 'intact') return;
+  const p = pointToLogical(clientX, clientY);
+  for(let i=state.knives.length-1;i>=0;i--){
+    const k = state.knives[i];
+    const pad = 35;
+    if(p.x >= k.x - pad && p.x <= k.x + k.w + pad &&
+       p.y >= k.y - pad && p.y <= k.y + k.h + pad){
+      state.knives.splice(i,1);
+      for(let j=0;j<8;j++){
+        state.particles.push({
+          x: k.x + k.w/2, y: k.y + k.h/2,
+          vx: (Math.random()-0.5) * 250,
+          vy: (Math.random()-0.5) * 250,
+          life: 0.4,
+          color: '#C0C0C0',
+          size: 2
+        });
+      }
+      return;
+    }
+  }
+}
+
+let lastTouchTime = 0;
+canvas.addEventListener('touchstart', e=>{
+  e.preventDefault();
+  lastTouchTime = Date.now();
+  for(const t of e.changedTouches){
+    tryDestroy(t.clientX, t.clientY);
+  }
+}, {passive:false});
+
+canvas.addEventListener('mousedown', e=>{
+  if(Date.now() - lastTouchTime < 500) return;
+  tryDestroy(e.clientX, e.clientY);
+});
+
+canvas.addEventListener('pointerdown', e=>{
+  if(Date.now() - lastTouchTime < 500) return;
+  if(e.pointerType === 'touch') return;
+  tryDestroy(e.clientX, e.clientY);
+});
+
+// ── GAME OVER ──
+function gameOver(){
+  if(window.parent && window.parent.LMTD_MINIGAME_DONE){
+    window.parent.LMTD_MINIGAME_DONE({ success: false, affinity: -2 });
+  }
+}
+
+// ── LOOP ──
+let lastTime = 0;
+function loop(now){
+  if(!lastTime) lastTime = now;
+  const dt = Math.min(0.05, (now - lastTime) / 1000);
+  lastTime = now;
+
+  if(state.running) update(dt);
+  updateParticles(dt);
+  draw();
+
+  if(state.running){
+    document.getElementById('time').textContent = state.time.toFixed(1) + 's';
+  }
+
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+
+// ── BOUTON START ──
+document.getElementById('start-btn').addEventListener('click', ()=>{
+  document.getElementById('start-overlay').classList.add('hidden');
+  state.running = true;
+  state.time = 0;
+  state.spawnTimer = 1.5;
+  state.plumState = 'intact';
+  state.ended = false;
+  state.dyingTimer = 0;
+  state.knives = [];
+  state.particles = [];
+});
+
+})();
+</script>
+</body>
+</html>

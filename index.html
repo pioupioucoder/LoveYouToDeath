@@ -689,6 +689,39 @@ body.minigame-active #hud{display:none !important}
   .settings-container{padding:1.5rem 1.2rem}
   .poem-parchment{padding:2rem 1.5rem}
 }
+#mission-overlay{
+  position:fixed;inset:0;z-index:80;
+  background:rgba(5,3,8,.88);backdrop-filter:blur(10px);
+  display:none;align-items:center;justify-content:center;
+  opacity:0;transition:opacity .8s ease;
+  cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;
+}
+#mission-overlay.active{display:flex;opacity:1;pointer-events:auto}
+.mission-parchment{
+  background:rgba(10,3,15,.96);
+  border:1px solid rgba(220,20,60,.4);
+  max-width:420px;width:80%;
+  padding:3rem 2rem;
+  text-align:center;
+  box-shadow:0 20px 60px rgba(0,0,0,.8),0 0 40px rgba(139,0,0,.35);
+  position:relative;
+  transform:scale(.9);opacity:0;
+  transition:transform .8s cubic-bezier(.2,.9,.3,1),opacity .8s ease;
+}
+#mission-overlay.active .mission-parchment{transform:scale(1);opacity:1}
+.mission-title{
+  font-family:'Cinzel',serif;font-size:clamp(1.4rem,4.5vw,2rem);
+  font-weight:600;color:#E8DDF0;letter-spacing:.25em;
+  text-shadow:0 0 40px rgba(220,20,60,.55),0 0 80px rgba(139,0,0,.35);
+  line-height:1.3;
+}
+.mission-hint{
+  position:absolute;bottom:1.3rem;left:50%;transform:translateX(-50%);
+  font-family:'IM Fell English',serif;font-size:.72rem;
+  color:rgba(200,180,200,.45);font-style:italic;
+  letter-spacing:.15em;animation:poemHintPulse 2s ease infinite;
+  pointer-events:none;white-space:nowrap;
+}
 
 /* Quand une image overlay (lettre) est affichée : on cache le dialogue */
 body.overlay-active #dialogue-wrap{opacity:0;pointer-events:none}
@@ -707,6 +740,87 @@ body.overlay-active #dialogue-wrap{opacity:0;pointer-events:none}
     padding:.7rem 1rem;
     font-size:.9rem;
   }
+}
+#mission-overlay{
+  position:fixed;inset:0;z-index:120;
+  background:radial-gradient(ellipse at center, rgba(20,0,10,.97) 0%, rgba(5,0,3,.99) 70%);
+  display:none;flex-direction:column;align-items:center;justify-content:center;
+  padding:2rem 1.5rem;text-align:center;
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;
+}
+#mission-overlay.active{display:flex;animation:missionFadeIn .8s ease}
+@keyframes missionFadeIn{from{opacity:0}to{opacity:1}}
+.mission-symbol{
+  font-family:'Cinzel',serif;font-size:clamp(1.8rem,6vw,3rem);
+  color:#DC143C;letter-spacing:.5em;
+  text-shadow:0 0 20px #8B0000, 0 0 40px #8B0000, 0 0 60px #8B0000;
+  margin-bottom:1.5rem;animation:missionPulse 1.8s ease infinite;
+}
+@keyframes missionPulse{
+  0%,100%{opacity:.85;text-shadow:0 0 15px #8B0000, 0 0 30px #8B0000}
+  50%{opacity:1;text-shadow:0 0 30px #DC143C, 0 0 60px #8B0000, 0 0 90px #8B0000}
+}
+.mission-label{
+  font-family:'Cinzel',serif;font-size:clamp(.55rem,1.8vw,.75rem);
+  letter-spacing:.5em;color:#8B0000;text-transform:uppercase;
+  margin-bottom:.6rem;
+}
+.mission-title{
+  font-family:'Cinzel',serif;font-size:clamp(1.3rem,4.5vw,2.4rem);
+  font-weight:600;color:#E8DDF0;letter-spacing:.2em;
+  text-shadow:0 0 30px rgba(220,20,60,.5),0 0 60px rgba(139,0,0,.3);
+  margin-bottom:1.4rem;line-height:1.2;
+}
+.mission-divider{
+  display:flex;align-items:center;gap:1rem;
+  width:min(340px,80vw);margin:0 auto 1.6rem;
+}
+.mission-divider::before,.mission-divider::after{
+  content:'';flex:1;height:1px;
+  background:linear-gradient(to right,transparent,#8B0000);
+}
+.mission-divider::after{background:linear-gradient(to left,transparent,#8B0000)}
+.mission-divider span{color:#DC143C;font-size:.9rem}
+.mission-text{
+  font-family:'IM Fell English',serif;
+  font-size:clamp(.9rem,2.5vw,1.1rem);
+  font-style:italic;color:#C8B8D0;
+  max-width:520px;line-height:1.8;
+  margin-bottom:1.8rem;padding:0 1rem;
+}
+.mission-warning{
+  font-family:'Cinzel',serif;font-size:clamp(.6rem,1.7vw,.75rem);
+  letter-spacing:.25em;color:#DC143C;
+  margin-bottom:1rem;text-transform:uppercase;
+  animation:missionWarn 1.4s ease infinite;
+}
+@keyframes missionWarn{0%,100%{opacity:.6}50%{opacity:1}}
+.mission-accept{
+  font-family:'Cinzel',serif;font-size:clamp(.75rem,2vw,.9rem);
+  letter-spacing:.35em;color:#E8DDF0;background:transparent;
+  border:1px solid rgba(220,20,60,.6);
+  padding:1rem 3rem;cursor:pointer;
+  position:relative;overflow:hidden;
+  transition:all .35s ease;
+  touch-action:manipulation;
+}
+.mission-accept::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,#8B0000,transparent);
+  opacity:0;transition:opacity .35s;
+}
+.mission-accept:hover,.mission-accept:focus{
+  border-color:#FF6B8A;color:#fff;letter-spacing:.45em;
+  box-shadow:0 0 40px rgba(220,20,60,.5);
+}
+.mission-accept:hover::before{opacity:1}
+.mission-accept span{position:relative;z-index:1}
+.mission-hint{
+  font-family:'IM Fell English',serif;font-size:.72rem;
+  color:rgba(200,180,200,.45);font-style:italic;
+  letter-spacing:.15em;margin-top:1.2rem;
+  animation:missionWarn 2s ease infinite;
 }
 </style>
 </head>
@@ -965,7 +1079,22 @@ body.overlay-active #dialogue-wrap{opacity:0;pointer-events:none}
   </div>
   <div class="poem-hint" id="poem-hint">tap to continue</div>
 </div>
-
+<div id="mission-overlay">
+  <div class="mission-symbol">&#10022;</div>
+  <div class="mission-label">&#9733; NEW MISSION &#9733;</div>
+  <div class="mission-title" id="mission-title">PROTECT PLUM</div>
+  <div class="mission-divider"><span>&#10022;</span></div>
+  <div class="mission-warning" id="mission-warning">FAILURE IS NOT AN OPTION</div>
+  <div class="mission-text" id="mission-text"></div>
+  <button class="mission-accept" id="mission-accept-btn" type="button"><span>ACCEPT</span></button>
+  <div class="mission-hint" id="mission-hint">tap to begin</div>
+</div>
+<div id="mission-overlay">
+  <div class="mission-parchment">
+    <div class="mission-title" id="mission-title"></div>
+    <div class="mission-hint">tap to continue</div>
+  </div>
+</div>
 <audio id="bgm" loop></audio>
 
 <script>
@@ -1589,7 +1718,40 @@ function showChapterTitle(label, subtitle, callback){
   screen.addEventListener('touchend', advance, {passive:false});
   setTimeout(advance, 4500);
 }
+function showMission(scene, onDone){
+  const ov = document.getElementById('mission-overlay');
+  if(!ov){ if(onDone) onDone(); return; }
 
+  document.getElementById('mission-title').textContent = scene.missionTitle || 'MISSION';
+  document.getElementById('mission-warning').textContent = scene.missionWarning || 'FAILURE IS NOT AN OPTION';
+  document.getElementById('mission-text').textContent = scene.text || '';
+
+  // Dialogue d'Es en haut du popup si présent
+  if(scene.speaker){
+    const label = document.querySelector('.mission-label');
+    if(label) label.textContent = '★ ' + String(scene.speaker).toUpperCase() + ' ★';
+  }
+
+  ov.classList.remove('active');
+  void ov.offsetWidth;
+  ov.classList.add('active');
+
+  let done = false;
+  const close = (e)=>{
+    if(e){ e.preventDefault(); e.stopPropagation(); }
+    if(done) return;
+    done = true;
+    ov.removeEventListener('click', close);
+    ov.removeEventListener('touchend', close);
+    btn.removeEventListener('click', close);
+    ov.classList.remove('active');
+    setTimeout(()=>{ if(onDone) onDone(); }, 400);
+  };
+  const btn = document.getElementById('mission-accept-btn');
+  ov.addEventListener('click', close);
+  ov.addEventListener('touchend', close, {passive:false});
+  btn.addEventListener('click', close);
+}
 async function loadChapterIndex(){
   if(chapterIndexCache) return chapterIndexCache;
   try{
@@ -2185,6 +2347,30 @@ function renderScene(scene,fromBack){
     });
     return;
   }
+    if(scene.type==='mission'){
+    document.getElementById('dialogue-wrap').style.display='none';
+    document.getElementById('choices-wrap').style.display='none';
+    if(scene.bg) setBg(scene.bg);
+    if(scene.music) playMusic(scene.music);
+    showMission(scene, function(){
+      document.getElementById('dialogue-wrap').style.display='';
+      if(scene.next && scene.next !== '__ending__') navigateTo(scene.next);
+      else triggerEnding();
+    });
+    return;
+  }
+    if(scene.type==='mission'){
+    document.getElementById('dialogue-wrap').style.display='none';
+    document.getElementById('choices-wrap').style.display='none';
+    if(scene.bg) setBg(scene.bg);
+    if(scene.music) playMusic(scene.music);
+    showMission(scene, function(){
+      document.getElementById('dialogue-wrap').style.display='';
+      if(scene.next && scene.next !== '__ending__') navigateTo(scene.next);
+      else triggerEnding();
+    });
+    return;
+  }
   if(scene.type==='minigame'){
     triggerMinigame(scene,function(){
       if(scene.next&&scene.next!=='__ending__')navigateTo(scene.next);
@@ -2361,6 +2547,26 @@ async function triggerEnding(){
   fadeTransition(()=>showScreen('ending-screen'));
   if(ending.music)playMusic(ending.music);
   else playMusic(endingType==='bad'?'music/bad_ending.mp3':'music/true_ending.mp3');
+}
+function showMission(scene, onDone){
+  const ov = document.getElementById('mission-overlay');
+  if(!ov){ if(onDone) onDone(); return; }
+  document.getElementById('mission-title').textContent = scene.missionTitle || '';
+  ov.classList.remove('active');
+  void ov.offsetWidth;
+  requestAnimationFrame(()=>ov.classList.add('active'));
+  let done = false;
+  const close = (e)=>{
+    if(e){ e.preventDefault(); e.stopPropagation(); }
+    if(done) return;
+    done = true;
+    ov.removeEventListener('click', close);
+    ov.removeEventListener('touchend', close);
+    ov.classList.remove('active');
+    setTimeout(()=>{ if(onDone) onDone(); }, 500);
+  };
+  ov.addEventListener('click', close);
+  ov.addEventListener('touchend', close, {passive:false});
 }
 
 function triggerMinigame(scene,onComplete){
