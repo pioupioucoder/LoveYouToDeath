@@ -996,12 +996,202 @@
     "type": "eyes_close",
     "next": "chapter1_100"
   },
-  {
+  {  
     "id": "chapter1_100",
-    "bg": "images/backgrounds/club_room.webp",
+    "bg": null,
+    "charImg": null,
     "speaker": null,
-    "text": "I open my eyes again.",
-    "music": "music/club.mp3",
+    "text": "Wasn't I writing a poem…?",
+    "typeSpeed": 22,
+    "next": "chapter1_101"
+  },
+  {
+    "id": "chapter1_101",
+    "bg": null,
+    "charImg": null,
+    "speaker": null,
+    "text": "Everything went black.",
+    "typeSpeed": 22,
+    "next": "chapter1_102"
+  },
+  {
+    "id": "chapter1_102",
+    "bg": null,
+    "charImg": null,
+    "speaker": null,
+    "text": "I blink, but nothing changes.",
+    "typeSpeed": 22,
+    "next": "chapter1_103"
+  },
+  {
+    "id": "chapter1_103",
+    "bg": null,
+    "charImg": null,
+    "speaker": null,
+    "text": "My eyes start to sting from searching for something in the darkness.",
+    "typeSpeed": 22,
+    "next": "chapter1_104"
+  },
+  {
+    "id": "chapter1_104",
+    "bg": null,
+    "charImg": null,
+    "speaker": "???",
+    "text": "It hurts…",
+    "typeSpeed": 22,
+    "next": "chapter1_105"
+  },
+  {
+    "id": "chapter1_105",
+    "bg": null,
+    "charImg": null,
+    "speaker": null,
+    "text": "A shiver slides down my neck.",
+    "typeSpeed": 22,
+    "next": "chapter1_106"
+  },
+  {
+    "id": "chapter1_106",
+    "bg": null,
+    "charImg": null,
+    "speaker": "Me",
+    "text": "Is someone there?",
+    "typeSpeed": 22,
+    "next": "chapter1_107"
+  },
+  {
+    "id": "chapter1_107",
+    "bg": null,
+    "charImg": null,
+    "speaker": null,
+    "text": "My throat is dry.",
+    "typeSpeed": 22,
+    "next": "chapter1_108"
+  },
+  {
+    "id": "chapter1_108",
+    "bg": null,
+    "charImg": null,
+    "speaker": null,
+    "text": "I turn my head, searching for where the voice comes from, but the darkness seems to smother it.",
+    "typeSpeed": 22,
+    "next": "chapter1_109"
+  },
+  {
+    "id": "chapter1_109",
+    "bg": null,
+    "charImg": null,
+    "speaker": "???",
+    "text": "No matter how I push them away…",
+    "typeSpeed": 22,
+    "next": "chapter1_110"
+  },
+  {
+    "id": "chapter1_110",
+    "bg": null,
+    "charImg": null,
+    "speaker": null,
+    "text": "My fingers tighten slightly.",
+    "typeSpeed": 22,
+    "next": "chapter1_111"
+  },
+  {
+    "id": "chapter1_111",
+    "bg": null,
+    "charImg": null,
+    "speaker": "???",
+    "text": "But they always come closer.",
+    "typeSpeed": 22,
+    "next": "chapter1_112"
+  },
+  {
+    "id": "chapter1_112",
+    "bg": null,
+    "charImg": null,
+    "speaker": null,
+    "text": "My heart pounds against my chest.",
+    "typeSpeed": 22,
+    "next": "chapter1_113"
+  },
+  {
+    "id": "chapter1_113",
+    "bg": null,
+    "charImg": null,
+    "speaker": "???",
+    "text": "Like moths drawn to a flame…",
+    "typeSpeed": 22,
+    "next": "chapter1_114"
+  },
+  {
+    "id": "chapter1_114",
+    "bg": null,
+    "charImg": null,
+    "speaker": null,
+    "text": "I instinctively hold my breath.",
+    "typeSpeed": 22,
+    "next": "chapter1_115"
+  },
+  {
+    "id": "chapter1_115",
+    "bg": null,
+    "charImg": null,
+    "speaker": "???",
+    "text": "…until their wings stop beating.",
+    "typeSpeed": 22,
+    "next": "chapter1_116"
+  },
+  {
+    "id": "chapter1_116",
+    "bg": null,
+    "charImg": null,
+    "speaker": null,
+    "text": "An unpleasant cold runs down my back.",
+    "typeSpeed": 22,
+    "next": "chapter1_117"
+  },
+  {
+    "id": "chapter1_117",
+    "bg": null,
+    "charImg": null,
+    "speaker": "Me",
+    "text": "What…? Who's there?",
+    "typeSpeed": 22,
+    "next": "chapter1_118"
+  },
+  {
+    "id": "chapter1_118",
+    "bg": null,
+    "charImg": null,
+    "speaker": null,
+    "text": "My voice trembles slightly.",
+    "typeSpeed": 22,
+    "next": "chapter1_119"
+  },
+  {
+    "id": "chapter1_119",
+    "bg": null,
+    "charImg": null,
+    "speaker": null,
+    "text": "I step back, but my legs suddenly feel too heavy.",
+    "typeSpeed": 22,
+    "next": "chapter1_120"
+  },
+  {
+    "id": "chapter1_120",
+    "bg": null,
+    "charImg": null,
+    "speaker": null,
+    "text": "Then a laugh rises in the darkness.",
+    "typeSpeed": 22,
+    "next": "chapter1_121"
+  },
+  {
+    "id": "chapter1_121",
+    "bg": null,
+    "charImg": null,
+    "speaker": "???",
+    "text": "Hahahaha…",
+    "typeSpeed": 22,
     "next": "__suite_suivante__"
   }
 ]
