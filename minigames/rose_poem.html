@@ -543,5 +543,17 @@ function endGame(perfect) {
   }, 150);
   window.addEventListener('beforeunload', () => clearInterval(_killLoop));
 </script>
+<script>
+  // Coupe aussi la musique du mini-jeu quand l'onglet perd le focus
+  document.addEventListener('visibilitychange', () => {
+    const b = document.getElementById('bgm-mini');
+    if(!b) return;
+    if(document.hidden){
+      try{ b.pause(); }catch(e){}
+    } else {
+      try{ b.play().catch(()=>{}); }catch(e){}
+    }
+  });
+</script>
 </body>
 </html>

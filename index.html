@@ -1873,6 +1873,22 @@ function showAffinityDelta(d){
 }
 
 let bgm=document.getElementById('bgm');
+document.addEventListener('visibilitychange', () => {
+  if(!bgm) return;
+  if(document.hidden){
+    try{ bgm.pause(); }catch(e){}
+  } else {
+    if(state.currentMusic && bgm.src){
+      try{ bgm.play().catch(()=>{}); }catch(e){}
+    }
+  }
+});
+window.addEventListener('pagehide', () => {
+  try{ bgm.pause(); }catch(e){}
+});
+window.addEventListener('beforeunload', () => {
+  try{ bgm.pause(); }catch(e){}
+});
 setInterval(()=>{
   if(!bgm.paused&&bgm.src&&bgm.duration){
     try{sessionStorage.setItem('lmtd_music_pos',JSON.stringify({src:bgm.src,pos:bgm.currentTime}));}catch(e){}
