@@ -922,6 +922,74 @@
     "text": "There we go.",
     "typeSpeed": 22,
     "music": "music/club.mp3",
+        "next": "chapter1_93"
+  },
+    {
+    "id": "chapter1_93",
+    "bg": "images/backgrounds/club_room.webp",
+    "charImg": "images/characters/rosehappytalk.png",
+    "speaker": "Rose",
+    "text": "Enough talking. Let's start our poem.",
+    "typeSpeed": 22,
+    "music": "music/club.mp3",
+    "next": "chapter1_94"
+  },
+  {
+    "id": "chapter1_94",
+    "bg": "images/backgrounds/club_room.webp",
+    "charImg": "images/characters/rosetalkneutral.png",
+    "speaker": null,
+    "text": "She pulls the sheet closer and picks up her pen.",
+    "typeSpeed": 22,
+    "music": "music/club.mp3",
+    "next": "chapter1_95"
+  },
+  {
+    "id": "chapter1_95",
+    "bg": "images/backgrounds/club_room.webp",
+    "charImg": "images/characters/rosehappytalk.png",
+    "speaker": "Rose",
+    "text": "I got inspired by a book about a murder.",
+    "typeSpeed": 22,
+    "music": "music/club.mp3",
+    "next": "chapter1_96"
+  },
+  {
+    "id": "chapter1_96",
+    "bg": "images/backgrounds/club_room.webp",
+    "charImg": "images/characters/rosetalkneutral.png",
+    "speaker": null,
+    "text": "She thinks for a brief moment, then starts writing.",
+    "typeSpeed": 22,
+    "music": "music/club.mp3",
+    "next": "chapter1_97"
+  },
+    {
+    "id": "chapter1_97",
+    "type": "minigame",
+    "minigameFile": "minigames/rose_poem.html",
+    "nextSuccess": "chapter1_98_success",
+    "nextFail": "chapter1_98_fail",
+    "next": "chapter1_98_success"
+  },
+  {
+    "id": "chapter1_98_success",
+    "bg": "images/backgrounds/club_room.webp",
+    "charImg": "images/characters/rosehappytalk.png",
+    "speaker": "Rose",
+    "text": "Not a single mistake. You really have an ear for poetry.",
+    "typeSpeed": 22,
+    "music": "music/club.mp3",
+    "next": "__suite_suivante__"
+  },
+  {
+    "id": "chapter1_98_fail",
+    "bg": "images/backgrounds/club_room.webp",
+    "charImg": "images/characters/rosetalkneutral.png",
+    "speaker": "Rose",
+    "text": "You made several mistakes\u2026 but that's how we learn.",
+    "typeSpeed": 22,
+    "music": "music/club.mp3",
     "next": "__suite_suivante__"
   }
 ]

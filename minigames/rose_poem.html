@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rose's Poem</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 100%; height: 100%; overflow: hidden; font-family: Georgia, serif; }
+
+  #mission-popup {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,.92);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 100; transition: opacity .5s;
+  }
+  #mission-popup.hidden { opacity: 0; pointer-events: none; }
+  .mission-card {
+    background: linear-gradient(135deg, #1a0a15, #2a1520);
+    border: 1px solid rgba(220,20,60,.5);
+    padding: 2rem 2.5rem; max-width: 420px; width: 90%;
+    text-align: center; color: #f0e8f5;
+    box-shadow: 0 0 60px rgba(220,20,60,.4); border-radius: 4px;
+  }
+  .mission-label { font-size: .7rem; letter-spacing: .4em; color: #DC143C; text-transform: uppercase; margin-bottom: .8rem; }
+  .mission-text { font-size: 1.1rem; line-height: 1.6; margin-bottom: 1.5rem; }
+  .mission-text strong { color: #FF6B8A; }
+  .mission-btn {
+    background: transparent; border: 1px solid rgba(220,20,60,.6); color: #f0e8f5;
+    padding: .8rem 2rem; font-family: inherit; font-size: .9rem;
+    letter-spacing: .2em; cursor: pointer; transition: all .3s; text-transform: uppercase;
+  }
+  .mission-btn:hover { background: rgba(220,20,60,.2); }
+
+  #notebook {
+    position: fixed; inset: 0; background: #fefcf5;
+    background-image: repeating-linear-gradient(to bottom,
+      transparent 0, transparent 31px,
+      rgba(100,140,200,.35) 31px, rgba(100,140,200,.35) 32px);
+    padding: 100px 20px 260px 60px;
+    overflow-y: auto; opacity: 0; transition: opacity .8s;
+  }
+  #notebook.visible { opacity: 1; }
+  #notebook::before {
+    content: ''; position: absolute; left: 40px; top: 0; bottom: 0;
+    width: 2px; background: rgba(220,20,60,.35); pointer-events: none; z-index: 1;
+  }
+
+  .notebook-title {
+    position: fixed; top: 70px; left: 60px;
+    font-size: 1.4rem; color: #4a2a1a; letter-spacing: .05em;
+    opacity: 0; transition: opacity .8s .3s; z-index: 5;
+  }
+  #notebook.visible .notebook-title { opacity: 1; }
+  .notebook-subtitle { font-size: .8rem; color: #8a6a5a; font-style: italic; }
+
+  .lives {
+    position: fixed; top: 70px; right: 20px;
+    display: flex; gap: .5rem; z-index: 5; font-size: 1.5rem;
+  }
+  .heart { color: #DC143C; transition: all .4s; filter: drop-shadow(0 0 4px rgba(220,20,60,.6)); }
+  .heart.lost { color: rgba(120,120,120,.3); filter: none; transform: scale(.85); }
+
+  #verses-area { max-width: 700px; margin: 0 auto; padding-bottom: 40px; position: relative; z-index: 2; }
+
+  .verse-line {
+    font-family: 'IM Fell English', Georgia, serif;
+    font-size: clamp(.95rem, 2.2vw, 1.15rem);
+    line-height: 32px; color: #2a1a0a; margin-bottom: 0;
+    opacity: 0; transform: translateY(6px);
+    animation: verseIn .6s ease forwards;
+    word-wrap: break-word;
+  }
+  @keyframes verseIn { to { opacity: 1; transform: translateY(0); } }
+  .verse-line .speaker { color: #8B0000; font-style: italic; margin-right: .3em; }
+  .verse-line .speaker.etoile { color: #2a4a8a; }
+
+  #options-area {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: linear-gradient(to top, #fefcf5 70%, transparent);
+    padding: 20px; z-index: 10; display: none;
+  }
+  #options-area.visible { display: block; }
+  .options-prompt {
+    text-align: center; font-family: 'IM Fell English', Georgia, serif;
+    font-style: italic; color: #6a4420; font-size: .9rem; margin-bottom: .8rem;
+  }
+  .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; max-width: 800px; margin: 0 auto; }
+  @media (max-width: 600px) { .options-grid { grid-template-columns: 1fr; } }
+
+  .option-btn {
+    background: #fff; border: 1px solid rgba(139,0,0,.3); color: #2a1a0a;
+    padding: 1rem; font-family: 'IM Fell English', Georgia, serif;
+    font-size: clamp(.85rem, 2vw, 1rem); line-height: 1.4;
+    cursor: pointer; text-align: left; transition: all .25s;
+    border-radius: 3px; box-shadow: 0 2px 6px rgba(0,0,0,.06);
+    touch-action: manipulation;
+  }
+  .option-btn:hover:not(:disabled) { border-color: #DC143C; background: #fff8f8; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(139,0,0,.15); }
+  .option-btn.correct { background: #e8f5e8; border-color: #2d7a2d; color: #1a4a1a; }
+  .option-btn:disabled { cursor: default; }
+
+  /* ══ ANIMATION RÉPONSE FAUSSE ══ */
+  .option-btn.wrong {
+    background: #f5dede;
+    border-color: #a03030;
+    color: #5a1a1a;
+    text-decoration: line-through;
+    text-decoration-thickness: 2px;
+    text-decoration-color: #a03030;
+    animation: shakeWrong .55s ease;
+  }
+  @keyframes shakeWrong {
+    0%,100% { transform: translateX(0); }
+    10% { transform: translateX(-12px) rotate(-1.5deg); }
+    25% { transform: translateX(12px) rotate(1.5deg); }
+    40% { transform: translateX(-9px) rotate(-1deg); }
+    55% { transform: translateX(9px) rotate(1deg); }
+    70% { transform: translateX(-6px) rotate(-.5deg); }
+    85% { transform: translateX(6px) rotate(.5deg); }
+  }
+  /* Rayure qui se dessine sur le faux vers */
+  .option-btn.wrong::after {
+    content: ''; position: absolute; left: 6%; right: 6%; top: 50%;
+    height: 3px; background: #a03030;
+    transform-origin: left center;
+    animation: strikeIn .4s ease .15s both;
+    border-radius: 2px;
+    pointer-events: none;
+  }
+  .option-btn { position: relative; overflow: visible; }
+  @keyframes strikeIn {
+    0% { transform: scaleX(0); opacity: 0; }
+    100% { transform: scaleX(1); opacity: 1; }
+  }
+
+  /* Flash rouge plein écran */
+  #flash-overlay {
+    position: fixed; inset: 0; pointer-events: none;
+    background: radial-gradient(ellipse at center, rgba(180,20,20,.15), rgba(180,20,20,.35));
+    opacity: 0; z-index: 150;
+  }
+  #flash-overlay.show { animation: wrongFlash .5s ease; }
+  @keyframes wrongFlash {
+    0% { opacity: 0; } 15% { opacity: 1; } 100% { opacity: 0; }
+  }
+
+  #end-popup {
+    position: fixed; inset: 0; background: rgba(0,0,0,.9);
+    display: none; align-items: center; justify-content: center; z-index: 200;
+  }
+  #end-popup.visible { display: flex; }
+  .end-card {
+    background: #1a0a15; border: 1px solid rgba(220,20,60,.5);
+    padding: 2rem; max-width: 420px; width: 90%;
+    text-align: center; color: #f0e8f5; border-radius: 4px;
+  }
+  .end-title { font-size: 1.3rem; margin-bottom: 1rem; letter-spacing: .1em; }
+  .end-title.success { color: #FF6B8A; }
+  .end-title.fail { color: #a03030; }
+  .end-text { font-style: italic; color: #C8B8D0; line-height: 1.6; margin-bottom: 1.5rem; }
+
+/* ══ HUD intégrée au mini-jeu ══ */
+#mini-hud{
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 14px;
+  z-index: 50;
+  pointer-events: none;
+  background: transparent;
+}
+#mini-hud .mh-left,
+#mini-hud .mh-right{
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  pointer-events: auto;
+}
+#mini-hud .mh-aff{
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: rgba(10,10,15,.75);
+  border: 1px solid rgba(200,160,200,.25);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+#mini-hud .mh-heart{
+  color: #DC143C;
+  font-size: 1rem;
+  filter: drop-shadow(0 0 4px rgba(220,20,60,.6));
+}
+#mini-hud .mh-bar{
+  width: 70px;
+  height: 5px;
+  background: rgba(255,255,255,.12);
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+}
+#mini-hud .mh-bar-fill{
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 50%;
+  background: linear-gradient(to right, #6B21A8, #DC143C);
+  border-radius: 3px;
+  transition: width .5s ease, background .5s ease;
+}
+#mini-hud .mh-val{
+  color: #C8B8D0;
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: .7rem;
+  min-width: 2.2rem;
+  text-align: center;
+}
+#mini-hud .mh-btn{
+  width: 34px;
+  height: 34px;
+  border-radius: 4px;
+  background: rgba(10,10,15,.78);
+  border: 1px solid rgba(200,160,200,.3);
+  color: #C8B8D0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .95rem;
+  transition: all .2s;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+#mini-hud .mh-btn:hover{
+  border-color: #DC143C;
+  color: #fff;
+}
+</style>
+</head>
+<body>
+<div id="mini-hud">
+  <div class="mh-left">
+    <div class="mh-aff">
+      <span class="mh-heart">&#9829;</span>
+      <div class="mh-bar"><div class="mh-bar-fill" id="mh-bar-fill"></div></div>
+      <span class="mh-val" id="mh-val">0</span>
+    </div>
+  </div>
+  <div class="mh-right">
+    <button class="mh-btn" id="mh-history" type="button" title="History">&#128220;</button>
+    <button class="mh-btn" id="mh-help" type="button" title="Help">?</button>
+    <button class="mh-btn" id="mh-pause" type="button" title="Pause">&#9208;</button>
+  </div>
+</div>
+<div id="mission-popup">
+  <div class="mission-card">
+    <div class="mission-label">Mission</div>
+    <div class="mission-text">
+      Choose the right verse.<br>
+      You have <strong>3 lives</strong>.
+    </div>
+    <button class="mission-btn" id="btn-start-mission">Begin</button>
+  </div>
+</div>
+
+<div id="notebook">
+  <div class="notebook-title">
+    Rose &amp; Étoile
+    <div class="notebook-subtitle">&mdash; a poem in two hands &mdash;</div>
+  </div>
+  <div class="lives">
+    <span class="heart" data-life="0">&#9829;</span>
+    <span class="heart" data-life="1">&#9829;</span>
+    <span class="heart" data-life="2">&#9829;</span>
+  </div>
+  <div id="verses-area"></div>
+</div>
+
+<div id="options-area">
+  <div class="options-prompt">What comes next, Étoile?</div>
+  <div class="options-grid" id="options-grid"></div>
+</div>
+
+<div id="flash-overlay"></div>
+
+<div id="end-popup">
+  <div class="end-card">
+    <div class="end-title" id="end-title"></div>
+    <div class="end-text" id="end-text"></div>
+  </div>
+</div>
+
+<script>
+'use strict';
+
+// Vers alternés : Rose (imposé) → Étoile (choix du joueur) → Rose → Étoile…
+// Chaque "paire" = un couplet qui rime.
+const PAIRS = [
+  {
+    rose:   "Death in the forest, love and murder told,",
+    etoile: "From the notes of an examining magistrate bold.",
+    fake:   "From the pages of a novel, dark and cold."
+  },
+  {
+    rose:   "The girl in red loved, then cried in pain,",
+    etoile: "I love you, I can't live without you, in vain.",
+    fake:   "I hate you, I can't live without you, in vain."
+  },
+  {
+    rose:   "Don't come to see me any more, she said,",
+    etoile: "Then Olga has been murdered, the Count read.",
+    fake:   "Then Olga has been murdered, the Count pled."
+  },
+  {
+    rose:   "Urbenin, blood-stained, I am not guilty cried,",
+    etoile: "Drunken swine, Kuz'ma heard before he died.",
+    fake:   "Drunken fool, Kuz'ma heard before he lied."
+  },
+  {
+    rose:   "Kuz'ma had died from suffocation, no breath,",
+    etoile: "Transportation and hard labour for fifteen years, a living death.",
+    fake:   "Transportation and hard labour for twenty years, a living death."
+  },
+  {
+    rose:   "Kamyshev laughed, I killed them, he cried.",
+    etoile: "The husband killed his wife, but the truth had died.",
+    fake:   "The husband loved his wife, but the truth had lied."
+  }
+];
+
+const MAX_MISTAKES = 3;
+
+let pairIndex = 0;
+let mistakes = 0;
+
+const popup       = document.getElementById('mission-popup');
+const notebook    = document.getElementById('notebook');
+const versesArea  = document.getElementById('verses-area');
+const optionsArea = document.getElementById('options-area');
+const optionsGrid = document.getElementById('options-grid');
+const endPopup    = document.getElementById('end-popup');
+const endTitle    = document.getElementById('end-title');
+const endText     = document.getElementById('end-text');
+const flash       = document.getElementById('flash-overlay');
+
+document.getElementById('btn-start-mission').addEventListener('click', () => {
+  popup.classList.add('hidden');
+  notebook.classList.add('visible');
+  setTimeout(() => {
+    addVerse('Rose', PAIRS[0].rose, 'rose');
+    setTimeout(showOptions, 900);
+  }, 600);
+});
+
+function addVerse(speaker, text, who) {
+  const div = document.createElement('div');
+  div.className = 'verse-line';
+  const cls = who === 'etoile' ? 'speaker etoile' : 'speaker';
+  div.innerHTML = '<span class="' + cls + '">' + speaker + ':</span>' + escapeHtml(text);
+  versesArea.appendChild(div);
+  notebook.scrollTop = notebook.scrollHeight;
+}
+
+function escapeHtml(str) {
+  return String(str).replace(/[&<>"']/g, c => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  })[c]);
+}
+
+function showOptions() {
+  if (pairIndex >= PAIRS.length) {
+    endGame(mistakes === 0);
+    return;
+  }
+  const real = PAIRS[pairIndex].etoile;
+  const fake = PAIRS[pairIndex].fake;
+  const options = Math.random() < 0.5 ? [real, fake] : [fake, real];
+
+  optionsGrid.innerHTML = '';
+  options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'option-btn';
+    btn.textContent = opt;
+    btn.addEventListener('click', () => handleChoice(btn, opt === real, real));
+    optionsGrid.appendChild(btn);
+  });
+  optionsArea.classList.add('visible');
+}
+
+function handleChoice(btn, isCorrect, realVerse) {
+  optionsGrid.querySelectorAll('.option-btn').forEach(b => b.disabled = true);
+
+  if (isCorrect) {
+    btn.classList.add('correct');
+    setTimeout(() => {
+      optionsArea.classList.remove('visible');
+      addVerse('Étoile', realVerse, 'etoile');
+      pairIndex++;
+      setTimeout(() => {
+        // Vers suivant : c'est Rose qui écrit (imposé)
+        if (pairIndex >= PAIRS.length) {
+          endGame(mistakes === 0);
+          return;
+        }
+        addVerse('Rose', PAIRS[pairIndex].rose, 'rose');
+        setTimeout(showOptions, 900);
+      }, 500);
+    }, 700);
+  } else {
+    // ══ RÉPONSE FAUSSE ══
+    btn.classList.add('wrong');
+    flash.classList.remove('show');
+    void flash.offsetWidth;
+    flash.classList.add('show');
+
+    // Montre le bon vers en vert après l'anim
+    setTimeout(() => {
+      optionsGrid.querySelectorAll('.option-btn').forEach(b => {
+        if (b.textContent === realVerse) b.classList.add('correct');
+      });
+    }, 700);
+
+    mistakes++;
+    updateLives();
+
+    setTimeout(() => {
+      optionsArea.classList.remove('visible');
+      addVerse('Étoile', realVerse, 'etoile');
+      pairIndex++;
+
+      if (mistakes >= MAX_MISTAKES) {
+        setTimeout(() => endGame(false), 900);
+        return;
+      }
+      setTimeout(() => {
+        if (pairIndex >= PAIRS.length) {
+          endGame(mistakes === 0);
+          return;
+        }
+        addVerse('Rose', PAIRS[pairIndex].rose, 'rose');
+        setTimeout(showOptions, 900);
+      }, 500);
+    }, 1700);
+  }
+}
+
+function updateLives() {
+  document.querySelectorAll('.heart').forEach((h, i) => {
+    if (i < mistakes) h.classList.add('lost');
+    else h.classList.remove('lost');
+  });
+}
+
+function endGame(perfect) {
+  optionsArea.classList.remove('visible');
+
+  if (mistakes >= MAX_MISTAKES) {
+    endTitle.textContent = 'Too many mistakes';
+    endTitle.className = 'end-title fail';
+    endText.textContent = 'Rose sighs and puts down her pen.';
+  } else if (perfect) {
+    endTitle.textContent = 'Perfect';
+    endTitle.className = 'end-title success';
+    endText.textContent = 'Rose smiles — every verse was right.';
+  } else {
+    endTitle.textContent = 'Not quite';
+    endTitle.className = 'end-title fail';
+    endText.textContent = 'Rose noticed a few mistakes.';
+  }
+
+  endPopup.classList.add('visible');
+
+  setTimeout(() => {
+    if (window.parent && window.parent.LMTD_MINIGAME_DONE) {
+      window.parent.LMTD_MINIGAME_DONE({
+        affinity: perfect ? 5 : 0,
+        success: perfect && mistakes < MAX_MISTAKES
+      });
+    }
+  }, 2200);
+}
+</script>
+<audio id="bgm-mini" loop>
+  <source src="../music/rose_poem.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+  const _bgmMini = document.getElementById('bgm-mini');
+  if(_bgmMini){
+    _bgmMini.volume = 0.5;
+    _bgmMini.play().catch(()=>{});
+  }
+</script>
+<script>
+  // ═══ Connexion HUD mini-jeu → jeu principal ═══
+  function _mhUpdateAffinity(){
+    const v = (window.parent && window.parent.LMTD_GET_AFFINITY)
+      ? window.parent.LMTD_GET_AFFINITY()
+      : 0;
+    const pct = Math.max(0, Math.min(100, ((v + 100) / 200) * 100));
+    const bar = document.getElementById('mh-bar-fill');
+    const val = document.getElementById('mh-val');
+    if(bar) bar.style.width = pct + '%';
+    if(val){
+      val.textContent = v > 0 ? '+' + v : String(v);
+      val.style.color = v >= 0 ? '#FF6B8A' : '#9333ea';
+    }
+  }
+
+  document.getElementById('mh-history').addEventListener('click', () => {
+    if(window.parent && window.parent.LMTD_OPEN_HISTORY) window.parent.LMTD_OPEN_HISTORY();
+  });
+  document.getElementById('mh-help').addEventListener('click', () => {
+    if(window.parent && window.parent.LMTD_OPEN_HELP) window.parent.LMTD_OPEN_HELP();
+  });
+  document.getElementById('mh-pause').addEventListener('click', () => {
+    if(window.parent && window.parent.LMTD_OPEN_PAUSE) window.parent.LMTD_OPEN_PAUSE();
+  });
+
+  _mhUpdateAffinity();
+  setInterval(_mhUpdateAffinity, 800);
+</script>
+<script>
+  // ═══ Force-kill l'audio du parent EN CONTINU ═══
+  const _killLoop = setInterval(() => {
+    try{
+      const pDoc = window.parent.document;
+      pDoc.querySelectorAll('audio').forEach(a => {
+        if(!a.paused){
+          a.pause();
+          a.currentTime = 0;
+          a.volume = 0;
+          a.muted = true;
+        }
+      });
+    }catch(e){}
+  }, 150);
+  window.addEventListener('beforeunload', () => clearInterval(_killLoop));
+</script>
+</body>
+</html>
