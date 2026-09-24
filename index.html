@@ -809,7 +809,7 @@ body.overlay-active #dialogue-wrap{opacity:0;pointer-events:none}
 
 <div id="game-screen" class="screen">
   <div id="game-bg"></div>
-    <img id="overlay-img" src="" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;z-index:1;opacity:0;transition:opacity .6s ease;pointer-events:none;">
+  <img id="overlay-img" src="" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;z-index:1;opacity:0;pointer-events:none;">
   <button id="overlay-close-btn" type="button" aria-label="Close">&#10005;</button>
   <div id="eyes-overlay">
     <div class="eyes-layer"></div>
@@ -1703,10 +1703,11 @@ async function collectAllImagePaths(){
       if(!r.ok) continue;
       const scenes = await r.json();
       if(Array.isArray(scenes)){
-        scenes.forEach(sc => {
-          if(sc && sc.bg) set.add(sc.bg);
-          if(sc && sc.charImg) set.add(sc.charImg);
-        });
+    scenes.forEach(sc => {
+  if(sc && sc.bg) set.add(sc.bg);
+  if(sc && sc.charImg) set.add(sc.charImg);
+  if(sc && sc.overlayImg) set.add(sc.overlayImg);
+});
       }
     }catch(e){ console.warn('scene fetch failed for', file, e); }
   }
@@ -1886,7 +1887,7 @@ async function setBg(src){
   document.getElementById('game-bg').style.backgroundImage="url('"+src+"')";
   lastBg=src;
 }
-async function setOverlayImage(src){
+function setOverlayImage(src){
   const el = document.getElementById('overlay-img');
   const btn = document.getElementById('overlay-close-btn');
   if(!el) return;
@@ -1897,7 +1898,6 @@ async function setOverlayImage(src){
     document.body.classList.remove('overlay-active');
     return;
   }
-  await preloadImage(src);
   el.src = src;
   el.style.opacity = '1';
   if(btn) btn.classList.add('visible');
@@ -2025,6 +2025,8 @@ function renderScene(scene,fromBack){
   }
 }
 function advance(){
+  const _ov = document.getElementById('overlay-img');
+  if(_ov && _ov.style.opacity === '1') return;  // ← AJOUT : bloque tout tant que la lettre est là
   if(state.poemActive)return;
   if(state.titleCardActive)return;
   if(state.awaitingChoice)return;
@@ -2516,7 +2518,12 @@ document.addEventListener('keydown',e=>{
     }
     return;
   }
-  if(e.key===' '||e.key==='Enter'){e.preventDefault();advance();}
+ if(e.key===' '||e.key==='Enter'){
+  e.preventDefault();
+  const _ov = document.getElementById('overlay-img');
+  if(_ov && _ov.style.opacity === '1') return;
+  advance();
+}
   if(e.key==='Backspace'&&!state.awaitingChoice)document.getElementById('btn-back-dialogue').click();
   if(e.key==='Escape'){
     const h=document.getElementById('history-overlay').style.display==='flex';
