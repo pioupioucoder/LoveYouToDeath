@@ -595,7 +595,22 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .affinity-icon{font-size:1.1rem;filter:drop-shadow(0 0 4px var(--crimson));transition:filter .5s}
 #affinity-bar-outer{width:80px;height:6px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden;position:relative}
 #affinity-bar{height:100%;width:50%;border-radius:3px;background:linear-gradient(to right,var(--affinity-neg),var(--affinity-pos));transition:width .6s cubic-bezier(.4,0,.2,1),background .6s;position:absolute;left:0}
-#affinity-val{font-family:'Cinzel',serif;font-size:.7rem;color:var(--mist);min-width:2.5rem;text-align:center;transition:color .5s}
+#affinity-val{
+  font-family:'Cinzel',serif;
+  font-size:1rem;
+  font-weight:700;
+  color:var(--silver);
+  min-width:3.5rem;
+  text-align:center;
+  transition:color .4s, background .4s, box-shadow .4s;
+  background:rgba(10,10,15,.85);
+  border:1px solid rgba(200,160,200,.35);
+  border-radius:3px;
+  padding:.2rem .5rem;
+  text-shadow:0 0 10px currentColor;
+  letter-spacing:.08em;
+  line-height:1.2;
+}
 .hud-btn{background:rgba(10,10,15,.7);border:1px solid var(--box-border);color:var(--mist);cursor:pointer;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-size:.95rem;transition:all .2s;border-radius:2px;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 .hud-btn:hover{border-color:var(--crimson);color:var(--silver)}
 #dialogue-wrap{position:absolute;bottom:0;left:0;right:0;z-index:10;padding:0 1rem 1rem;transition:opacity .8s ease}
@@ -614,7 +629,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 #btn-back-dialogue:hover{border-color:var(--crimson);color:var(--rose)}
 #dialogue-continue{color:var(--blood);font-size:.75rem;animation:blink 1.5s infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
-#choices-wrap{position:absolute;bottom:0;left:0;right:0;z-index:11;padding:0 1rem 1rem;display:none;flex-direction:column;gap:.6rem;transition:opacity .8s ease}
+#choices-wrap{position:absolute;bottom:var(--dialogue-h);left:0;right:0;z-index:11;padding:0 1rem .5rem;display:none;flex-direction:column;gap:.6rem;transition:opacity .8s ease;max-height:calc(100vh - var(--dialogue-h) - 20px);overflow-y:auto}
 .choice-btn{background:var(--choice-bg);border:1px solid var(--box-border);color:var(--silver);padding:.9rem 1.5rem;font-family:'IM Fell English',serif;font-size:clamp(.85rem,2.2vw,1rem);cursor:pointer;text-align:left;transition:all .25s ease;backdrop-filter:blur(10px);border-radius:2px;position:relative;overflow:hidden;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 .choice-btn::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--crimson);transform:scaleY(0);transition:transform .2s}
 .choice-btn:hover{background:var(--choice-hover);border-color:rgba(220,20,60,.5);transform:translateX(4px)}
@@ -680,6 +695,18 @@ body.overlay-active #dialogue-wrap{opacity:0;pointer-events:none}
 @media(max-width:600px){
   body.overlay-active #dialogue-wrap{display:none}
   body.overlay-active #hud{opacity:.3}
+}
+@media(max-width:600px){
+  #choices-wrap{
+    bottom:var(--dialogue-h);
+    padding:0 .5rem .4rem;
+    gap:.45rem;
+    max-height:calc(100vh - var(--dialogue-h) - 10px);
+  }
+  .choice-btn{
+    padding:.7rem 1rem;
+    font-size:.9rem;
+  }
 }
 </style>
 </head>
@@ -1917,7 +1944,7 @@ function fadeTransition(cb){const fo=document.getElementById('fade-overlay');fo.
 
 function updateAffinity(d){
   if(!d)return;
-  state.affinity=Math.max(-100,Math.min(100,state.affinity+d));
+state.affinity=Math.max(-20,Math.min(20,state.affinity+d));
   renderAffinity();
   showAffinityDelta(d);
   // ✅ Effet visuel : pulse + secousse
@@ -1941,19 +1968,38 @@ function renderAffinity(){
   const icon = document.getElementById('aff-icon');
   if(!bar || !v) return;
 
-  bar.style.width = ((aff+100)/200*100) + '%';
+  // Position : -20 = 0%, 0 = 50%, +20 = 100%
+  const pct = ((aff + 20) / 40) * 100;
+  bar.style.width = pct + '%';
+
+  // Couleur de la barre selon le signe
+  if(aff > 0){
+    // Positif → rouge cramoisi
+    bar.style.background = 'linear-gradient(to right, #8B0000, #DC143C)';
+    v.style.color = '#FF6B8A';
+    v.style.borderColor = 'rgba(220,20,60,.6)';
+    v.style.boxShadow = '0 0 15px rgba(220,20,60,.5), inset 0 0 8px rgba(220,20,60,.2)';
+    if(icon) icon.style.filter = 'drop-shadow(0 0 6px #DC143C)';
+  }
+  else if(aff < 0){
+    // Négatif → violet
+    bar.style.background = 'linear-gradient(to right, #4C1D95, #9333EA)';
+    v.style.color = '#C084FC';
+    v.style.borderColor = 'rgba(147,51,234,.6)';
+    v.style.boxShadow = '0 0 15px rgba(147,51,234,.5), inset 0 0 8px rgba(147,51,234,.2)';
+    if(icon) icon.style.filter = 'drop-shadow(0 0 6px #9333EA)';
+  }
+  else{
+    // Zéro → neutre gris
+    bar.style.background = 'linear-gradient(to right, #4B5563, #9CA3AF)';
+    v.style.color = '#C8B8D0';
+    v.style.borderColor = 'rgba(200,160,200,.35)';
+    v.style.boxShadow = 'none';
+    if(icon) icon.style.filter = 'drop-shadow(0 0 4px #888)';
+  }
+
+  // Numéro : +X en positif, X en négatif
   v.textContent = aff > 0 ? '+'+aff : String(aff);
-
-  const tp = (aff+100)/200;
-  const r = Math.round(107 + (220-107)*tp);
-  const g = Math.round(33  + (20-33)*tp);
-  const b = Math.round(168 + (60-168)*tp);
-  bar.style.background = 'rgb('+r+','+g+','+b+')';
-
-  v.style.color = aff >= 0 ? 'var(--rose)' : 'var(--affinity-neg)';
-  if(icon) icon.style.filter = aff >= 0
-    ? 'drop-shadow(0 0 4px var(--crimson))'
-    : 'drop-shadow(0 0 4px #6B21A8)';
 }
 function showAffinityDelta(d){
   const el=document.getElementById('affinity-delta');
@@ -2095,7 +2141,7 @@ document.getElementById('btn-back-dialogue').addEventListener('click',()=>{
   if(state.awaitingChoice||!state.navStack.length)return;
   if(state.typing){clearInterval(state.typing);state.typing=null;}state.isTyping=false;
   const entry=state.navStack.pop();
-  if(entry.affinityDelta){state.affinity=Math.max(-100,Math.min(100,state.affinity-entry.affinityDelta));renderAffinity();showAffinityDelta(-entry.affinityDelta);}
+  if(entry.affinityDelta){state.affinity=Math.max(-20,Math.min(20,state.affinity-entry.affinityDelta));renderAffinity();showAffinityDelta(-entry.affinityDelta);}
   state.sceneIndex=entry.sceneIndex;renderScene(state.scenes[entry.sceneIndex],true);
 });
 
