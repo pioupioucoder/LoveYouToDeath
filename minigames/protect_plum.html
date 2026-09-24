@@ -368,10 +368,9 @@ canvas.addEventListener('pointerdown', e=>{
 // ── GAME OVER ──
 function gameOver(){
   if(window.parent && window.parent.LMTD_MINIGAME_DONE){
-    window.parent.LMTD_MINIGAME_DONE({ success: false, affinity: -2 });
+    window.parent.LMTD_MINIGAME_DONE({ success: false });
   }
 }
-
 // ── LOOP ──
 let lastTime = 0;
 function loop(now){
