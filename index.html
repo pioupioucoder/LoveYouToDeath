@@ -2520,6 +2520,13 @@ document.getElementById('overlay-close-btn').addEventListener('click',(e)=>{
     triggerEnding();
   }
 });
+document.getElementById('btn-pause').addEventListener('click',()=>{
+  saveGame();
+  document.getElementById('pause-modal').style.display='flex';
+});
+document.getElementById('btn-resume').addEventListener('click',()=>{
+  document.getElementById('pause-modal').style.display='none';
+});
 document.getElementById('btn-save-quit').addEventListener('click',()=>{
   saveGame();
   // ═══ Ferme le mini-jeu s'il est ouvert ═══

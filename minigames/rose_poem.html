@@ -479,7 +479,7 @@ function endGame(perfect) {
   setTimeout(() => {
     if (window.parent && window.parent.LMTD_MINIGAME_DONE) {
       window.parent.LMTD_MINIGAME_DONE({
-        affinity: perfect ? 5 : 0,
+        affinity: 0,
         success: perfect && mistakes < MAX_MISTAKES
       });
     }
