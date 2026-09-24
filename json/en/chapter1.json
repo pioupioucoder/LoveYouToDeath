@@ -963,8 +963,7 @@
     "typeSpeed": 22,
     "music": "music/club.mp3",
     "next": "chapter1_97"
-  },
-    {
+  },  {
     "id": "chapter1_97",
     "type": "minigame",
     "minigameFile": "minigames/rose_poem.html",
@@ -980,7 +979,7 @@
     "text": "Not a single mistake. You really have an ear for poetry.",
     "typeSpeed": 22,
     "music": "music/club.mp3",
-    "next": "__suite_suivante__"
+    "next": "chapter1_98b"
   },
   {
     "id": "chapter1_98_fail",
@@ -989,6 +988,19 @@
     "speaker": "Rose",
     "text": "You made several mistakes\u2026 but that's how we learn.",
     "typeSpeed": 22,
+    "music": "music/club.mp3",
+    "next": "chapter1_98b"
+  },
+  {
+    "id": "chapter1_98b",
+    "type": "eyes_close",
+    "next": "chapter1_100"
+  },
+  {
+    "id": "chapter1_100",
+    "bg": "images/backgrounds/club_room.webp",
+    "speaker": null,
+    "text": "I open my eyes again.",
     "music": "music/club.mp3",
     "next": "__suite_suivante__"
   }
