@@ -1089,12 +1089,7 @@ body.overlay-active #dialogue-wrap{opacity:0;pointer-events:none}
   <button class="mission-accept" id="mission-accept-btn" type="button"><span>ACCEPT</span></button>
   <div class="mission-hint" id="mission-hint">tap to begin</div>
 </div>
-<div id="mission-overlay">
-  <div class="mission-parchment">
-    <div class="mission-title" id="mission-title"></div>
-    <div class="mission-hint">tap to continue</div>
-  </div>
-</div>
+
 <audio id="bgm" loop></audio>
 
 <script>
@@ -1181,7 +1176,8 @@ const state = {
   titleCardActive: false,
   finalRedTransitioning: false,
   nextChapterPromptActive: false,
-  eyesTransitioning: false
+   eyesTransitioning: false,
+  missionActive: false
 };
 let chapterIndexCache = null;
 let bloodDripsInitialized = false;
@@ -2435,6 +2431,7 @@ function advance(){
   if(state.awaitingChoice)return;
   if(state.finalRedTransitioning)return;
   if(state.nextChapterPromptActive)return;
+  if(state.missionActive)return;
   const scene=state.scenes[state.sceneIndex];if(!scene)return;
   if(state.isTyping){skipTyping(scene.text||'');return;}
   if(state.pendingChoices){renderChoices(state.pendingChoices);state.pendingChoices=null;return;}
@@ -2552,6 +2549,7 @@ function showMission(scene, onDone){
   const ov = document.getElementById('mission-overlay');
   if(!ov){ if(onDone) onDone(); return; }
   document.getElementById('mission-title').textContent = scene.missionTitle || '';
+  state.missionActive = true;
   ov.classList.remove('active');
   void ov.offsetWidth;
   requestAnimationFrame(()=>ov.classList.add('active'));
@@ -2560,6 +2558,7 @@ function showMission(scene, onDone){
     if(e){ e.preventDefault(); e.stopPropagation(); }
     if(done) return;
     done = true;
+    state.missionActive = false;
     ov.removeEventListener('click', close);
     ov.removeEventListener('touchend', close);
     ov.classList.remove('active');
@@ -2568,7 +2567,6 @@ function showMission(scene, onDone){
   ov.addEventListener('click', close);
   ov.addEventListener('touchend', close, {passive:false});
 }
-
 function triggerMinigame(scene,onComplete){
   const file=scene.minigameFile||('minigames/'+(scene.name||scene.minigame)+'.html');
   const ov=document.getElementById('minigame-overlay'),frm=document.getElementById('minigame-frame');
