@@ -2007,7 +2007,11 @@ function applyLang(){
 function checkHasSave(){
   try{const d=JSON.parse(localStorage.getItem(LS_KEY)||'{}');return d.firstTime===false;}catch(e){return false;}
 }
-function preloadImage(src){return new Promise(res=>{if(!src)return res();const i=new Image();i.onload=i.onerror=res;i.src=src;});}
+function preloadImage(src){
+  if(!src) return Promise.resolve();
+  if(_imageCache.has(src)) return Promise.resolve(_imageCache.get(src));
+  return _preloadOne(src);
+}
 
 async function collectAllImagePaths(){
   const set = new Set();
@@ -2045,6 +2049,29 @@ async function collectAllImagePaths(){
   return [...set].filter(Boolean);
 }
 
+// ═══ CACHE GLOBAL D'IMAGES PRÉ-DÉCODÉES ═══
+const _imageCache = new Map();
+
+async function _preloadOne(src){
+  if(_imageCache.has(src)) return _imageCache.get(src);
+  return new Promise(resolve => {
+    const img = new Image();
+    img.decoding = 'async';
+    img.onload = async () => {
+      try{
+        if(img.decode) await img.decode();   // ← force le décodage GPU
+      }catch(e){}
+      _imageCache.set(src, img);
+      resolve(img);
+    };
+    img.onerror = () => {
+      _imageCache.set(src, null);
+      resolve(null);
+    };
+    img.src = src;
+  });
+}
+
 async function preloadAssets(){
   const bar = document.getElementById('loading-bar');
   const label = document.getElementById('loading-pct');
@@ -2080,18 +2107,19 @@ async function preloadAssets(){
     if(detail) detail.textContent = 'Loading images ('+loaded+' / '+total+')…';
   };
 
-  await Promise.all(list.map(src => new Promise(resolve => {
-    const img = new Image();
-    img.onload = () => { update(); resolve(); };
-    img.onerror = () => { update(); resolve(); };
-    img.src = src;
-  })));
+  // ═══ BATCHS de 6 pour éviter de saturer mobile ═══
+  const BATCH_SIZE = 6;
+  for(let i = 0; i < list.length; i += BATCH_SIZE){
+    const batch = list.slice(i, i + BATCH_SIZE);
+    await Promise.all(batch.map(src =>
+      _preloadOne(src).then(() => update())
+    ));
+  }
 
   bar.style.width = '100%';
   label.textContent = '100%';
   if(detail) detail.textContent = 'Ready.';
 }
-
 async function loadChapters(){
   let all=[];
   for(const file of GAME_CONFIG.chapterFiles){
@@ -2310,9 +2338,11 @@ function stopMusic(){
 
 async function setBg(src){
   if(!src || src===lastBg) return;
+  // Force le décodage complet avant d'appliquer
   await preloadImage(src);
-  document.getElementById('game-bg').style.backgroundImage="url('"+src+"')";
-  lastBg=src;
+  const bg = document.getElementById('game-bg');
+  bg.style.backgroundImage = "url('" + src + "')";
+  lastBg = src;
 }
 function setOverlayImage(src){
   const el = document.getElementById('overlay-img');
@@ -2341,10 +2371,19 @@ async function setCharacter(img, anim){
     wrap.classList.remove('dark-reveal','swing');
     return;
   }
-  await preloadImage(img);
-  el.src = img;
-  el.style.display = '';
-  wrap.style.opacity = '1';
+    const cached = _imageCache.get(img);
+  if(cached){
+    el.src = cached.src;              // réutilise l'image déjà décodée
+    el.style.display = '';
+    wrap.style.opacity = '1';
+    // Force le navigateur à peindre immédiatement
+    try{ await el.decode(); }catch(e){}
+  } else {
+    await preloadImage(img);
+    el.src = img;
+    el.style.display = '';
+    wrap.style.opacity = '1';
+  }
 
   // Reset les animations précédentes
   wrap.classList.remove('dark-reveal','swing');
