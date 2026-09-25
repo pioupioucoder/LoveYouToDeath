@@ -2692,55 +2692,109 @@ function setOverlayImage(src){
   if(backBtn && state.navStack.length > 0) backBtn.classList.add('visible');
   document.body.classList.add('overlay-active');
 }
+let _charRenderToken = 0;
+
+async function _waitForDisplayedImage(el, src){
+  if(!el) return false;
+
+  // Si le navigateur a déjà l'image décodée, ne pas attendre un load qui ne viendra pas.
+  if(el.src === src && el.complete && el.naturalWidth > 0){
+    try{ if(el.decode) await el.decode(); }catch(e){}
+    return el.naturalWidth > 0;
+  }
+
+  return new Promise(resolve => {
+    let done = false;
+    const finish = ok => {
+      if(done) return;
+      done = true;
+      el.removeEventListener('load', onload);
+      el.removeEventListener('error', onerror);
+      resolve(ok);
+    };
+    const onload = async () => {
+      try{ if(el.decode) await el.decode(); }catch(e){}
+      finish(el.naturalWidth > 0);
+    };
+    const onerror = () => finish(false);
+    el.addEventListener('load', onload, {once:true});
+    el.addEventListener('error', onerror, {once:true});
+
+    // Le src doit être posé après les listeners pour ne rater aucun événement mobile.
+    el.src = src;
+
+    // Cas où le chargement s'est terminé entre-temps.
+    if(el.complete){
+      if(el.naturalWidth > 0){
+        Promise.resolve().then(onload);
+      }else{
+        Promise.resolve().then(onerror);
+      }
+    }
+  });
+}
+
 async function setCharacter(img, anim){
   const wrap=document.getElementById('char-wrap'),el=document.getElementById('char-img');
   if(!wrap || !el) return;
 
-  // ═══ Si pas d'image → cache ═══
+  // Chaque appel invalide le précédent : évite qu'une ancienne image arrive
+  // après une navigation rapide et remette le mauvais personnage à l'écran.
+  const token = ++_charRenderToken;
+
   if(!img){
     wrap.style.opacity = '0';
     wrap.classList.remove('dark-reveal','swing');
+    el.removeAttribute('src');
     _lastCharSrc = '';
     return;
   }
 
-  // ═══ Reset animations ═══
   wrap.classList.remove('dark-reveal','swing');
+  // IMPORTANT : on garde le personnage caché jusqu'à ce que l'image affichée
+  // par le vrai <img> soit chargée ET décodée. C'est le point qui évite le noir
+  // sur certains navigateurs mobiles.
+  wrap.style.opacity = '0';
 
-  // ═══ AFFICHAGE IMMÉDIAT (pas de fade) ═══
-  wrap.style.opacity = '1';
-
-  // ═══ Charge l'image ═══
   let finalSrc = img;
   try{
     await preloadImage(img);
     const cached = _imageCache.get(img);
     if(cached && cached.src) finalSrc = cached.src;
-  }catch(e){ console.warn('preload fail', img, e); }
+  }catch(e){
+    console.warn('preload fail', img, e);
+  }
 
-  el.onerror = () => {
-    // ═══ Filet de sécurité mobile : si l'image ne s'affiche pas
-    //     (mémoire saturée, décodage raté...), on la recharge à neuf
-    //     avec un paramètre anti-cache au lieu de rester en noir ═══
-    if(el.src.indexOf(img) === -1) return;
+  if(token !== _charRenderToken) return;
+
+  // Première tentative : utiliser l'image normale.
+  let ready = await _waitForDisplayedImage(el, finalSrc);
+
+  // Si le décodage/rendu mobile a échoué, on force UNE nouvelle requête.
+  if(!ready && token === _charRenderToken){
     _imageCache.delete(img);
-    const retrySrc = img + (img.indexOf('?')>-1?'&':'?') + 'retry=' + Date.now();
-    el.src = retrySrc;
-  };
-  el.src = finalSrc;
+    const retrySrc = img + (img.indexOf('?')>-1?'&':'?') + 'renderRetry=' + Date.now();
+    ready = await _waitForDisplayedImage(el, retrySrc);
+  }
+
+  if(token !== _charRenderToken || !ready) return;
+
   el.style.display = '';
   _lastCharSrc = img;
 
-  // ═══ Force visible APRÈS le chargement (sécurité mobile) ═══
-  void wrap.offsetWidth;
-  wrap.style.opacity = '1';
+  // Laisse au moteur mobile une frame pour créer le calque de l'image
+  // avant d'activer l'animation transform (dark_reveal / swing).
+  await new Promise(requestAnimationFrame);
+  await new Promise(requestAnimationFrame);
 
-  // ═══ Animation de mouvement (tremble / swing) ═══
+  if(token !== _charRenderToken) return;
+
+  wrap.style.opacity = '1';
+  void wrap.offsetWidth;
+
   if(anim === 'dark_reveal'){
-    void wrap.offsetWidth;
     wrap.classList.add('dark-reveal');
   } else if(anim === 'swing'){
-    void wrap.offsetWidth;
     wrap.classList.add('swing');
   }
 
