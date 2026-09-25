@@ -341,11 +341,11 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .poem-parchment::before,.poem-parchment::after{content:'';position:absolute;left:0;right:0;height:8px;background:radial-gradient(ellipse at center,rgba(160,120,80,.4) 0%,transparent 80%);pointer-events:none}
 .poem-parchment::before{top:-2px}
 .poem-parchment::after{bottom:-2px}
-.poem-parchment-inner{font-family:'IM Fell English',serif;color:#2a1a0a;text-align:center}
+.poem-parchment-inner{font-family:'IM Fell English',serif;color:#E8DDF0;text-align:center}
 .poem-lines{font-size:clamp(.85rem,2vw,1.05rem);line-height:1.9;font-style:italic;letter-spacing:.01em}
 .poem-lines .poem-line{opacity:0;transform:translateY(6px);animation:poemLineIn .7s ease forwards}
 @keyframes poemLineIn{to{opacity:1;transform:translateY(0)}}
-.poem-author{margin-top:1.8rem;padding-top:1rem;font-family:'Cinzel',serif;font-size:clamp(.7rem,1.8vw,.85rem);letter-spacing:.35em;color:#6a4420;text-transform:uppercase;border-top:1px solid rgba(120,80,40,.25);width:60%;margin-left:auto;margin-right:auto;opacity:0;animation:poemLineIn 1s ease forwards;animation-delay:1.2s}
+.poem-author{margin-top:1.8rem;padding-top:1rem;font-family:'Cinzel',serif;font-size:clamp(.7rem,1.8vw,.85rem);letter-spacing:.35em;color:#C8B8D0;text-transform:uppercase;border-top:1px solid rgba(120,80,40,.25);width:60%;margin-left:auto;margin-right:auto;opacity:0;animation:poemLineIn 1s ease forwards;animation-delay:1.2s}
 .poem-hint{position:absolute;bottom:2rem;font-family:'IM Fell English',serif;font-size:.75rem;color:rgba(200,180,200,.5);font-style:italic;letter-spacing:.15em;animation:poemHintPulse 2s ease infinite;pointer-events:none}
 @keyframes poemHintPulse{0%,100%{opacity:.4}50%{opacity:.9}}
 #chapter-title-screen{position:fixed;inset:0;z-index:15;background:radial-gradient(ellipse at 50% 50%,#1a0510 0%,var(--obsidian) 70%);display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 1s ease;cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent;padding:2rem}
@@ -1039,14 +1039,14 @@ body.overlay-active #dialogue-wrap{opacity:0;pointer-events:none}
 /* ══ NOTE AVANT LE CHAPITRE ══ */
 #note-screen{
   position:fixed;inset:0;z-index:14;
-  background:radial-gradient(ellipse at center, #f4ead5 0%, #d9c9a8 100%);
+  background:var(--obsidian);
   display:flex;
   align-items:center;
   justify-content:center;
   padding:2rem 1.5rem;
   opacity:0;
   pointer-events:none;
-  transition:opacity 1s ease;
+  transition:opacity .8s ease;
   cursor:pointer;
   -webkit-tap-highlight-color:transparent;
   touch-action:manipulation;
@@ -1056,40 +1056,41 @@ body.overlay-active #dialogue-wrap{opacity:0;pointer-events:none}
 .note-paper{
   max-width:520px;
   width:100%;
-  background:linear-gradient(135deg, #fefcf5 0%, #f0e6d2 100%);
+  background:radial-gradient(ellipse at center, #1a0510 0%, #09060b 72%, #050307 100%);
+  border:1px solid rgba(220,20,60,.38);
   padding:3rem 2.2rem 3rem;
-  border-radius:2px;
+  border-radius:3px;
   box-shadow:
-    0 20px 60px rgba(0,0,0,.4),
-    0 0 0 1px rgba(139,0,0,.15),
-    inset 0 0 60px rgba(180,150,110,.15);
+    0 20px 60px rgba(0,0,0,.65),
+    0 0 35px rgba(139,0,0,.12),
+    inset 0 0 60px rgba(139,0,0,.08);
   position:relative;
-  transform:rotate(-0.5deg) scale(0.96);
-  transition:transform 1s cubic-bezier(.2,.9,.3,1);
+  transform:scale(.97);
+  transition:transform .8s cubic-bezier(.2,.9,.3,1);
 }
 #note-screen.active .note-paper{
-  transform:rotate(-0.5deg) scale(1);
+  transform:scale(1);
 }
 .note-paper::before{
   content:'';
   position:absolute;
   left:2.5rem;right:2.5rem;top:1.5rem;
   height:1px;
-  background:linear-gradient(to right,transparent,rgba(139,0,0,.3),transparent);
+  background:linear-gradient(to right,transparent,rgba(220,20,60,.35),transparent);
 }
 .note-paper::after{
   content:'';
   position:absolute;
   left:2.5rem;right:2.5rem;bottom:1.5rem;
   height:1px;
-  background:linear-gradient(to right,transparent,rgba(139,0,0,.3),transparent);
+  background:linear-gradient(to right,transparent,rgba(220,20,60,.35),transparent);
 }
 
 .note-content{
   font-family:'IM Fell English',Georgia,serif;
   font-size:clamp(.9rem,2.2vw,1.05rem);
   line-height:1.9;
-  color:#2a1a0a;
+  color:#E8DDF0;
   text-align:left;
   font-style:italic;
   white-space:pre-wrap;
@@ -1099,7 +1100,7 @@ body.overlay-active #dialogue-wrap{opacity:0;pointer-events:none}
   font-size:clamp(1rem,2.8vw,1.3rem);
   letter-spacing:.25em;
   text-transform:uppercase;
-  color:#8B0000;
+  color:#FF6B8A;
   text-align:center;
   font-style:normal;
   display:block;
@@ -1114,7 +1115,7 @@ body.overlay-active #dialogue-wrap{opacity:0;pointer-events:none}
   font-family:'Cinzel',serif;
   font-size:.8rem;
   letter-spacing:.2em;
-  color:#6a4420;
+  color:#C8B8D0;
   font-style:normal;
 }
 
@@ -1125,7 +1126,7 @@ body.overlay-active #dialogue-wrap{opacity:0;pointer-events:none}
   transform:translateX(-50%);
   font-family:'IM Fell English',serif;
   font-size:.7rem;
-  color:rgba(120,80,40,.55);
+  color:rgba(200,180,200,.5);
   font-style:italic;
   letter-spacing:.15em;
   animation:notePulse 2s ease infinite;
@@ -1541,18 +1542,6 @@ function closeEyes(callback){
   }, 2000);                              // ← ralenti à 2s
 }
 
-// ═══ RECHARGEMENT APRÈS YEUX FERMÉS ═══
-// Sur mobile, on recharge uniquement quand l'écran est déjà noir.
-// La scène suivante est sauvegardée avant le reload, puis le boot
-// remet immédiatement les paupières fermées avant de rendre la scène.
-function reloadAfterEyesClosed(sceneIndex){
-  try{
-    state.sceneIndex = sceneIndex;
-    saveGame();
-    sessionStorage.setItem('LMTD_RELOAD_AFTER_EYES', '1');
-  }catch(e){}
-  location.reload();
-}
 function openEyes(callback){
   const ov = document.getElementById('eyelid-overlay');
   if(!ov){ state.eyesTransitioning = false; if(callback) callback(); return; }
@@ -2987,7 +2976,14 @@ function renderScene(scene,fromBack){
     closeEyes(()=>{
       const idx = getSceneIndex(scene.next);
       if(idx !== -1){
-        reloadAfterEyesClosed(idx);
+        // On recharge la page une seule fois après la fermeture des yeux,
+        // puis on reprend directement sur la scène suivante.
+        state.sceneIndex = idx;
+        try{
+          sessionStorage.setItem('LMTD_RESUME_AFTER_EYES', '1');
+        }catch(e){}
+        saveGame();
+        location.reload();
       }
     });
     return;
@@ -3491,20 +3487,6 @@ function startGame(fromIdx){
 }
 
 async function boot(){
-  // Si on revient d'un reload déclenché les yeux fermés,
-  // remettre immédiatement l'écran noir pour éviter tout flash visuel.
-  let reloadAfterEyes = false;
-  try{
-    reloadAfterEyes = sessionStorage.getItem('LMTD_RELOAD_AFTER_EYES') === '1';
-    if(reloadAfterEyes){
-      const ov = document.getElementById('eyelid-overlay');
-      if(ov){
-        ov.classList.add('active','closed');
-        state.eyesTransitioning = true;
-      }
-    }
-  }catch(e){}
-
   loadVolumeFromStorage();
   state.lang='en';
   applyLang();
@@ -3512,12 +3494,23 @@ async function boot(){
 
   await preloadAssets();
 
-  if(reloadAfterEyes){
-    try{ sessionStorage.removeItem('LMTD_RELOAD_AFTER_EYES'); }catch(e){}
-    if(loadSave()){
-      showScreen('game-screen');
-      renderAffinity();
-      renderScene(state.scenes[state.sceneIndex]);
+  // Après la scène de fermeture des yeux, le reload sert uniquement à
+  // reprendre la scène suivante du même chapitre. Il ne lance pas le chapitre 2.
+  let resumeAfterEyes = false;
+  try{
+    resumeAfterEyes = sessionStorage.getItem('LMTD_RESUME_AFTER_EYES') === '1';
+    if(resumeAfterEyes) sessionStorage.removeItem('LMTD_RESUME_AFTER_EYES');
+  }catch(e){}
+
+  if(resumeAfterEyes){
+    loadSave();
+    await Promise.all([loadChapters(), loadEndings()]);
+    showScreen('game-screen');
+    renderAffinity();
+    clearGameScreen();
+    const scene = state.scenes[state.sceneIndex];
+    if(scene){
+      renderScene(scene);
       return;
     }
   }
@@ -3610,11 +3603,11 @@ document.getElementById('btn-start').addEventListener('click',async()=>{
   // ═══ La note ne concerne QUE le chapitre 1, jamais le prologue,
   //     et ne doit s'afficher qu'une seule fois ═══
   const CHAPTER1_NOTE_KEY = 'lmtd_chapter1_note_seen';
-  const isPrologueTarget = targetFile === (index[0] && index[0].file);
+  const isChapter1Target = !!(index[1] && targetFile === index[1].file);
   let chapter1NoteAlreadySeen = false;
   try{ chapter1NoteAlreadySeen = localStorage.getItem(CHAPTER1_NOTE_KEY) === '1'; }catch(e){}
 
-  if(isResumingMidChapter || isPrologueTarget || chapter1NoteAlreadySeen){
+  if(isResumingMidChapter || !isChapter1Target || chapter1NoteAlreadySeen){
     startNow();
   } else {
     fadeTransition(()=>{
