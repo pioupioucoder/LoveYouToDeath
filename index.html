@@ -1540,6 +1540,19 @@ function closeEyes(callback){
     if(callback) callback();
   }, 2000);                              // ← ralenti à 2s
 }
+
+// ═══ RECHARGEMENT APRÈS YEUX FERMÉS ═══
+// Sur mobile, on recharge uniquement quand l'écran est déjà noir.
+// La scène suivante est sauvegardée avant le reload, puis le boot
+// remet immédiatement les paupières fermées avant de rendre la scène.
+function reloadAfterEyesClosed(sceneIndex){
+  try{
+    state.sceneIndex = sceneIndex;
+    saveGame();
+    sessionStorage.setItem('LMTD_RELOAD_AFTER_EYES', '1');
+  }catch(e){}
+  location.reload();
+}
 function openEyes(callback){
   const ov = document.getElementById('eyelid-overlay');
   if(!ov){ state.eyesTransitioning = false; if(callback) callback(); return; }
@@ -2974,8 +2987,7 @@ function renderScene(scene,fromBack){
     closeEyes(()=>{
       const idx = getSceneIndex(scene.next);
       if(idx !== -1){
-        state.sceneIndex = idx;
-        renderScene(state.scenes[idx]);
+        reloadAfterEyesClosed(idx);
       }
     });
     return;
@@ -3479,12 +3491,36 @@ function startGame(fromIdx){
 }
 
 async function boot(){
+  // Si on revient d'un reload déclenché les yeux fermés,
+  // remettre immédiatement l'écran noir pour éviter tout flash visuel.
+  let reloadAfterEyes = false;
+  try{
+    reloadAfterEyes = sessionStorage.getItem('LMTD_RELOAD_AFTER_EYES') === '1';
+    if(reloadAfterEyes){
+      const ov = document.getElementById('eyelid-overlay');
+      if(ov){
+        ov.classList.add('active','closed');
+        state.eyesTransitioning = true;
+      }
+    }
+  }catch(e){}
+
   loadVolumeFromStorage();
   state.lang='en';
   applyLang();
   applyVolumeEverywhere();
 
   await preloadAssets();
+
+  if(reloadAfterEyes){
+    try{ sessionStorage.removeItem('LMTD_RELOAD_AFTER_EYES'); }catch(e){}
+    if(loadSave()){
+      showScreen('game-screen');
+      renderAffinity();
+      renderScene(state.scenes[state.sceneIndex]);
+      return;
+    }
+  }
 
   syncDialogueHeight();
   window.addEventListener('resize',syncDialogueHeight);
