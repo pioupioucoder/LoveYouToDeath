@@ -2764,6 +2764,19 @@ function triggerMinigame(scene,onComplete){
     }
     onComplete();
   };
+  window.LMTD_MINIGAME_BACK=function(){
+    ov.style.display='none';frm.src='';window.LMTD_MINIGAME_BACK=null;
+    document.body.classList.remove('minigame-active');
+    if(state.navStack.length){
+      const entry = state.navStack.pop();
+      if(entry.affinityDelta){
+        state.affinity = Math.max(-20, Math.min(20, state.affinity - entry.affinityDelta));
+        renderAffinity();
+      }
+      state.sceneIndex = entry.sceneIndex;
+      renderScene(state.scenes[entry.sceneIndex], true);
+    }
+  };
   frm.src=file;ov.style.display='block';
 }
 function exportData(){
