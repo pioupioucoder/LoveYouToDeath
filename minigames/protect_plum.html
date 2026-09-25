@@ -15,12 +15,109 @@ html,body{margin:0;padding:0;background:#000;overflow:hidden;width:100%;height:1
 #start-overlay button{background:transparent;border:1px solid #DC143C;color:#E8DDF0;padding:14px 40px;font-family:inherit;font-size:13px;letter-spacing:4px;cursor:pointer;text-transform:uppercase}
 #start-overlay button:active{background:#8B0000}
 #start-overlay.hidden{display:none}
+/* ══ HUD intégrée au mini-jeu ══ */
+#mini-hud{
+  position:fixed;
+  top:0; left:0; right:0;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:8px 14px;
+  z-index:50;
+  pointer-events:none;
+  background:transparent;
+}
+#mini-hud .mh-left,
+#mini-hud .mh-right{
+  display:flex;
+  align-items:center;
+  gap:.6rem;
+  pointer-events:auto;
+}
+#mini-hud .mh-aff{
+  display:flex;
+  align-items:center;
+  gap:.5rem;
+  padding:4px 10px;
+  border-radius:20px;
+  background:rgba(10,10,15,.75);
+  border:1px solid rgba(200,160,200,.25);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+}
+#mini-hud .mh-heart{
+  color:#DC143C;
+  font-size:1rem;
+  filter:drop-shadow(0 0 4px rgba(220,20,60,.6));
+}
+#mini-hud .mh-bar{
+  width:70px;
+  height:5px;
+  background:rgba(255,255,255,.12);
+  border-radius:3px;
+  overflow:hidden;
+  position:relative;
+}
+#mini-hud .mh-bar-fill{
+  position:absolute;
+  left:0; top:0; bottom:0;
+  width:50%;
+  background:linear-gradient(to right,#6B21A8,#DC143C);
+  border-radius:3px;
+  transition:width .5s ease, background .5s ease;
+}
+#mini-hud .mh-val{
+  color:#C8B8D0;
+  font-family:'Courier New',monospace;
+  font-size:.7rem;
+  min-width:2.2rem;
+  text-align:center;
+}
+#mini-hud .mh-btn{
+  width:34px;
+  height:34px;
+  border-radius:4px;
+  background:rgba(10,10,15,.78);
+  border:1px solid rgba(200,160,200,.3);
+  color:#C8B8D0;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:.95rem;
+  font-family:'Courier New',monospace;
+  transition:all .2s;
+  backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
+}
+#mini-hud .mh-btn:hover{
+  border-color:#DC143C;
+  color:#fff;
+}
 </style>
 </head>
 <body>
 <audio id="bgm" src="../music/died.mp3" loop preload="auto"></audio>
 <canvas id="game"></canvas>
-<div id="hud"><span>◆ SAVE</span><span id="time">0.0s</span></div>
+
+<div id="mini-hud">
+  <div class="mh-left">
+    <div class="mh-aff">
+      <span class="mh-heart">&#9829;</span>
+      <div class="mh-bar"><div class="mh-bar-fill" id="mh-bar-fill"></div></div>
+      <span class="mh-val" id="mh-val">0</span>
+    </div>
+  </div>
+  <div class="mh-right">
+    <button class="mh-btn" id="mh-history" type="button" title="History">&#128220;</button>
+    <button class="mh-btn" id="mh-help" type="button" title="Help">?</button>
+    <button class="mh-btn" id="mh-pause" type="button" title="Pause">&#9208;</button>
+  </div>
+</div>
+
+<div id="hud" style="top:52px;font-size:11px;"><span>◆ SAVE</span><span id="time">0.0s</span></div>
 <div id="death-flash"></div>
 <div id="start-overlay">
   <h1>SAVE PLUM</h1>
@@ -433,6 +530,39 @@ document.getElementById('start-btn').addEventListener('click', ()=>{
   state.knives = [];
   state.particles = [];
 });
+
+// ═══ Connexion HUD mini-jeu → jeu principal ═══
+function _mhUpdateAffinity(){
+  const v = (window.parent && window.parent.LMTD_GET_AFFINITY)
+    ? window.parent.LMTD_GET_AFFINITY()
+    : 0;
+  const pct = Math.max(0, Math.min(100, ((v + 20) / 40) * 100));
+  const bar = document.getElementById('mh-bar-fill');
+  const val = document.getElementById('mh-val');
+  if(bar) bar.style.width = pct + '%';
+  if(val){
+    val.textContent = v > 0 ? '+' + v : String(v);
+    val.style.color = v >= 0 ? '#FF6B8A' : '#C084FC';
+  }
+  if(bar){
+    if(v > 0) bar.style.background = 'linear-gradient(to right, #8B0000, #DC143C)';
+    else if(v < 0) bar.style.background = 'linear-gradient(to right, #4C1D95, #9333EA)';
+    else bar.style.background = 'linear-gradient(to right, #4B5563, #9CA3AF)';
+  }
+}
+
+document.getElementById('mh-history').addEventListener('click', () => {
+  if(window.parent && window.parent.LMTD_OPEN_HISTORY) window.parent.LMTD_OPEN_HISTORY();
+});
+document.getElementById('mh-help').addEventListener('click', () => {
+  if(window.parent && window.parent.LMTD_OPEN_HELP) window.parent.LMTD_OPEN_HELP();
+});
+document.getElementById('mh-pause').addEventListener('click', () => {
+  if(window.parent && window.parent.LMTD_OPEN_PAUSE) window.parent.LMTD_OPEN_PAUSE();
+});
+
+_mhUpdateAffinity();
+setInterval(_mhUpdateAffinity, 800);
 
 })();
 </script>
