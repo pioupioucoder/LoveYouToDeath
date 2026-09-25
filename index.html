@@ -877,7 +877,7 @@ body.overlay-active #dialogue-wrap{opacity:0;pointer-events:none}
 /* ══ CHARACTERS INTRO — thème clair ══ */
 #chars-intro-overlay{
   position:fixed;inset:0;z-index:95;
-  background:radial-gradient(ellipse at center, #fefcf5 0%, #e8d9c8 100%);
+  background:radial-gradient(ellipse at center, #3a2f3a 0%, #1a1218 100%);
   display:none;
   flex-direction:column;
   align-items:center;
@@ -902,7 +902,7 @@ body.overlay-active #dialogue-wrap{opacity:0;pointer-events:none}
   flex:1 1 0;
   max-width:280px;
   min-width:0;
-  background:rgba(255,252,245,.95);
+    background:rgba(20,12,25,.92);
   border:1px solid rgba(139,0,0,.25);
   border-radius:6px;
   padding:1rem .8rem 1.2rem;
@@ -931,7 +931,7 @@ body.overlay-active #dialogue-wrap{opacity:0;pointer-events:none}
 .char-card-name{
   font-family:'Cinzel',serif;
   font-size:clamp(1rem,3vw,1.3rem);
-  color:#5a3a4a;
+    color:#E8DDF0;
   letter-spacing:.25em;
   text-transform:uppercase;
   margin-bottom:.7rem;
@@ -942,7 +942,7 @@ body.overlay-active #dialogue-wrap{opacity:0;pointer-events:none}
 .char-card-info{
   font-family:'IM Fell English',serif;
   font-size:clamp(.7rem,1.8vw,.85rem);
-  color:#3a2a1a;
+   color:#C8B8D0;
   line-height:1.7;
   text-align:left;
 }
@@ -952,7 +952,7 @@ body.overlay-active #dialogue-wrap{opacity:0;pointer-events:none}
   justify-content:space-between;
   gap:.5rem;
   padding:.15rem 0;
-  border-bottom:1px dashed rgba(200,160,200,.1);
+  border-bottom:1px dashed rgba(220,20,60,.15);
 }
 .char-card-info .info-key{
   color:var(--crimson);
@@ -968,11 +968,12 @@ body.overlay-active #dialogue-wrap{opacity:0;pointer-events:none}
 }
 
 .char-card.es{
-  border-color:rgba(220,20,60,.5);
-  box-shadow:0 8px 30px rgba(220,20,60,.15), 0 2px 8px rgba(0,0,0,.06);
+  border-color:rgba(220,20,60,.6);
+  box-shadow:0 8px 30px rgba(220,20,60,.25), 0 0 60px rgba(220,20,60,.15);
 }
 .char-card.es .char-card-name{
-  color:#DC143C;
+  color:#FF6B8A;
+  text-shadow:0 0 20px rgba(220,20,60,.6);
 }
 @keyframes esPulse{
   0%,100%{ text-shadow:0 0 20px rgba(220,20,60,.6); }
@@ -1000,9 +1001,9 @@ body.overlay-active #dialogue-wrap{opacity:0;pointer-events:none}
   font-family:'Cinzel',serif;
   font-size:.75rem;
   letter-spacing:.2em;
-  color:#5a3a4a;
-  background:rgba(255,255,255,.7);
-  border:1px solid rgba(139,0,0,.3);
+  color:#C8B8D0;
+  background:rgba(10,10,15,.7);
+  border:1px solid rgba(200,160,200,.3);
   padding:.7rem 1.6rem;
   cursor:pointer;
   transition:all .25s;
@@ -1012,8 +1013,8 @@ body.overlay-active #dialogue-wrap{opacity:0;pointer-events:none}
 }
 .chars-nav-btn:hover{
   border-color:#DC143C;
-  color:#DC143C;
-  background:#fff;
+  color:#FF6B8A;
+  background:rgba(220,20,60,.15);
 }
 .chars-nav-btn:disabled{
   opacity:.3;
@@ -1032,7 +1033,7 @@ body.overlay-active #dialogue-wrap{opacity:0;pointer-events:none}
   font-family:'Cinzel',serif;
   font-size:.7rem;
   letter-spacing:.2em;
-  color:#8a6a7a;
+  color:#C8B8D0;
   text-align:center;
   margin-bottom:1rem;
 }
@@ -2683,7 +2684,15 @@ function showCharactersIntro(scene, onDone){
   // Handlers
   backBtn.onclick = (e) => {
     e.stopPropagation();
-    if(pairIndex > 0) changePair(pairIndex - 1);
+    if(pairIndex > 0){
+      changePair(pairIndex - 1);
+    } else {
+      // Retour à la scène précédente
+      overlay.classList.remove('active');
+      setTimeout(() => {
+        if(onDone) onDone('back');
+      }, 600);
+    }
   };
   nextBtn.onclick = (e) => {
     e.stopPropagation();
@@ -2780,14 +2789,30 @@ function renderScene(scene,fromBack){
       else triggerEnding();
     });
     return;
-  }
-     if(scene.type==='characters_intro'){
+  }     if(scene.type==='characters_intro'){
+    const overlay = document.getElementById('chars-intro-overlay');
     document.getElementById('dialogue-wrap').style.display='none';
     document.getElementById('choices-wrap').style.display='none';
     document.body.classList.add('overlay-active');
-    showCharactersIntro(scene, function(){
+    showCharactersIntro(scene, function(action){
+      // ═══ BACK depuis la 1ère paire → scène précédente ═══
+      if(action === 'back'){
+        overlay.classList.remove('active');
+        document.body.classList.remove('overlay-active');
+        if(state.navStack.length){
+          const entry = state.navStack.pop();
+          if(entry.affinityDelta){
+            state.affinity = Math.max(-20, Math.min(20, state.affinity - entry.affinityDelta));
+            renderAffinity();
+          }
+          state.sceneIndex = entry.sceneIndex;
+          renderScene(state.scenes[entry.sceneIndex], true);
+        }
+        return;
+      }
+
+      // ═══ END ou NEXT ═══
       if(scene.next === '__end_chapter_prompt__'){
-        // ═══ On cache TOUT le game screen (dernière image + HUD) ═══
         stopMusic();
         clearGameScreen();
         clearEyesEffect();
