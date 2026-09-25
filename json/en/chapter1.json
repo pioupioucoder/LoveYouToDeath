@@ -1473,7 +1473,7 @@
     "bg": null,
     "charImg": null,
     "speaker": null,
-    "text": "A high-pitched voice, trembling, barely audible.",
+    "text": "A high-pitched voice, trembling, barely audible. A feminine",
     "typeSpeed": 22,
     "music": "music/dark.mp3",
     "next": "chapter1_106"
@@ -1776,7 +1776,7 @@
     "nextSuccess": "chapter1_plum_died",
     "next": "chapter1_plum_died"
   },
-    {
+  {
     "id": "chapter1_plum_died",
     "bg": null,
     "charImg": "images/characters/plumdied.png",
@@ -1785,7 +1785,7 @@
     "speaker": null,
     "text": "A blade strikes the leg of the chair.",
     "typeSpeed": 22,
-    "music": "music/dark.mp3",
+    "music": "music/happycrazyes.mp3",
     "next": "chapter1_135"
   },
   {
@@ -1795,7 +1795,7 @@
     "speaker": "Me",
     "text": "Plum!",
     "typeSpeed": 22,
-    "music": "music/dark.mp3",
+    "music": "music/happycrazyes.mp3",
     "next": "chapter1_136"
   },
   {
@@ -1805,7 +1805,7 @@
     "speaker": null,
     "text": "The chair falls.I reach out, but I catch nothing.",
     "typeSpeed": 22,
-    "music": "music/dark.mp3",
+    "music": "music/happycrazyes.mp3",
     "next": "chapter1_137"
   },
   {
@@ -1815,7 +1815,7 @@
     "speaker": null,
     "text": "It was a dead end",
     "typeSpeed": 22,
-    "music": "music/dark.mp3",
+    "music": "music/happycrazyes.mp3",
     "next": "chapter1_138"
   },
   {
@@ -1825,7 +1825,7 @@
     "speaker": null,
     "text": "Her body stops abruptly at the end of the rope.",
     "typeSpeed": 22,
-    "music": "music/dark.mp3",
+    "music": "music/happycrazyes.mp3",
     "next": "chapter1_139"
   },
   {
@@ -1835,7 +1835,7 @@
     "speaker": null,
     "text": "I can't breathe anymore.",
     "typeSpeed": 22,
-    "music": "music/dark.mp3",
+    "music": "music/happycrazyes.mp3",
     "next": "chapter1_140"
   },
   {
@@ -1845,7 +1845,7 @@
     "speaker": null,
     "text": "Then a laugh echoes in the darkness.",
     "typeSpeed": 22,
-    "music": "music/dark.mp3",
+    "music": "music/happycrazyes.mp3",
     "next": "chapter1_141"
   },
   {
@@ -1855,7 +1855,7 @@
     "speaker": "???",
     "text": "What a macabrely wonderful end… I almost envy her.",
     "typeSpeed": 22,
-    "music": "music/dark.mp3",
+    "music": "music/happycrazyes.mp3",
     "next": "chapter1_142"
   },
   {
@@ -1865,7 +1865,7 @@
     "speaker": null,
     "text": "Now I'm sure. This unknown voice is responsible for all of this. A true psychopath. It must be a dream… No, a nightmare.",
     "typeSpeed": 22,
-    "music": "music/dark.mp3",
+    "music": "music/happycrazyes.mp3",
     "next": "chapter1_143"
   },
   {
