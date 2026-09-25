@@ -1043,6 +1043,110 @@ body.overlay-active #dialogue-wrap{opacity:0;pointer-events:none}
   text-align:center;
   margin-bottom:1rem;
 }
+/* ══ NOTE AVANT LE CHAPITRE ══ */
+#note-screen{
+  position:fixed;inset:0;z-index:14;
+  background:radial-gradient(ellipse at center, #f4ead5 0%, #d9c9a8 100%);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:2rem 1.5rem;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity 1s ease;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
+}
+#note-screen.active{opacity:1;pointer-events:all;}
+
+.note-paper{
+  max-width:520px;
+  width:100%;
+  background:linear-gradient(135deg, #fefcf5 0%, #f0e6d2 100%);
+  padding:3rem 2.2rem 3rem;
+  border-radius:2px;
+  box-shadow:
+    0 20px 60px rgba(0,0,0,.4),
+    0 0 0 1px rgba(139,0,0,.15),
+    inset 0 0 60px rgba(180,150,110,.15);
+  position:relative;
+  transform:rotate(-0.5deg) scale(0.96);
+  transition:transform 1s cubic-bezier(.2,.9,.3,1);
+}
+#note-screen.active .note-paper{
+  transform:rotate(-0.5deg) scale(1);
+}
+.note-paper::before{
+  content:'';
+  position:absolute;
+  left:2.5rem;right:2.5rem;top:1.5rem;
+  height:1px;
+  background:linear-gradient(to right,transparent,rgba(139,0,0,.3),transparent);
+}
+.note-paper::after{
+  content:'';
+  position:absolute;
+  left:2.5rem;right:2.5rem;bottom:1.5rem;
+  height:1px;
+  background:linear-gradient(to right,transparent,rgba(139,0,0,.3),transparent);
+}
+
+.note-content{
+  font-family:'IM Fell English',Georgia,serif;
+  font-size:clamp(.9rem,2.2vw,1.05rem);
+  line-height:1.9;
+  color:#2a1a0a;
+  text-align:left;
+  font-style:italic;
+  white-space:pre-wrap;
+}
+.note-content .note-title{
+  font-family:'Cinzel',serif;
+  font-size:clamp(1rem,2.8vw,1.3rem);
+  letter-spacing:.25em;
+  text-transform:uppercase;
+  color:#8B0000;
+  text-align:center;
+  font-style:normal;
+  display:block;
+  margin-bottom:1.5rem;
+  padding-bottom:1rem;
+  border-bottom:1px solid rgba(139,0,0,.25);
+}
+.note-content .note-signature{
+  display:block;
+  text-align:right;
+  margin-top:2rem;
+  font-family:'Cinzel',serif;
+  font-size:.8rem;
+  letter-spacing:.2em;
+  color:#6a4420;
+  font-style:normal;
+}
+
+.note-hint{
+  position:absolute;
+  bottom:1.5rem;
+  left:50%;
+  transform:translateX(-50%);
+  font-family:'IM Fell English',serif;
+  font-size:.7rem;
+  color:rgba(120,80,40,.55);
+  font-style:italic;
+  letter-spacing:.15em;
+  animation:notePulse 2s ease infinite;
+  pointer-events:none;
+}
+@keyframes notePulse{
+  0%,100%{opacity:.4;}
+  50%{opacity:.9;}
+}
+
+@media(max-width:600px){
+  .note-paper{padding:2rem 1.5rem 2.5rem;}
+  .note-content{font-size:.85rem;line-height:1.8;}
+}
 </style>
 </head>
 <body>
@@ -1203,7 +1307,14 @@ body.overlay-active #dialogue-wrap{opacity:0;pointer-events:none}
     </div>
   </div>
 </div>
-
+<div id="note-screen">
+  <div class="note-paper">
+    <div class="note-content" id="note-content">
+      <!-- ═══ REMPLIS TON TEXTE ICI ═══ -->
+    </div>
+    <div class="note-hint">tap to continue</div>
+  </div>
+</div>
 <div id="chapter-title-screen">
   <div class="ch-title-eyebrow">— a chapter begins —</div>
   <div class="ch-title-label" id="ch-title-label"></div>
@@ -1816,7 +1927,31 @@ function returnToTitle(){
     startIntroMusic();
   });
 }
+function showNote(text, onDone){
+  const screen = document.getElementById('note-screen');
+  const content = document.getElementById('note-content');
+  if(!screen || !content){ if(onDone) onDone(); return; }
 
+  content.innerHTML = text || '';
+  screen.classList.remove('active');
+  void screen.offsetWidth;
+  requestAnimationFrame(() => screen.classList.add('active'));
+
+  let clicked = false;
+  const close = (e) => {
+    if(e){ e.preventDefault(); e.stopPropagation(); }
+    if(clicked) return;
+    clicked = true;
+    screen.removeEventListener('click', close);
+    screen.removeEventListener('touchend', close);
+    screen.classList.remove('active');
+    setTimeout(() => {
+      if(onDone) onDone();
+    }, 800);
+  };
+  screen.addEventListener('click', close);
+  screen.addEventListener('touchend', close, {passive:false});
+}
 async function showNextChapterPrompt(){
   const prompt = document.getElementById('next-chapter-prompt');
   const txt = document.getElementById('next-chapter-prompt-text');
@@ -3366,7 +3501,19 @@ document.getElementById('btn-start').addEventListener('click',async()=>{
   } else {
     fadeTransition(()=>{
       document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-      showChapterTitle(label, subtitle, startNow);
+           const noteText = `
+        <span class="note-title">Note</span>
+        Hi Etoile! Chapter 1 is longer than the prologue and will take around 15 minutes to complete.<br><br>
+        All events and characters are fictional, and any resemblance to real people or events is purely coincidental.<br><br>
+        It contains some graphic content and sensitive topics that may be upsetting or triggering, depending on the person, although it's still pretty soft overall.<br><br>
+        And my heart isn't actually as dark as this, I promise, it's just fiction! Well… some emotions are inspired by real feelings, and most importantly, I didn't write anything randomly.<br><br>
+        <b>VERY IMPORTANT:</b> Please make sure to save your file! There's a chance I might mess up the code, and you could lose your progress as well as your affinity!!<br><br>
+        Thank you, kisses, I love you very much!! 💜
+        <span class="note-signature">— Chippy</span>
+      `;
+      showNote(noteText, () => {
+        showChapterTitle(label, subtitle, startNow);
+      });
     });
   }
 });
