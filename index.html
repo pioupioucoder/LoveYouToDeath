@@ -615,7 +615,28 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
   100% { transform: rotate(-3.2deg) translateY(0); }
 }
 #char-img{max-height:calc(100vh * var(--char-scale));max-width:calc(60vw * var(--char-scale));object-fit:contain;filter:drop-shadow(0 0 30px rgba(0,0,0,.8))}
-@media(max-width:600px){#char-img{max-width:calc(100vw * var(--char-scale))}}
+@media(max-width:600px){
+  #char-img{max-width:calc(100vw * var(--char-scale))}
+  /* Plum intact (dark_reveal) plus petite sur mobile pour tout voir */
+  #char-wrap.dark-reveal #char-img{
+    max-height:70vh !important;
+    max-width:75vw !important;
+  }
+}
+/* ══ TREMBLEMENT (plum intact) ══ */
+#char-wrap.dark-reveal #char-img{
+  animation: charTrembleForever 0.14s steps(2) infinite;
+  will-change: transform;
+  transform-origin: 50% 80%;
+}
+@keyframes charTrembleForever{
+  0%   { transform: translate(2.5px, -1.8px) rotate(-0.7deg); }
+  20%  { transform: translate(-3px, 1.5px)  rotate(0.85deg); }
+  40%  { transform: translate(1.8px, 2.4px) rotate(-0.5deg); }
+  60%  { transform: translate(-2.6px, -1.2px) rotate(0.7deg); }
+  80%  { transform: translate(1.4px, 1.6px) rotate(-0.4deg); }
+  100% { transform: translate(2.5px, -1.8px) rotate(-0.7deg); }
+}
 @media(min-width:1200px){#char-img{max-width:calc(100vw * var(--char-scale))}}
 #hud{position:fixed;top:0;left:0;right:0;display:none;align-items:center;justify-content:space-between;padding:.8rem 1.2rem;z-index:80;background:linear-gradient(to bottom,rgba(0,0,0,.6),transparent);transition:opacity .8s ease;pointer-events:none}
 #hud .hud-left,#hud .hud-right{pointer-events:auto}
