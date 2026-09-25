@@ -914,6 +914,7 @@ body.overlay-active #dialogue-wrap{opacity:0;pointer-events:none}
 }
 .char-card.left{ transform:translate(-40px,30px) scale(.9); }
 .char-card.right{ transform:translate(40px,30px) scale(.9); }
+.char-card.center{ transform:translateY(30px) scale(.9); }
 .char-card.visible{
   opacity:1;
   transform:translate(0,0) scale(1);
@@ -984,10 +985,14 @@ body.overlay-active #dialogue-wrap{opacity:0;pointer-events:none}
 /* Mobile : cartes plus petites, empilées un peu */
 @media(max-width:600px){
   .chars-pair{ gap:.6rem; }
-  .char-card{ padding:.7rem .5rem 1rem; }
-  .char-card-img{ max-height:140px; }
-  .char-card-info{ font-size:.7rem; }
-  .char-card-info .info-key{ font-size:.6rem; }
+  .char-card{
+    padding:1rem .8rem 1.2rem;
+    max-width:340px;
+    width:90%;
+  }
+  .char-card-img{ max-height:200px; }
+  .char-card-info{ font-size:.75rem; }
+  .char-card-info .info-key{ font-size:.62rem; }
 }
 /* ══ Boutons navigation persos ══ */
 #chars-nav{
@@ -2194,6 +2199,12 @@ async function collectAllImagePaths(){
 
   (GAME_CONFIG.preloadImages || []).forEach(s => { if(s) set.add(s); });
 
+  // ═══ Ajout manuel des images de présentation ═══
+  set.add('images/characters/mira.png');
+  set.add('images/characters/rose.png');
+  set.add('images/characters/plum.png');
+  set.add('images/characters/es.png');
+
   let chapterIndex = [];
   try {
     const r = await fetch('json/chapterIndex.json?v='+Date.now(), {cache:'no-store'});
@@ -2625,20 +2636,23 @@ function showCharactersIntro(scene, onDone){
 
   if(scene.music) playMusic(scene.music);
 
-  const chars = scene.characters || [];
-  const totalPairs = Math.ceil(chars.length / 2);
+   const chars = scene.characters || [];
+  const isMobile = window.innerWidth <= 600;
+  const perPage = isMobile ? 1 : 2;   // 1 perso sur mobile, 2 sur PC
+  const totalPairs = Math.ceil(chars.length / perPage);
   let pairIndex = 0;
 
   overlay.classList.add('active');
-
   function renderPair(){
-    const i = pairIndex * 2;
-    const pair = chars.slice(i, i + 2);
+    const i = pairIndex * perPage;
+    const pair = chars.slice(i, i + perPage);
     pairEl.innerHTML = '';
 
     pair.forEach((c, idx) => {
+      // Sur mobile (1 perso), pas de classe left/right
+      const sideClass = perPage === 1 ? 'center' : (idx === 0 ? 'left' : 'right');
       const card = document.createElement('div');
-      card.className = 'char-card ' + (idx === 0 ? 'left' : 'right');
+      card.className = 'char-card ' + sideClass;
       if(c.name.toLowerCase() === 'es') card.classList.add('es');
       card.innerHTML = `
         <img class="char-card-img" src="${c.img}" alt="${c.name}" onerror="this.style.display='none'">
@@ -2660,7 +2674,7 @@ function showCharactersIntro(scene, onDone){
     // Update compteur
     if(countEl) countEl.textContent = (pairIndex + 1) + ' / ' + totalPairs;
 
-     // Update boutons (BACK toujours actif)
+    // Update boutons
     if(backBtn) backBtn.disabled = false;
     if(nextBtn){
       if(pairIndex === totalPairs - 1){
