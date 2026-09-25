@@ -585,24 +585,12 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 #overlay-back-btn{ left:1rem; }
 #overlay-next-btn{ right:1rem; }
 
-#char-wrap{position:absolute;bottom:var(--dialogue-h);left:50%;transform:translateX(-50%);z-index:2;display:flex;align-items:flex-end;justify-content:center;transition:opacity .25s ease;pointer-events:none}
+#char-wrap{position:absolute;bottom:var(--dialogue-h);left:50%;transform:translateX(-50%);z-index:2;display:flex;align-items:flex-end;justify-content:center;pointer-events:none;opacity:0}
 
-/* ══ APPARITION LENTE (plumintact) ══ */
-#char-wrap.dark-reveal{
-  animation: charDarkReveal 6s ease-out forwards;
-}
-@keyframes charDarkReveal{
-  0%   { opacity: 0;    transform: translateX(-50%) scale(0.96); }
-  30%  { opacity: 0.35; transform: translateX(-50%) scale(0.97); }
-  60%  { opacity: 0.7;  transform: translateX(-50%) scale(0.985); }
-  100% { opacity: 1;    transform: translateX(-50%) scale(1); }
-}
-
-/* ══ TREMBLEMENT (plumintact) ══ */
+/* ══ TREMBLEMENT (plumintact) — MOUVEMENT SEUL ══ */
 #char-wrap.dark-reveal #char-img{
-  animation: charTrembleForever 0.16s steps(2) infinite;
+  animation: charTrembleForever 0.4s ease-in-out infinite;
   transform-origin: 50% 85%;
-  will-change: transform;
 }
 @keyframes charTrembleForever{
   0%   { transform: translate(2px, -1px) rotate(-0.6deg); }
@@ -610,18 +598,16 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
   100% { transform: translate(2px, -1px) rotate(-0.6deg); }
 }
 
-/* ══ BALANCEMENT (plumdied) ══ */
+/* ══ BALANCEMENT (plumdied) — MOUVEMENT SEUL ══ */
 #char-wrap.swing #char-img{
   transform-origin: 50% 8%;
   animation: charSwing 3.8s ease-in-out infinite;
-  will-change: transform;
 }
 @keyframes charSwing{
   0%   { transform: rotate(-3deg); }
   50%  { transform: rotate(3deg); }
   100% { transform: rotate(-3deg); }
 }
-
 #char-img{
   max-height:calc(100vh * var(--char-scale));
   max-width:calc(60vw * var(--char-scale));
@@ -1332,7 +1318,7 @@ body.overlay-active #dialogue-wrap{opacity:0;pointer-events:none}
     <div class="eyes-layer"></div>
   </div>
   <div id="blood-overlay"></div>
-  <div id="char-wrap"><img id="char-img" src="" alt="" onerror="this.style.display='none'"></div>
+<div id="char-wrap"><img id="char-img" src="" alt=""></div>
  <div id="eyelid-overlay">
     <div class="eyelid-top"></div>
     <div class="eyelid-bottom"></div>
@@ -2616,22 +2602,23 @@ function startIntroMusic(){
 }
 function playMusic(src){
   if(!src || !bgm) return;
-  if(state.currentMusic===src && !bgm.paused) return;
+
+  // ═══ Si c'est déjà la musique en cours ET qu'elle joue → on ne touche à rien ═══
+  if(state.currentMusic === src && !bgm.paused) return;
+
+  // ═══ STOP NET de l'ancienne musique ═══
+  try{
+    bgm.pause();
+    bgm.currentTime = 0;
+  }catch(e){}
+
+  // ═══ Charge et joue la nouvelle ═══
   state.currentMusic = src;
   bgm.src = src;
   bgm.loop = true;
   bgm.muted = state.muted;
   bgm.volume = state.muted ? 0 : state.volume;
-  bgm.play().catch(()=>{});
-}
-function playMusic(src){
-  if(!src || !bgm) return;
-  if(state.currentMusic===src && !bgm.paused) return;
-  state.currentMusic = src;
-  bgm.src = src;
-  bgm.loop = true;
-  bgm.muted = state.muted;
-  bgm.volume = state.muted ? 0 : state.volume;
+  bgm.load();  // ← force le rechargement de la nouvelle source
   bgm.play().catch(()=>{});
 }
 
@@ -2687,44 +2674,49 @@ function setOverlayImage(src){
 }
 async function setCharacter(img, anim){
   const wrap=document.getElementById('char-wrap'),el=document.getElementById('char-img');
-  const newSrc = img || '';
-  if(_lastCharSrc === newSrc && !anim) return;
-  _lastCharSrc = newSrc;
+  if(!wrap || !el) return;
 
+  // ═══ Si pas d'image → cache ═══
   if(!img){
-    wrap.style.opacity='0';
+    wrap.style.opacity = '0';
     wrap.classList.remove('dark-reveal','swing');
+    _lastCharSrc = '';
     return;
   }
-    const cached = _imageCache.get(img);
-  if(cached){
-    el.src = cached.src;              // réutilise l'image déjà décodée
-    el.style.display = '';
-    wrap.style.opacity = '1';
-    // Force le navigateur à peindre immédiatement
-    try{ await el.decode(); }catch(e){}
-  } else {
-    await preloadImage(img);
-    el.src = img;
-    el.style.display = '';
-    wrap.style.opacity = '1';
-  }
 
-  // Reset les animations précédentes
+  // ═══ Reset animations ═══
   wrap.classList.remove('dark-reveal','swing');
 
+  // ═══ AFFICHAGE IMMÉDIAT (pas de fade) ═══
+  wrap.style.opacity = '1';
+
+  // ═══ Charge l'image ═══
+  let finalSrc = img;
+  try{
+    await preloadImage(img);
+    const cached = _imageCache.get(img);
+    if(cached && cached.src) finalSrc = cached.src;
+  }catch(e){ console.warn('preload fail', img, e); }
+
+  el.src = finalSrc;
+  el.style.display = '';
+  _lastCharSrc = img;
+
+  // ═══ Force visible APRÈS le chargement (sécurité mobile) ═══
+  void wrap.offsetWidth;
+  wrap.style.opacity = '1';
+
+  // ═══ Animation de mouvement (tremble / swing) ═══
   if(anim === 'dark_reveal'){
     void wrap.offsetWidth;
     wrap.classList.add('dark-reveal');
   } else if(anim === 'swing'){
     void wrap.offsetWidth;
     wrap.classList.add('swing');
-    // ⚠️ pas de retrait → le balancement reste jusqu'à changement de scène
   }
 
   requestAnimationFrame(syncDialogueHeight);
 }
-
 const DEFAULT_TYPE_SPEED=22;
 function typeText(el,text,speed,onDone){
   el.textContent='';state.isTyping=true;let i=0;
