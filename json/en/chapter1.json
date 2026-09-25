@@ -1776,10 +1776,12 @@
     "nextSuccess": "chapter1_plum_died",
     "next": "chapter1_plum_died"
   },
-  {
+    {
     "id": "chapter1_plum_died",
     "bg": null,
-    "charImg": null,
+    "charImg": "images/characters/plumdied.png",
+    "charAnim": "swing",
+    "persistChar": true,
     "speaker": null,
     "text": "A blade strikes the leg of the chair.",
     "typeSpeed": 22,
