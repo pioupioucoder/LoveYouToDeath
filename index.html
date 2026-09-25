@@ -2787,6 +2787,7 @@ function exportData(){
       muted:localStorage.getItem(LS_MUTE_KEY)||'0',
       chapters:localStorage.getItem(CH_LS_CHAPTERS)||'[]',
       endings:localStorage.getItem(CH_LS_ENDINGS_SEEN)||'[]',
+      gameFlags:localStorage.getItem("lmtd_gameFlags")||'{}',
     };
     const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
     const url=URL.createObjectURL(blob);

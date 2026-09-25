@@ -96,6 +96,29 @@ html,body{margin:0;padding:0;background:#000;overflow:hidden;width:100%;height:1
   border-color:#DC143C;
   color:#fff;
 }
+#mini-hud .mh-back-btn{
+  font-family:'Courier New',monospace;
+  font-size:.68rem;
+  letter-spacing:.15em;
+  color:#C8B8D0;
+  background:rgba(10,10,15,.78);
+  border:1px solid rgba(200,160,200,.3);
+  padding:.4rem .8rem;
+  border-radius:4px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:.35rem;
+  transition:all .2s;
+  backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
+}
+#mini-hud .mh-back-btn:hover{
+  border-color:#DC143C;
+  color:#fff;
+}
 </style>
 </head>
 <body>
@@ -111,6 +134,7 @@ html,body{margin:0;padding:0;background:#000;overflow:hidden;width:100%;height:1
     </div>
   </div>
   <div class="mh-right">
+    <button class="mh-back-btn" id="mh-back" type="button" title="Back">&#9666; BACK</button>
     <button class="mh-btn" id="mh-history" type="button" title="History">&#128220;</button>
     <button class="mh-btn" id="mh-help" type="button" title="Help">?</button>
     <button class="mh-btn" id="mh-pause" type="button" title="Pause">&#9208;</button>
@@ -569,7 +593,13 @@ document.getElementById('mh-help').addEventListener('click', () => {
 document.getElementById('mh-pause').addEventListener('click', () => {
   if(window.parent && window.parent.LMTD_OPEN_PAUSE) window.parent.LMTD_OPEN_PAUSE();
 });
-
+document.getElementById('mh-back').addEventListener('click', () => {
+  if(window.parent && window.parent.LMTD_MINIGAME_BACK) {
+    window.parent.LMTD_MINIGAME_BACK();
+  } else if(window.parent && window.parent.LMTD_MINIGAME_DONE) {
+    window.parent.LMTD_MINIGAME_DONE({ success: false, back: true });
+  }
+});
 _mhUpdateAffinity();
 setInterval(_mhUpdateAffinity, 800);
 
