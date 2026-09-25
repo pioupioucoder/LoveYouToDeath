@@ -1169,7 +1169,7 @@
     "type": "eyes_close",
     "next": "chapter1_100"
   },
-  {
+    {
     "id": "chapter1_100",
     "bg": null,
     "charImg": null,
@@ -1194,7 +1194,7 @@
     "bg": null,
     "charImg": null,
     "speaker": null,
-    "text": "I blink, but nothing changes.",
+    "text": "I blink. Nothing.",
     "typeSpeed": 22,
     "music": "music/dark.mp3",
     "next": "chapter1_103"
@@ -1204,7 +1204,7 @@
     "bg": null,
     "charImg": null,
     "speaker": null,
-    "text": "My eyes start to sting from searching for something in the darkness.",
+    "text": "My eyes burn from searching in the darkness.",
     "typeSpeed": 22,
     "music": "music/dark.mp3",
     "next": "chapter1_104"
@@ -1224,7 +1224,7 @@
     "bg": null,
     "charImg": null,
     "speaker": null,
-    "text": "A shiver slides down my neck.",
+    "text": "A high-pitched voice, trembling, barely audible.",
     "typeSpeed": 22,
     "music": "music/dark.mp3",
     "next": "chapter1_106"
@@ -1233,8 +1233,8 @@
     "id": "chapter1_106",
     "bg": null,
     "charImg": null,
-    "speaker": "Me",
-    "text": "Is someone there?",
+    "speaker": "???",
+    "text": "Every time you choose them…",
     "typeSpeed": 22,
     "music": "music/dark.mp3",
     "next": "chapter1_107"
@@ -1244,7 +1244,7 @@
     "bg": null,
     "charImg": null,
     "speaker": null,
-    "text": "My throat is dry.",
+    "text": "I turn my head.",
     "typeSpeed": 22,
     "music": "music/dark.mp3",
     "next": "chapter1_108"
@@ -1253,8 +1253,8 @@
     "id": "chapter1_108",
     "bg": null,
     "charImg": null,
-    "speaker": null,
-    "text": "I turn my head, searching for where the voice comes from, but the darkness seems to smother it.",
+    "speaker": "???",
+    "text": "It's like someone's piercing my heart.",
     "typeSpeed": 22,
     "music": "music/dark.mp3",
     "next": "chapter1_109"
@@ -1263,8 +1263,8 @@
     "id": "chapter1_109",
     "bg": null,
     "charImg": null,
-    "speaker": "???",
-    "text": "No matter how I push them away…",
+    "speaker": null,
+    "text": "I try to answer, but no sound comes out, as if the words had choked in my chest.",
     "typeSpeed": 22,
     "music": "music/dark.mp3",
     "next": "chapter1_110"
@@ -1273,8 +1273,8 @@
     "id": "chapter1_110",
     "bg": null,
     "charImg": null,
-    "speaker": null,
-    "text": "My fingers tighten slightly.",
+    "speaker": "???",
+    "text": "It's strange, don't you think?",
     "typeSpeed": 22,
     "music": "music/dark.mp3",
     "next": "chapter1_111"
@@ -1284,7 +1284,7 @@
     "bg": null,
     "charImg": null,
     "speaker": "???",
-    "text": "But they always come closer.",
+    "text": "You don't even need to do anything to me.",
     "typeSpeed": 22,
     "music": "music/dark.mp3",
     "next": "chapter1_112"
@@ -1294,7 +1294,7 @@
     "bg": null,
     "charImg": null,
     "speaker": null,
-    "text": "My heart pounds against my chest.",
+    "text": "But who's speaking?",
     "typeSpeed": 22,
     "music": "music/dark.mp3",
     "next": "chapter1_113"
@@ -1304,7 +1304,7 @@
     "bg": null,
     "charImg": null,
     "speaker": "???",
-    "text": "Like moths drawn to a flame…",
+    "text": "All you have to do is give them your light, and they come orbiting around you…",
     "typeSpeed": 22,
     "music": "music/dark.mp3",
     "next": "chapter1_114"
@@ -1313,8 +1313,8 @@
     "id": "chapter1_114",
     "bg": null,
     "charImg": null,
-    "speaker": null,
-    "text": "I instinctively hold my breath.",
+    "speaker": "???",
+    "text": "Like moths unable to resist a flame.",
     "typeSpeed": 22,
     "music": "music/dark.mp3",
     "next": "chapter1_115"
@@ -1323,8 +1323,8 @@
     "id": "chapter1_115",
     "bg": null,
     "charImg": null,
-    "speaker": "???",
-    "text": "…until their wings stop beating.",
+    "speaker": null,
+    "text": "What is she talking about? Am I dreaming?",
     "typeSpeed": 22,
     "music": "music/dark.mp3",
     "next": "chapter1_116"
@@ -1333,8 +1333,8 @@
     "id": "chapter1_116",
     "bg": null,
     "charImg": null,
-    "speaker": null,
-    "text": "An unpleasant cold runs down my back.",
+    "speaker": "???",
+    "text": "How much longer must I endure this?",
     "typeSpeed": 22,
     "music": "music/dark.mp3",
     "next": "chapter1_117"
@@ -1343,8 +1343,8 @@
     "id": "chapter1_117",
     "bg": null,
     "charImg": null,
-    "speaker": "Me",
-    "text": "What…? Who's there?",
+    "speaker": null,
+    "text": "The voice seems to breathe quickly.",
     "typeSpeed": 22,
     "music": "music/dark.mp3",
     "next": "chapter1_118"
@@ -1353,8 +1353,8 @@
     "id": "chapter1_118",
     "bg": null,
     "charImg": null,
-    "speaker": null,
-    "text": "My voice trembles slightly.",
+    "speaker": "???",
+    "text": "No… no, no…",
     "typeSpeed": 22,
     "music": "music/dark.mp3",
     "next": "chapter1_119"
@@ -1363,8 +1363,8 @@
     "id": "chapter1_119",
     "bg": null,
     "charImg": null,
-    "speaker": null,
-    "text": "I step back, but my legs suddenly feel too heavy.",
+    "speaker": "???",
+    "text": "I'll cut their wings to shreds.",
     "typeSpeed": 22,
     "music": "music/dark.mp3",
     "next": "chapter1_120"
@@ -1373,36 +1373,266 @@
     "id": "chapter1_120",
     "bg": null,
     "charImg": null,
-    "speaker": null,
-    "text": "Then a laugh rises in the darkness.",
+    "speaker": "???",
+    "text": "I'll crush them.",
     "typeSpeed": 22,
     "music": "music/dark.mp3",
     "next": "chapter1_121"
-  },  
-     {
+  },
+  {
     "id": "chapter1_121",
     "bg": null,
     "charImg": null,
     "speaker": "???",
-    "text": "Hahahaha…",
+    "text": "hahahha",
+    "typeSpeed": 22,
+    "music": "music/dark.mp3",
+    "next": "chapter1_122"
+  },
+  {
+    "id": "chapter1_122",
+    "bg": null,
+    "charImg": null,
+    "speaker": null,
+    "text": "The laugh no longer resembles the trembling voice from a moment ago.",
+    "typeSpeed": 22,
+    "music": "music/dark.mp3",
+    "next": "chapter1_123"
+  },
+  {
+    "id": "chapter1_123",
+    "bg": null,
+    "charImg": null,
+    "speaker": null,
+    "text": "There's something almost joyful in the way it laughs.",
+    "typeSpeed": 22,
+    "music": "music/dark.mp3",
+    "next": "chapter1_124"
+  },
+  {
+    "id": "chapter1_124",
+    "bg": null,
+    "charImg": null,
+    "speaker": "???",
+    "text": "It's so amusing to watch them struggle…",
+    "typeSpeed": 22,
+    "music": "music/dark.mp3",
+    "next": "chapter1_125"
+  },
+  {
+    "id": "chapter1_125",
+    "bg": null,
+    "charImg": null,
+    "speaker": "???",
+    "text": "Maybe this way, you'll understand my suffering too.",
+    "typeSpeed": 22,
+    "music": "music/dark.mp3",
+    "next": "chapter1_126"
+  },
+  {
+    "id": "chapter1_126",
+    "bg": null,
+    "charImg": null,
+    "speaker": null,
+    "text": "The silence suddenly becomes heavy. It's as if listening to this psychopath's voice feels more reassuring than being alone in the dark.",
+    "typeSpeed": 22,
+    "music": "music/dark.mp3",
+    "next": "chapter1_127"
+  },
+  {
+    "id": "chapter1_127",
+    "bg": null,
+    "charImg": null,
+    "speaker": "???",
+    "text": "Help…",
+    "typeSpeed": 22,
+    "music": "music/dark.mp3",
+    "next": "chapter1_128"
+  },
+  {
+    "id": "chapter1_128",
+    "bg": null,
+    "charImg": null,
+    "speaker": null,
+    "text": "A muffled voice reaches my ears. I try to figure out where it's coming from.",
+    "typeSpeed": 22,
+    "music": "music/dark.mp3",
+    "next": "chapter1_129"
+  },
+  {
+    "id": "chapter1_129",
+    "bg": null,
+    "charImg": null,
+    "speaker": "???",
+    "text": "Please…",
+    "typeSpeed": 22,
+    "music": "music/dark.mp3",
+    "next": "chapter1_130"
+  },
+  {
+    "id": "chapter1_130",
+    "bg": null,
+    "charImg": null,
+    "speaker": null,
+    "text": "I know this voice.",
+    "typeSpeed": 22,
+    "music": "music/dark.mp3",
+    "next": "chapter1_131"
+  },
+  {
+    "id": "chapter1_131",
+    "bg": null,
+    "charImg": null,
+    "speaker": "Me",
+    "text": "…Plum?",
+    "typeSpeed": 22,
+    "music": "music/dark.mp3",
+    "next": "chapter1_132"
+  },
+  {
+    "id": "chapter1_132",
+    "bg": null,
+    "charImg": null,
+    "speaker": null,
+    "text": "She appears in the darkness, standing on a chair, a rope around her neck. Her fingers cling to it with difficulty.",
+    "typeSpeed": 22,
+    "music": "music/dark.mp3",
+    "next": "chapter1_133"
+  },
+  {
+    "id": "chapter1_133",
+    "bg": null,
+    "charImg": null,
+    "speaker": null,
+    "text": "I can't breathe anymore.",
+    "typeSpeed": 22,
+    "music": "music/dark.mp3",
+    "next": "chapter1_134"
+  },
+  {
+    "id": "chapter1_134",
+    "bg": null,
+    "charImg": null,
+    "speaker": null,
+    "text": "Her shoulders tremble slightly. When she sees me, her gaze clings to mine, hesitant, almost pleading, as if she hoped I would understand without her needing to speak.",
     "typeSpeed": 22,
     "music": "music/dark.mp3",
     "next": "chapter1_protect_minigame"
   },
-
   {
     "id": "chapter1_protect_minigame",
     "type": "minigame",
     "minigameFile": "minigames/protect_plum.html",
-    "nextSuccess": "chapter1_plum_survived",
-    "next": "chapter1_plum_survived"
+    "nextSuccess": "chapter1_plum_died",
+    "next": "chapter1_plum_died"
   },
   {
-    "id": "chapter1_plum_survived",
+    "id": "chapter1_plum_died",
     "bg": null,
     "charImg": null,
-    "speaker": "Es",
-    "text": "Good. She lives. For now.",
+    "speaker": null,
+    "text": "A blade strikes the leg of the chair.",
+    "typeSpeed": 22,
+    "music": "music/dark.mp3",
+    "next": "chapter1_135"
+  },
+  {
+    "id": "chapter1_135",
+    "bg": null,
+    "charImg": null,
+    "speaker": "Me",
+    "text": "Plum!",
+    "typeSpeed": 22,
+    "music": "music/dark.mp3",
+    "next": "chapter1_136"
+  },
+  {
+    "id": "chapter1_136",
+    "bg": null,
+    "charImg": null,
+    "speaker": null,
+    "text": "The chair falls.",
+    "typeSpeed": 22,
+    "music": "music/dark.mp3",
+    "next": "chapter1_137"
+  },
+  {
+    "id": "chapter1_137",
+    "bg": null,
+    "charImg": null,
+    "speaker": null,
+    "text": "I reach out, but I catch nothing.",
+    "typeSpeed": 22,
+    "music": "music/dark.mp3",
+    "next": "chapter1_138"
+  },
+  {
+    "id": "chapter1_138",
+    "bg": null,
+    "charImg": null,
+    "speaker": null,
+    "text": "Her body stops abruptly at the end of the rope.",
+    "typeSpeed": 22,
+    "music": "music/dark.mp3",
+    "next": "chapter1_139"
+  },
+  {
+    "id": "chapter1_139",
+    "bg": null,
+    "charImg": null,
+    "speaker": null,
+    "text": "I can't breathe anymore.",
+    "typeSpeed": 22,
+    "music": "music/dark.mp3",
+    "next": "chapter1_140"
+  },
+  {
+    "id": "chapter1_140",
+    "bg": null,
+    "charImg": null,
+    "speaker": null,
+    "text": "Then a laugh echoes in the darkness.",
+    "typeSpeed": 22,
+    "music": "music/dark.mp3",
+    "next": "chapter1_141"
+  },
+  {
+    "id": "chapter1_141",
+    "bg": null,
+    "charImg": null,
+    "speaker": "???",
+    "text": "What a macabrely wonderful end… I almost envy her.",
+    "typeSpeed": 22,
+    "music": "music/dark.mp3",
+    "next": "chapter1_142"
+  },
+  {
+    "id": "chapter1_142",
+    "bg": null,
+    "charImg": null,
+    "speaker": null,
+    "text": "Now I'm sure. This unknown voice is responsible for all of this. A true psychopath. It must be a dream… No, a nightmare.",
+    "typeSpeed": 22,
+    "music": "music/dark.mp3",
+    "next": "chapter1_143"
+  },
+  {
+    "id": "chapter1_143",
+    "bg": null,
+    "charImg": null,
+    "speaker": "???",
+    "text": "Why did you try to save her…",
+    "typeSpeed": 22,
+    "music": "music/dark.mp3",
+    "next": "chapter1_144"
+  },
+   {
+    "id": "chapter1_144",
+    "bg": null,
+    "charImg": null,
+    "speaker": "???",
+    "text": "…and not me?",
+    "glitch": true,
     "typeSpeed": 22,
     "music": "music/dark.mp3",
     "next": "__suite_suivante__"
