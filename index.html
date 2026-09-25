@@ -1184,6 +1184,15 @@ let bloodDripsInitialized = false;
 let _lastCharSrc = null;
 let lastBg = null;
 
+// ═══ FLAGS (choix mémorisés entre chapitres) ═══
+window.gameFlags = (() => {
+  try{ return JSON.parse(localStorage.getItem("lmtd_gameFlags") || "{}"); }
+  catch(e){ return {}; }
+})();
+function saveFlags(){
+  try{ localStorage.setItem("lmtd_gameFlags", JSON.stringify(window.gameFlags)); }catch(e){}
+}
+
 function t(k){return I18N.en[k];}
 function closeEyes(callback){
   const ov = document.getElementById('eyelid-overlay');
@@ -2084,6 +2093,7 @@ function resetGame(){
     localStorage.removeItem(LS_MUTE_KEY);
     localStorage.removeItem(CH_LS_CHAPTERS);
     localStorage.removeItem(CH_LS_ENDINGS_SEEN);
+    localStorage.removeItem("lmtd_gameFlags");   // ← AJOUTE
   }catch(e){}
   try{sessionStorage.removeItem(SESSION_CODE_KEY);}catch(e){}
   location.reload();
@@ -2320,6 +2330,21 @@ function getSceneIndex(id){return state.scenes.findIndex(s=>s.id===id);}
 function renderScene(scene,fromBack){
   if(!scene){triggerEnding();return;}
 
+  // ═══ CONDITION : redirige selon un flag ═══
+  if(scene.type === 'condition'){
+    const val = window.gameFlags[scene.flag] || false;
+    const nextId = val ? scene.nextTrue : scene.nextFalse;
+    console.log("🔀 Condition:", scene.flag, "=", val, "→", nextId);
+    if(nextId){
+      const idx = getSceneIndex(nextId);
+      if(idx !== -1){
+        state.sceneIndex = idx;
+        renderScene(state.scenes[idx]);
+      }
+    }
+    return;
+  }
+
   if(scene.bloodEffect){
     triggerBloodEffect(scene.bloodEffect);
   } else {
@@ -2512,12 +2537,20 @@ function renderChoices(choices){
       if(e){ e.preventDefault(); e.stopPropagation(); }
       if(fired) return;
       fired = true;
-      try{
+           try{
         addToHistory(t('youLabel'), ch.text, true);
         const delta = (typeof ch.affinityChange === 'number') ? ch.affinityChange
                     : (typeof ch.affinityDelta === 'number')  ? ch.affinityDelta
                     : 0;
         if(delta) updateAffinity(delta);
+
+        // ═══ FLAGS ═══
+        if(ch.setFlag){
+          Object.assign(window.gameFlags, ch.setFlag);
+          saveFlags();
+          console.log("🚩 Flag set:", window.gameFlags);
+        }
+
         cw.style.display='none';
         state.awaitingChoice=false;
         state.pendingChoices=null;
@@ -2633,11 +2666,12 @@ document.addEventListener('DOMContentLoaded',()=>{
     reader.onload=ev=>{
       try{
         const data=JSON.parse(ev.target.result);
-        if(data.save)localStorage.setItem(LS_KEY,data.save);
-        if(data.volume)localStorage.setItem(LS_VOL_KEY,data.volume);
-        if(data.muted)localStorage.setItem(LS_MUTE_KEY,data.muted);
-        if(data.chapters)localStorage.setItem(CH_LS_CHAPTERS,data.chapters);
-        if(data.endings)localStorage.setItem(CH_LS_ENDINGS_SEEN,data.endings);
+if(data.save)localStorage.setItem(LS_KEY,data.save);
+if(data.volume)localStorage.setItem(LS_VOL_KEY,data.volume);
+if(data.muted)localStorage.setItem(LS_MUTE_KEY,data.muted);
+if(data.chapters)localStorage.setItem(CH_LS_CHAPTERS,data.chapters);
+if(data.endings)localStorage.setItem(CH_LS_ENDINGS_SEEN,data.endings);
+if(data.gameFlags)localStorage.setItem("lmtd_gameFlags",data.gameFlags);   // ← AJOUTE
         showGamePopup(t('importBtn')||'IMPORT',t('importSuccess')||'Imported.',[{label:'OK',fn:()=>{closeGamePopup();location.reload();}}]);
       }catch(ex){
         showGamePopup('ERROR',t('importError')||'Invalid file.',[{label:'OK',fn:closeGamePopup}]);

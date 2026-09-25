@@ -122,20 +122,40 @@
     "text": "I read the few lines again, not really sure what to make of them.",
     "typeSpeed": 22,
     "music": "music/day.mp3",
-    "choices": [
+     "choices": [
       {
         "text": "This is… beautiful. Whoever wrote this really touched me.",
-        "next": "chapter1_13",
+        "next": "chapter1_12_nice",
         "affinityChange": 1,
         "affinityEffect": "increase"
       },
       {
         "text": "Ugh. What kind of creepy loser writes this kind of crap?",
-        "next": "chapter1_13",
+        "next": "chapter1_12_mean",
         "affinityChange": -1,
         "affinityEffect": "decrease"
       }
     ]
+  },
+    {
+    "id": "chapter1_12_nice",
+    "bg": "images/backgrounds/school_hallway.webp",
+    "charImg": null,
+    "speaker": "Me",
+    "text": "This is… beautiful. Whoever wrote this really touched me.",
+    "typeSpeed": 22,
+    "music": "music/day.mp3",
+    "next": "chapter1_13"
+  },
+  {
+    "id": "chapter1_12_mean",
+    "bg": "images/backgrounds/school_hallway.webp",
+    "charImg": null,
+    "speaker": "Me",
+    "text": "Ugh. What kind of creepy loser writes this kind of crap?",
+    "typeSpeed": 22,
+    "music": "music/day.mp3",
+    "next": "chapter1_13"
   },
   {
     "id": "chapter1_13",
@@ -433,9 +453,9 @@
   {
     "id": "chapter1_36_refuse5",
     "bg": "images/backgrounds/school_hallway.webp",
-    "charImg": "images/characters/plumtalkneutral.png",
-    "speaker": "Plum",
-    "text": "But… I still want to see the club. Just once. Please?",
+    "charImg": "images/characters/plumneutral.png",
+    "speaker": null,
+    "text": "I click my tongue and start walking away. She doesn't follow.",
     "typeSpeed": 22,
     "music": "music/day.mp3",
     "next": "chapter1_36_refuse6"
@@ -443,9 +463,149 @@
   {
     "id": "chapter1_36_refuse6",
     "bg": "images/backgrounds/school_hallway.webp",
-    "charImg": "images/characters/plumneutral.png",
+    "charImg": null,
     "speaker": null,
-    "text": "I click my tongue and start walking. She follows a few steps behind me in silence.",
+    "text": "After a few steps, I slow down. My chest feels tight. It's not her fault… I'm just in a foul mood today. Those anonymous letters, the feeling of being watched, the lack of sleep — it's all piling up.",
+    "typeSpeed": 22,
+    "music": "music/day.mp3",
+    "next": "chapter1_36_refuse7"
+  },
+  {
+    "id": "chapter1_36_refuse7",
+    "bg": "images/backgrounds/school_hallway.webp",
+    "charImg": null,
+    "speaker": "Me",
+    "text": "…Hey.",
+    "typeSpeed": 22,
+    "music": "music/day.mp3",
+    "next": "chapter1_36_refuse8"
+  },
+  {
+    "id": "chapter1_36_refuse8",
+    "bg": "images/backgrounds/school_hallway.webp",
+    "charImg": "images/characters/plumreallyscared.png",
+    "speaker": null,
+    "text": "I turn around. She's still standing there, frozen, as if she doesn't dare move.",
+    "typeSpeed": 22,
+    "music": "music/day.mp3",
+    "next": "chapter1_36_refuse9"
+  },
+  {
+    "id": "chapter1_36_refuse9",
+    "bg": "images/backgrounds/school_hallway.webp",
+    "charImg": "images/characters/plumscared.png",
+    "speaker": "Me",
+    "text": "Look… I'm sorry. I didn't mean what I said. I'm just… not in a good mood today.",
+    "typeSpeed": 22,
+    "music": "music/day.mp3",
+    "next": "chapter1_36_refuse10"
+  },
+  {
+    "id": "chapter1_36_refuse10",
+    "bg": "images/backgrounds/school_hallway.webp",
+    "charImg": "images/characters/plumsurprised.png",
+    "speaker": null,
+    "text": "She blinks, caught off guard. She wipes her eyes quickly, as if hoping I didn't notice.",
+    "typeSpeed": 22,
+    "music": "music/day.mp3",
+    "next": "chapter1_36_refuse11"
+  },
+  {
+    "id": "chapter1_36_refuse11",
+    "bg": "images/backgrounds/school_hallway.webp",
+    "charImg": "images/characters/plumsurprised.png",
+    "speaker": "Me",
+    "text": "Let me make it up to you. Come with me to the club — I'll show you around.",
+    "typeSpeed": 22,
+    "music": "music/day.mp3",
+    "next": "chapter1_36_refuse12"
+  },
+  {
+    "id": "chapter1_36_refuse12",
+    "bg": "images/backgrounds/school_hallway.webp",
+    "charImg": "images/characters/plumsurprised.png",
+    "speaker": null,
+    "text": "Plum's eyes go wide. She clearly wasn't expecting that.",
+    "typeSpeed": 22,
+    "music": "music/day.mp3",
+    "next": "chapter1_36_refuse13"
+  },
+  {
+    "id": "chapter1_36_refuse13",
+    "bg": "images/backgrounds/school_hallway.webp",
+    "charImg": "images/characters/plumtalkneutral.png",
+    "speaker": "Plum",
+    "text": "R… really?",
+    "typeSpeed": 22,
+    "music": "music/day.mp3",
+    "next": "chapter1_36_refuse14"
+  },
+  {
+    "id": "chapter1_36_refuse14",
+    "bg": "images/backgrounds/school_hallway.webp",
+    "charImg": "images/characters/plumsurprised.png",
+    "speaker": null,
+    "text": "I tilt my head slightly.",
+    "typeSpeed": 22,
+    "music": "music/day.mp3",
+    "next": "chapter1_36_refuse15"
+  },
+  {
+    "id": "chapter1_36_refuse15",
+    "bg": "images/backgrounds/school_hallway.webp",
+    "charImg": "images/characters/plumsmile.png",
+    "speaker": "Me",
+    "text": "But first — what's your name?",
+    "typeSpeed": 22,
+    "music": "music/day.mp3",
+    "next": "chapter1_36_refuse16"
+  },
+  {
+    "id": "chapter1_36_refuse16",
+    "bg": "images/backgrounds/school_hallway.webp",
+    "charImg": "images/characters/plumtalkneutral.png",
+    "speaker": "Plum",
+    "text": "My name…?",
+    "typeSpeed": 22,
+    "music": "music/day.mp3",
+    "next": "chapter1_36_refuse17"
+  },
+  {
+    "id": "chapter1_36_refuse17",
+    "bg": "images/backgrounds/school_hallway.webp",
+    "charImg": "images/characters/plumtalkneutral.png",
+    "speaker": "Plum",
+    "text": "Plu… Plum.",
+    "typeSpeed": 22,
+    "music": "music/day.mp3",
+    "next": "chapter1_36_refuse18"
+  },
+  {
+    "id": "chapter1_36_refuse18",
+    "bg": "images/backgrounds/school_hallway.webp",
+    "charImg": "images/characters/plumsurprised.png",
+    "speaker": "Me",
+    "text": "Nice to meet you, Plum. I'm Étoile.",
+    "typeSpeed": 22,
+    "music": "music/day.mp3",
+    "next": "chapter1_36_refuse19"
+  },
+  {
+    "id": "chapter1_36_refuse19",
+    "bg": "images/backgrounds/school_hallway.webp",
+    "charImg": "images/characters/plumsmile.png",
+    "speaker": null,
+    "text": "I casually tuck my notebook against myself and start walking. She falls into step beside me.",
+    "typeSpeed": 22,
+    "music": "music/day.mp3",
+    "next": "chapter1_36_refuse20"
+  },
+  {
+    "id": "chapter1_36_refuse20",
+    "bg": "images/backgrounds/school_hallway.webp",
+    "charImg": "images/characters/plumsmile.png",
+    "speaker": null,
+    "text": "After a few steps, her shoulder almost brushes against mine. She doesn't move away.",
     "typeSpeed": 22,
     "music": "music/day.mp3",
     "next": "chapter1_56"
@@ -650,7 +810,7 @@
     "music": "music/club.mp3",
     "next": "chapter1_57"
   },
-  {
+   {
     "id": "chapter1_57",
     "bg": "images/backgrounds/club_room.webp",
     "charImg": "images/characters/miratalkneutral.png",
@@ -663,13 +823,15 @@
         "text": "Sorry, Mira. I got held up. It won't happen again.",
         "next": "chapter1_58",
         "affinityChange": -1,
-        "affinityEffect": "decrease"
+        "affinityEffect": "decrease",
+        "setFlag": { "meanToMira": false }
       },
       {
         "text": "Shut up, Mira. No one cares about your stupid project.",
         "next": "chapter1_57_mean",
         "affinityChange": 1,
-        "affinityEffect": "increase"
+        "affinityEffect": "increase",
+        "setFlag": { "meanToMira": true }
       }
     ]
   },
@@ -913,6 +1075,7 @@
     "music": "music/club.mp3",
     "next": "chapter1_79"
   },
+    
   {
     "id": "chapter1_79",
     "bg": "images/backgrounds/club_room.webp",
@@ -933,7 +1096,7 @@
     "music": "music/club.mp3",
     "next": "chapter1_81"
   },
-  {
+      {
     "id": "chapter1_81",
     "bg": "images/backgrounds/club_room.webp",
     "charImg": "images/characters/miraneutral.png",
@@ -943,6 +1106,7 @@
     "music": "music/club.mp3",
     "next": "chapter1_82"
   },
+
   {
     "id": "chapter1_82",
     "bg": "images/backgrounds/club_room.webp",
@@ -981,7 +1145,24 @@
     "text": "She helped me write my first articles. Well… sometimes, she practically wrote them for me.",
     "typeSpeed": 22,
     "music": "music/club.mp3",
-    "next": "chapter1_86"
+    "next": "chapter1_85_check"
+  },
+    {
+    "id": "chapter1_85_check",
+    "type": "condition",
+    "flag": "meanToMira",
+    "nextTrue": "chapter1_85_cold",
+    "nextFalse": "chapter1_86"
+  },
+    {
+    "id": "chapter1_85_cold",
+    "bg": "images/backgrounds/club_room.webp",
+    "charImg": "images/characters/miratalkneutral.png",
+    "speaker": "Mira",
+    "text": "Now you admit it. Funny — earlier you told me no one cared about my work. It only seems to matter when someone else is listening.",
+    "typeSpeed": 22,
+    "music": "music/club.mp3",
+    "next": "chapter1_87"
   },
   {
     "id": "chapter1_86",
@@ -1074,7 +1255,7 @@
     "text": "…Right. Anyway, let's start.",
     "typeSpeed": 22,
     "music": "music/club.mp3",
-    "next": "chapter1_93"
+    "next": "chapter1_93_mean"
   },
   {
     "id": "chapter1_91",
@@ -1145,6 +1326,74 @@
     "next": "chapter1_98_success"
   },
   {
+    "id": "chapter1_93_mean",
+    "bg": "images/backgrounds/club_room.webp",
+    "charImg": "images/characters/rosehappytalk.png",
+    "speaker": "Rose",
+    "text": "Enough talking. Let's start our poem.",
+    "typeSpeed": 22,
+    "music": "music/club.mp3",
+    "next": "chapter1_94_mean"
+  },
+  {
+    "id": "chapter1_94_mean",
+    "bg": "images/backgrounds/club_room.webp",
+    "charImg": "images/characters/rosesmile.png",
+    "speaker": null,
+    "text": "She pulls the sheet closer and picks up her pen.",
+    "typeSpeed": 22,
+    "music": "music/club.mp3",
+    "next": "chapter1_95_mean"
+  },
+  {
+    "id": "chapter1_95_mean",
+    "bg": "images/backgrounds/club_room.webp",
+    "charImg": "images/characters/rosehappytalk.png",
+    "speaker": "Rose",
+    "text": "I got inspired by a book about a murder.",
+    "typeSpeed": 22,
+    "music": "music/club.mp3",
+    "next": "chapter1_96_mean"
+  },
+  {
+    "id": "chapter1_96_mean",
+    "bg": "images/backgrounds/club_room.webp",
+    "charImg": "images/characters/rosesmile.png",
+    "speaker": null,
+    "text": "She thinks for a brief moment, then starts writing.",
+    "typeSpeed": 22,
+    "music": "music/club.mp3",
+    "next": "chapter1_97_mean"
+  },
+  {
+    "id": "chapter1_97_mean",
+    "type": "minigame",
+    "minigameFile": "minigames/rose_poem.html",
+    "nextSuccess": "chapter1_98_success_mean",
+    "nextFail": "chapter1_98_fail_mean",
+    "next": "chapter1_98_success_mean"
+  },
+  {
+    "id": "chapter1_98_success_mean",
+    "bg": "images/backgrounds/club_room.webp",
+    "charImg": "images/characters/roseshowoff.png",
+    "speaker": "Rose",
+    "text": "Well. At least you got that right. Don't expect me to be impressed — not after what you said to me earlier.",
+    "typeSpeed": 22,
+    "music": "music/club.mp3",
+    "next": "chapter1_98b"
+  },
+  {
+    "id": "chapter1_98_fail_mean",
+    "bg": "images/backgrounds/club_room.webp",
+    "charImg": "images/characters/roseshowoff.png",
+    "speaker": "Rose",
+    "text": "You lost. And after everything you said to me earlier… I almost feel sorry for you. Maybe poetry just isn't your thing. Or maybe it's people in general.",
+    "typeSpeed": 22,
+    "music": "music/club.mp3",
+    "next": "chapter1_98b"
+  },
+  {
     "id": "chapter1_98_success",
     "bg": "images/backgrounds/club_room.webp",
     "charImg": "images/characters/rosehappytalk.png",
@@ -1169,7 +1418,7 @@
     "type": "eyes_close",
     "next": "chapter1_100"
   },
-    {
+  {
     "id": "chapter1_100",
     "bg": null,
     "charImg": null,
@@ -1551,7 +1800,7 @@
     "bg": null,
     "charImg": null,
     "speaker": null,
-    "text": "The chair falls.",
+    "text": "The chair falls.I reach out, but I catch nothing.",
     "typeSpeed": 22,
     "music": "music/dark.mp3",
     "next": "chapter1_137"
@@ -1561,7 +1810,7 @@
     "bg": null,
     "charImg": null,
     "speaker": null,
-    "text": "I reach out, but I catch nothing.",
+    "text": "It was a dead end",
     "typeSpeed": 22,
     "music": "music/dark.mp3",
     "next": "chapter1_138"
@@ -1626,7 +1875,7 @@
     "music": "music/dark.mp3",
     "next": "chapter1_144"
   },
-   {
+  {
     "id": "chapter1_144",
     "bg": null,
     "charImg": null,
