@@ -2358,7 +2358,20 @@ async function collectAllImagePaths(){
 }
 
 // ═══ CACHE GLOBAL D'IMAGES PRÉ-DÉCODÉES ═══
+// ── Limité en taille pour éviter de saturer la mémoire mobile ──
+// (sur mobile, garder TOUTES les images d'un chapitre décodées en mémoire
+//  jusqu'à la fin finit par faire planter/vider le rendu de certaines
+//  images lourdes → apparaissent en noir)
+const _IMAGE_CACHE_MAX = 40;
 const _imageCache = new Map();
+function _cacheSet(src, val){
+  if(_imageCache.has(src)) _imageCache.delete(src); // remonte en fin de file
+  _imageCache.set(src, val);
+  while(_imageCache.size > _IMAGE_CACHE_MAX){
+    const oldestKey = _imageCache.keys().next().value;
+    _imageCache.delete(oldestKey);
+  }
+}
 
 async function _preloadOne(src){
   if(_imageCache.has(src)) return _imageCache.get(src);
@@ -2369,11 +2382,11 @@ async function _preloadOne(src){
       try{
         if(img.decode) await img.decode();   // ← force le décodage GPU
       }catch(e){}
-      _imageCache.set(src, img);
+      _cacheSet(src, img);
       resolve(img);
     };
     img.onerror = () => {
-      _imageCache.set(src, null);
+      _cacheSet(src, null);
       resolve(null);
     };
     img.src = src;
@@ -2698,6 +2711,15 @@ async function setCharacter(img, anim){
     if(cached && cached.src) finalSrc = cached.src;
   }catch(e){ console.warn('preload fail', img, e); }
 
+  el.onerror = () => {
+    // ═══ Filet de sécurité mobile : si l'image ne s'affiche pas
+    //     (mémoire saturée, décodage raté...), on la recharge à neuf
+    //     avec un paramètre anti-cache au lieu de rester en noir ═══
+    if(el.src.indexOf(img) === -1) return;
+    _imageCache.delete(img);
+    const retrySrc = img + (img.indexOf('?')>-1?'&':'?') + 'retry=' + Date.now();
+    el.src = retrySrc;
+  };
   el.src = finalSrc;
   el.style.display = '';
   _lastCharSrc = img;
