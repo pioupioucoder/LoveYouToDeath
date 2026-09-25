@@ -877,7 +877,7 @@ body.overlay-active #dialogue-wrap{opacity:0;pointer-events:none}
 /* ══ CHARACTERS INTRO — thème clair ══ */
 #chars-intro-overlay{
   position:fixed;inset:0;z-index:95;
-  background:radial-gradient(ellipse at center, #3a2f3a 0%, #1a1218 100%);
+  background:radial-gradient(ellipse at center, #1a0f18 0%, #050205 100%);
   display:none;
   flex-direction:column;
   align-items:center;
@@ -902,7 +902,7 @@ body.overlay-active #dialogue-wrap{opacity:0;pointer-events:none}
   flex:1 1 0;
   max-width:280px;
   min-width:0;
-    background:rgba(20,12,25,.92);
+  background:#08050a;
   border:1px solid rgba(139,0,0,.25);
   border-radius:6px;
   padding:1rem .8rem 1.2rem;
@@ -926,8 +926,9 @@ body.overlay-active #dialogue-wrap{opacity:0;pointer-events:none}
   object-fit:contain;
   filter:drop-shadow(0 0 20px rgba(0,0,0,.9));
   margin-bottom:.8rem;
+  background:#08050a;
+  border-radius:4px;
 }
-
 .char-card-name{
   font-family:'Cinzel',serif;
   font-size:clamp(1rem,3vw,1.3rem);
@@ -2659,8 +2660,8 @@ function showCharactersIntro(scene, onDone){
     // Update compteur
     if(countEl) countEl.textContent = (pairIndex + 1) + ' / ' + totalPairs;
 
-    // Update boutons
-    if(backBtn) backBtn.disabled = (pairIndex === 0);
+     // Update boutons (BACK toujours actif)
+    if(backBtn) backBtn.disabled = false;
     if(nextBtn){
       if(pairIndex === totalPairs - 1){
         nextBtn.textContent = 'END CHAPTER 1';
@@ -2681,13 +2682,13 @@ function showCharactersIntro(scene, onDone){
     }, 500);
   }
 
-  // Handlers
+   // Handlers
   backBtn.onclick = (e) => {
     e.stopPropagation();
     if(pairIndex > 0){
       changePair(pairIndex - 1);
     } else {
-      // Retour à la scène précédente
+      // Retour à la scène précédente (chapter1_144)
       overlay.classList.remove('active');
       setTimeout(() => {
         if(onDone) onDone('back');
