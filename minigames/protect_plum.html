@@ -243,15 +243,23 @@ function drawKnifePixel(k){
   ctx.fillStyle = handleHi;
   ctx.fillRect(handleStart, py + h*0.40, handleEnd - handleStart, h*0.06);
 }
+// ── ACCÉLÉRATION PROGRESSIVE ──
+// 0-8s : vitesse normale (x1)
+// 8s+  : montée brutale vers x20
+function getSpeedMultiplier(t){
+  if(t < 8) return 1;
+  const over = t - 8;
+  return 1 + Math.min(over * 3.2, 19);   // x1 → x20 en ~6s
+}
 
-// ── SPAWN ──
+
 function spawnKnife(){
   const fromLeft = Math.random() < 0.5;
   const kw = 80;
   const kh = 20;
-  // ✅ Y aléatoire en BAS de l'écran (sous la chaise, sur plusieurs niveaux)
   const ky = spawnYMin + Math.random() * (spawnYMax - spawnYMin);
-  const speed = 130 + Math.random() * 40 + state.time * 8;
+  const baseSpeed = 130 + Math.random() * 40 + state.time * 8;
+  const speed = baseSpeed * getSpeedMultiplier(state.time);
   state.knives.push({
     x: fromLeft ? -kw - 10 : W + 10,
     y: ky,
@@ -277,10 +285,11 @@ function update(dt){
 
   if(state.spawnTimer <= 0 && state.plumState === 'intact'){
     spawnKnife();
-    const base = Math.max(0.35, 1.6 - state.time * 0.05);
-    state.spawnTimer = base + Math.random() * 0.5;
+    const mult = getSpeedMultiplier(state.time);
+    // Après 8s → spawn divisé par la vitesse (donc beaucoup plus fréquent)
+    const base = Math.max(0.18, (1.6 - state.time * 0.05) / Math.max(1, mult * 0.35));
+    state.spawnTimer = base + Math.random() * 0.3;
   }
-
   for(let i=state.knives.length-1;i>=0;i--){
     const k = state.knives[i];
     k.x += k.vx * dt;
