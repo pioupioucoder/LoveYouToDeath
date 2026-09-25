@@ -1867,8 +1867,7 @@
     "typeSpeed": 22,
     "music": "music/happycrazyes.mp3",
     "next": "chapter1_143"
-  },
-  {
+  },  {
     "id": "chapter1_143",
     "bg": null,
     "charImg": null,
@@ -1887,6 +1886,53 @@
     "glitch": true,
     "typeSpeed": 22,
     "music": "music/dark.mp3",
-    "next": "__suite_suivante__"
+     "next": "chapter1_characters_intro"
+  },
+  {
+    "id": "chapter1_144",
+    "bg": null,
+    "charImg": null,
+    "speaker": "???",
+    "text": "…and not me?",
+    "glitch": true,
+    "typeSpeed": 22,
+    "music": "music/dark.mp3",
+    "next": "chapter1_characters_intro"
+  },
+  {
+    "id": "chapter1_characters_intro",
+    "type": "characters_intro",
+    "music": "music/characters_theme.mp3",
+    "next": "__end_chapter_prompt__",
+    "characters": [
+      {
+        "name": "Mira",
+        "img": "images/characters/mira.png",
+        "personality": "Serious",
+        "favorite": "Work",
+        "hobby": "Leading people"
+      },
+      {
+        "name": "Rose",
+        "img": "images/characters/rose.png",
+        "personality": "Extroverted",
+        "favorite": "Books",
+        "hobby": "Writing poems"
+      },
+      {
+        "name": "Plum",
+        "img": "images/characters/plum.png",
+        "personality": "Shy",
+        "favorite": "Discovering new things",
+        "hobby": "Collecting fun facts"
+      },
+      {
+        "name": "Es",
+        "img": "images/characters/es.png",
+        "personality": "Fucked up in the head",
+        "favorite": "Étoile",
+        "hobby": "Stalking people"
+      }
+    ]
   }
 ]

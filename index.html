@@ -874,6 +874,168 @@ body.overlay-active #dialogue-wrap{opacity:0;pointer-events:none}
   letter-spacing:.15em;margin-top:1.2rem;
   animation:missionWarn 2s ease infinite;
 }
+/* ══ CHARACTERS INTRO — thème clair ══ */
+#chars-intro-overlay{
+  position:fixed;inset:0;z-index:95;
+  background:radial-gradient(ellipse at center, #fefcf5 0%, #e8d9c8 100%);
+  display:none;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:2rem 1rem;
+  opacity:0;
+  transition:opacity .8s ease;
+}
+#chars-intro-overlay.active{display:flex;opacity:1;}
+
+.chars-pair{
+  display:flex;
+  gap:1.2rem;
+  align-items:center;
+  justify-content:center;
+  flex-wrap:nowrap;
+  width:100%;
+  max-width:900px;
+}
+
+.char-card{
+  flex:1 1 0;
+  max-width:280px;
+  min-width:0;
+  background:rgba(255,252,245,.95);
+  border:1px solid rgba(139,0,0,.25);
+  border-radius:6px;
+  padding:1rem .8rem 1.2rem;
+  text-align:center;
+  box-shadow:0 8px 30px rgba(120,80,60,.15), 0 2px 8px rgba(0,0,0,.06);
+  opacity:0;
+  transform:translateY(30px) scale(.9);
+  transition:opacity .7s ease, transform .7s cubic-bezier(.2,.9,.3,1);
+}
+.char-card.left{ transform:translate(-40px,30px) scale(.9); }
+.char-card.right{ transform:translate(40px,30px) scale(.9); }
+.char-card.visible{
+  opacity:1;
+  transform:translate(0,0) scale(1);
+}
+
+.char-card-img{
+  width:100%;
+  height:auto;
+  max-height:200px;
+  object-fit:contain;
+  filter:drop-shadow(0 0 20px rgba(0,0,0,.9));
+  margin-bottom:.8rem;
+}
+
+.char-card-name{
+  font-family:'Cinzel',serif;
+  font-size:clamp(1rem,3vw,1.3rem);
+  color:#5a3a4a;
+  letter-spacing:.25em;
+  text-transform:uppercase;
+  margin-bottom:.7rem;
+  border-bottom:1px solid rgba(139,0,0,.25);
+  padding-bottom:.5rem;
+}
+
+.char-card-info{
+  font-family:'IM Fell English',serif;
+  font-size:clamp(.7rem,1.8vw,.85rem);
+  color:#3a2a1a;
+  line-height:1.7;
+  text-align:left;
+}
+.char-card-info .info-key{ color:#8B0000; }
+.char-card-info .info-line{
+  display:flex;
+  justify-content:space-between;
+  gap:.5rem;
+  padding:.15rem 0;
+  border-bottom:1px dashed rgba(200,160,200,.1);
+}
+.char-card-info .info-key{
+  color:var(--crimson);
+  font-family:'Cinzel',serif;
+  font-size:.65rem;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  flex-shrink:0;
+}
+.char-card-info .info-val{
+  text-align:right;
+  font-style:italic;
+}
+
+.char-card.es{
+  border-color:rgba(220,20,60,.5);
+  box-shadow:0 8px 30px rgba(220,20,60,.15), 0 2px 8px rgba(0,0,0,.06);
+}
+.char-card.es .char-card-name{
+  color:#DC143C;
+}
+@keyframes esPulse{
+  0%,100%{ text-shadow:0 0 20px rgba(220,20,60,.6); }
+  50%{ text-shadow:0 0 35px rgba(220,20,60,1), 0 0 70px rgba(220,20,60,.5); }
+}
+
+/* Mobile : cartes plus petites, empilées un peu */
+@media(max-width:600px){
+  .chars-pair{ gap:.6rem; }
+  .char-card{ padding:.7rem .5rem 1rem; }
+  .char-card-img{ max-height:140px; }
+  .char-card-info{ font-size:.7rem; }
+  .char-card-info .info-key{ font-size:.6rem; }
+}
+/* ══ Boutons navigation persos ══ */
+#chars-nav{
+  display:flex;
+  gap:1rem;
+  margin-top:2rem;
+  justify-content:center;
+  width:100%;
+  max-width:600px;
+}
+.chars-nav-btn{
+  font-family:'Cinzel',serif;
+  font-size:.75rem;
+  letter-spacing:.2em;
+  color:#5a3a4a;
+  background:rgba(255,255,255,.7);
+  border:1px solid rgba(139,0,0,.3);
+  padding:.7rem 1.6rem;
+  cursor:pointer;
+  transition:all .25s;
+  border-radius:3px;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
+}
+.chars-nav-btn:hover{
+  border-color:#DC143C;
+  color:#DC143C;
+  background:#fff;
+}
+.chars-nav-btn:disabled{
+  opacity:.3;
+  cursor:not-allowed;
+}
+.chars-nav-btn.end{
+  border-color:#8B0000;
+  color:#8B0000;
+  font-weight:600;
+}
+.chars-nav-btn.end:hover{
+  background:#8B0000;
+  color:#fff;
+}
+.chars-count{
+  font-family:'Cinzel',serif;
+  font-size:.7rem;
+  letter-spacing:.2em;
+  color:#8a6a7a;
+  text-align:center;
+  margin-bottom:1rem;
+}
 </style>
 </head>
 <body>
@@ -1069,6 +1231,14 @@ body.overlay-active #dialogue-wrap{opacity:0;pointer-events:none}
     </div>
   </div>
   <div id="choices-wrap"></div>
+</div>
+<div id="chars-intro-overlay">
+  <div class="chars-count" id="chars-count">1 / 2</div>
+  <div class="chars-pair" id="chars-pair"></div>
+  <div id="chars-nav">
+    <button class="chars-nav-btn" id="chars-back" type="button">&#9666; BACK</button>
+    <button class="chars-nav-btn" id="chars-next" type="button">NEXT &#9656;</button>
+  </div>
 </div>
  <div id="hud">
   <div class="hud-left">
@@ -2443,6 +2613,96 @@ document.getElementById('btn-back-dialogue').addEventListener('click',()=>{
 });
 
 function getSceneIndex(id){return state.scenes.findIndex(s=>s.id===id);}
+function showCharactersIntro(scene, onDone){
+  const overlay = document.getElementById('chars-intro-overlay');
+  const pairEl = document.getElementById('chars-pair');
+  const countEl = document.getElementById('chars-count');
+  const backBtn = document.getElementById('chars-back');
+  const nextBtn = document.getElementById('chars-next');
+  if(!overlay || !pairEl){ if(onDone) onDone(); return; }
+
+  if(scene.music) playMusic(scene.music);
+
+  const chars = scene.characters || [];
+  const totalPairs = Math.ceil(chars.length / 2);
+  let pairIndex = 0;
+
+  overlay.classList.add('active');
+
+  function renderPair(){
+    const i = pairIndex * 2;
+    const pair = chars.slice(i, i + 2);
+    pairEl.innerHTML = '';
+
+    pair.forEach((c, idx) => {
+      const card = document.createElement('div');
+      card.className = 'char-card ' + (idx === 0 ? 'left' : 'right');
+      if(c.name.toLowerCase() === 'es') card.classList.add('es');
+      card.innerHTML = `
+        <img class="char-card-img" src="${c.img}" alt="${c.name}" onerror="this.style.display='none'">
+        <div class="char-card-name">${c.name}</div>
+        <div class="char-card-info">
+          <div class="info-line"><span class="info-key">Personality</span><span class="info-val">${c.personality}</span></div>
+          <div class="info-line"><span class="info-key">Favorite</span><span class="info-val">${c.favorite}</span></div>
+          <div class="info-line"><span class="info-key">Hobby</span><span class="info-val">${c.hobby}</span></div>
+        </div>
+      `;
+      pairEl.appendChild(card);
+    });
+
+    // Fade in
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      pairEl.querySelectorAll('.char-card').forEach(c => c.classList.add('visible'));
+    }));
+
+    // Update compteur
+    if(countEl) countEl.textContent = (pairIndex + 1) + ' / ' + totalPairs;
+
+    // Update boutons
+    if(backBtn) backBtn.disabled = (pairIndex === 0);
+    if(nextBtn){
+      if(pairIndex === totalPairs - 1){
+        nextBtn.textContent = 'END CHAPTER 1';
+        nextBtn.classList.add('end');
+      } else {
+        nextBtn.textContent = 'NEXT ▸';
+        nextBtn.classList.remove('end');
+      }
+    }
+  }
+
+  function changePair(newIndex){
+    // Fade out
+    pairEl.querySelectorAll('.char-card').forEach(c => c.classList.remove('visible'));
+    setTimeout(() => {
+      pairIndex = newIndex;
+      renderPair();
+    }, 500);
+  }
+
+  // Handlers
+  backBtn.onclick = (e) => {
+    e.stopPropagation();
+    if(pairIndex > 0) changePair(pairIndex - 1);
+  };
+  nextBtn.onclick = (e) => {
+    e.stopPropagation();
+    if(pairIndex < totalPairs - 1){
+      changePair(pairIndex + 1);
+    } else {
+      // Fin du chapitre
+      overlay.classList.remove('active');
+      setTimeout(() => {
+        if(onDone) onDone();
+      }, 600);
+    }
+  };
+
+  // Premier affichage
+  pairEl.innerHTML = '';
+  setTimeout(renderPair, 200);
+}
+
 function renderScene(scene,fromBack){
   if(!scene){triggerEnding();return;}
 
@@ -2518,6 +2778,35 @@ function renderScene(scene,fromBack){
       document.getElementById('dialogue-wrap').style.display='';
       if(scene.next && scene.next !== '__ending__') navigateTo(scene.next);
       else triggerEnding();
+    });
+    return;
+  }
+     if(scene.type==='characters_intro'){
+    document.getElementById('dialogue-wrap').style.display='none';
+    document.getElementById('choices-wrap').style.display='none';
+    document.body.classList.add('overlay-active');
+    showCharactersIntro(scene, function(){
+      if(scene.next === '__end_chapter_prompt__'){
+        // ═══ On cache TOUT le game screen (dernière image + HUD) ═══
+        stopMusic();
+        clearGameScreen();
+        clearEyesEffect();
+        clearBloodRealism();
+        setCharacter(null);
+        document.getElementById('game-bg').style.backgroundImage = '';
+        document.getElementById('game-screen').classList.remove('active');
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.body.classList.remove('overlay-active');
+        showNextChapterPrompt();
+      } else {
+        document.getElementById('dialogue-wrap').style.display='';
+        document.body.classList.remove('overlay-active');
+        if(scene.next && scene.next !== '__ending__'){
+          navigateTo(scene.next);
+        } else {
+          triggerEnding();
+        }
+      }
     });
     return;
   }
