@@ -1737,11 +1737,12 @@
     "typeSpeed": 22,
     "music": "music/dark.mp3",
     "next": "chapter1_132"
-  },
-  {
+  },  {
     "id": "chapter1_132",
     "bg": null,
-    "charImg": null,
+    "charImg": "images/characters/plumintact.png",
+    "charAnim": "dark_reveal",
+    "persistChar": true,
     "speaker": null,
     "text": "She appears in the darkness, standing on a chair, a rope around her neck. Her fingers cling to it with difficulty.",
     "typeSpeed": 22,

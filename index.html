@@ -584,6 +584,34 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 #game-screen{background:var(--obsidian);padding:0}
 #game-bg{position:absolute;inset:0;background-size:cover;background-position:center;z-index:0}
 #char-wrap{position:absolute;bottom:var(--dialogue-h);left:50%;transform:translateX(-50%);z-index:2;display:flex;align-items:flex-end;justify-content:center;transition:opacity .25s ease;pointer-events:none}
+
+/* ══ APPARITION LENTE : du noir → clair + tremblement continu ══ */
+#char-wrap.dark-reveal{
+  animation: charDarkReveal 7s ease-out forwards;
+}
+@keyframes charDarkReveal{
+  0%   { opacity:0;    filter:brightness(0.05) blur(6px); }
+  15%  { opacity:0.15; filter:brightness(0.12) blur(5px); }
+  30%  { opacity:0.32; filter:brightness(0.25) blur(4px); }
+  45%  { opacity:0.5;  filter:brightness(0.42) blur(3px); }
+  60%  { opacity:0.68; filter:brightness(0.6)  blur(2px); }
+  75%  { opacity:0.82; filter:brightness(0.75) blur(1.2px); }
+  90%  { opacity:0.94; filter:brightness(0.9)  blur(0.4px); }
+  100% { opacity:1;    filter:brightness(1)    blur(0); }
+}
+
+/* Tremblement infini sur l'image elle-même (pas sur le wrapper pour ne pas casser le centrage) */
+#char-wrap.dark-reveal #char-img{
+  animation: charTrembleForever 0.13s steps(2) infinite;
+  will-change: transform;
+}
+@keyframes charTrembleForever{
+  0%   { transform: translate(0.9px, -0.7px) rotate(-0.28deg); }
+  25%  { transform: translate(-1.2px, 0.6px) rotate(0.35deg); }
+  50%  { transform: translate(0.5px, 1.1px) rotate(-0.18deg); }
+  75%  { transform: translate(-0.8px, -0.5px) rotate(0.26deg); }
+  100% { transform: translate(0.4px, 0.6px) rotate(-0.12deg); }
+}
 #char-img{max-height:calc(100vh * var(--char-scale));max-width:calc(60vw * var(--char-scale));object-fit:contain;filter:drop-shadow(0 0 30px rgba(0,0,0,.8))}
 @media(max-width:600px){#char-img{max-width:calc(100vw * var(--char-scale))}}
 @media(min-width:1200px){#char-img{max-width:calc(100vw * var(--char-scale))}}
@@ -1177,7 +1205,8 @@ const state = {
   finalRedTransitioning: false,
   nextChapterPromptActive: false,
    eyesTransitioning: false,
-  missionActive: false
+    missionActive: false,
+  persistChar: false
 };
 let chapterIndexCache = null;
 let bloodDripsInitialized = false;
@@ -2278,20 +2307,32 @@ function setOverlayImage(src){
   if(btn) btn.classList.add('visible');
   document.body.classList.add('overlay-active');
 }
-async function setCharacter(img){
+async function setCharacter(img, anim){
   const wrap=document.getElementById('char-wrap'),el=document.getElementById('char-img');
   const newSrc = img || '';
-  if(_lastCharSrc === newSrc) return;
+  if(_lastCharSrc === newSrc && !anim) return;
   _lastCharSrc = newSrc;
 
   if(!img){
     wrap.style.opacity='0';
+    wrap.classList.remove('dark-reveal');
     return;
   }
   await preloadImage(img);
   el.src = img;
   el.style.display = '';
   wrap.style.opacity = '1';
+
+  // ── Animation demandée : reste jusqu'à changement de scène ──
+  if(anim === 'dark_reveal'){
+    wrap.classList.remove('dark-reveal');
+    void wrap.offsetWidth;                  // force le redémarrage
+    wrap.classList.add('dark-reveal');
+    // ⚠️ On ne retire JAMAIS la classe → l'image reste visible
+  } else {
+    wrap.classList.remove('dark-reveal');
+  }
+
   requestAnimationFrame(syncDialogueHeight);
 }
 
@@ -2432,8 +2473,19 @@ function renderScene(scene,fromBack){
     return;
   }
 
-    if(scene.bg)setBg(scene.bg);
-  setCharacter(scene.charImg||null);
+      if(scene.bg)setBg(scene.bg);
+
+  // ── Gestion de la persistance du personnage ──
+  if(typeof scene.charImg === 'string' && scene.charImg.length > 0){
+    setCharacter(scene.charImg, scene.charAnim||null);
+    state.persistChar = scene.persistChar === true;
+  } else if(scene.persistChar === false){
+    setCharacter(null);
+    state.persistChar = false;
+  } else if(!state.persistChar){
+    setCharacter(null);
+  }
+
   setOverlayImage(scene.overlayImg||null);
   if(scene.music)playMusic(scene.music);
   document.getElementById('speaker-name').textContent=scene.speaker||'';
