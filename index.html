@@ -585,59 +585,58 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 #game-bg{position:absolute;inset:0;background-size:cover;background-position:center;z-index:0}
 #char-wrap{position:absolute;bottom:var(--dialogue-h);left:50%;transform:translateX(-50%);z-index:2;display:flex;align-items:flex-end;justify-content:center;transition:opacity .25s ease;pointer-events:none}
 
-/* ══ APPARITION LENTE : du noir → clair + tremblement continu ══ */
+/* ══ APPARITION LENTE (plumintact) ══ */
 #char-wrap.dark-reveal{
-  animation: charDarkReveal 7s ease-out forwards;
+  animation: charDarkReveal 6s ease-out forwards;
 }
 @keyframes charDarkReveal{
-  0%   { opacity:0;    filter:brightness(0.05) blur(6px); }
-  15%  { opacity:0.15; filter:brightness(0.12) blur(5px); }
-  30%  { opacity:0.32; filter:brightness(0.25) blur(4px); }
-  45%  { opacity:0.5;  filter:brightness(0.42) blur(3px); }
-  60%  { opacity:0.68; filter:brightness(0.6)  blur(2px); }
-  75%  { opacity:0.82; filter:brightness(0.75) blur(1.2px); }
-  90%  { opacity:0.94; filter:brightness(0.9)  blur(0.4px); }
-  100% { opacity:1;    filter:brightness(1)    blur(0); }
+  0%   { opacity: 0;    transform: translateX(-50%) scale(0.96); }
+  30%  { opacity: 0.35; transform: translateX(-50%) scale(0.97); }
+  60%  { opacity: 0.7;  transform: translateX(-50%) scale(0.985); }
+  100% { opacity: 1;    transform: translateX(-50%) scale(1); }
 }
 
-/* Tremblement infini sur l'image elle-même (pas sur le wrapper pour ne pas casser le centrage) */
-/* ══ BALANCEMENT (pendule) pour plumdied ══ */
+/* ══ TREMBLEMENT (plumintact) ══ */
+#char-wrap.dark-reveal #char-img{
+  animation: charTrembleForever 0.16s steps(2) infinite;
+  transform-origin: 50% 85%;
+  will-change: transform;
+}
+@keyframes charTrembleForever{
+  0%   { transform: translate(2px, -1px) rotate(-0.6deg); }
+  50%  { transform: translate(-2px, 1.5px) rotate(0.7deg); }
+  100% { transform: translate(2px, -1px) rotate(-0.6deg); }
+}
+
+/* ══ BALANCEMENT (plumdied) ══ */
 #char-wrap.swing #char-img{
-  transform-origin: 50% 6%;          /* pivot près du cou */
+  transform-origin: 50% 8%;
   animation: charSwing 3.8s ease-in-out infinite;
   will-change: transform;
 }
 @keyframes charSwing{
-  0%   { transform: rotate(-3.2deg) translateY(0); }
-  25%  { transform: rotate(-1.6deg) translateY(-1px); }
-  50%  { transform: rotate(3.2deg) translateY(0); }
-  75%  { transform: rotate(1.6deg) translateY(-1px); }
-  100% { transform: rotate(-3.2deg) translateY(0); }
+  0%   { transform: rotate(-3deg); }
+  50%  { transform: rotate(3deg); }
+  100% { transform: rotate(-3deg); }
 }
-#char-img{max-height:calc(100vh * var(--char-scale));max-width:calc(60vw * var(--char-scale));object-fit:contain;filter:drop-shadow(0 0 30px rgba(0,0,0,.8))}
+
+#char-img{
+  max-height:calc(100vh * var(--char-scale));
+  max-width:calc(60vw * var(--char-scale));
+  object-fit:contain;
+  filter:drop-shadow(0 0 30px rgba(0,0,0,.8))
+}
+
 @media(max-width:600px){
   #char-img{max-width:calc(100vw * var(--char-scale))}
-  /* Plum intact (dark_reveal) plus petite sur mobile pour tout voir */
-  #char-wrap.dark-reveal #char-img{
-    max-height:70vh !important;
-    max-width:75vw !important;
+  #char-wrap.dark-reveal #char-img,
+  #char-wrap.swing #char-img{
+    max-height:68vh !important;
+    max-width:78vw !important;
   }
 }
-/* ══ TREMBLEMENT (plum intact) ══ */
-#char-wrap.dark-reveal #char-img{
-  animation: charTrembleForever 0.14s steps(2) infinite;
-  will-change: transform;
-  transform-origin: 50% 80%;
-}
-@keyframes charTrembleForever{
-  0%   { transform: translate(2.5px, -1.8px) rotate(-0.7deg); }
-  20%  { transform: translate(-3px, 1.5px)  rotate(0.85deg); }
-  40%  { transform: translate(1.8px, 2.4px) rotate(-0.5deg); }
-  60%  { transform: translate(-2.6px, -1.2px) rotate(0.7deg); }
-  80%  { transform: translate(1.4px, 1.6px) rotate(-0.4deg); }
-  100% { transform: translate(2.5px, -1.8px) rotate(-0.7deg); }
-}
 @media(min-width:1200px){#char-img{max-width:calc(100vw * var(--char-scale))}}
+
 #hud{position:fixed;top:0;left:0;right:0;display:none;align-items:center;justify-content:space-between;padding:.8rem 1.2rem;z-index:80;background:linear-gradient(to bottom,rgba(0,0,0,.6),transparent);transition:opacity .8s ease;pointer-events:none}
 #hud .hud-left,#hud .hud-right{pointer-events:auto}
 #game-screen.active ~ #hud{display:flex}
