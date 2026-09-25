@@ -1067,7 +1067,7 @@ body.overlay-active #dialogue-wrap{opacity:0;pointer-events:none}
 </div>
 
 <div id="minigame-overlay">
-  <iframe id="minigame-frame" src="" allowfullscreen></iframe>
+<iframe id="minigame-frame" src="" allowfullscreen allow="autoplay"></iframe>
 </div>
 
 <div id="poem-overlay">
@@ -1562,6 +1562,7 @@ function returnToTitle(){
     clearEyesEffect();
     state.finalRedTransitioning = false;
     state.nextChapterPromptActive = false;
+    stopMusic();                      // ← AJOUTE CETTE LIGNE
     resetTitleAnimations();
     showScreen('title-screen');
     const bs = document.getElementById('btn-start');
@@ -2207,28 +2208,40 @@ function playMusic(src){
   bgm.volume = state.muted ? 0 : state.volume;
   bgm.play().catch(()=>{});
 }
+function playMusic(src){
+  if(!src || !bgm) return;
+  if(state.currentMusic===src && !bgm.paused) return;
+  state.currentMusic = src;
+  bgm.src = src;
+  bgm.loop = true;
+  bgm.muted = state.muted;
+  bgm.volume = state.muted ? 0 : state.volume;
+  bgm.play().catch(()=>{});
+}
+
 function stopMusic(){
   try{
-    // Tue TOUS les audio présents
-    document.querySelectorAll('audio').forEach(a=>{
-      try{ a.pause(); }catch(e){}
-      try{ a.currentTime = 0; }catch(e){}
-      try{ a.volume = 0; }catch(e){}
-      a.muted = true;
-      try{ a.removeAttribute('src'); }catch(e){}
-      try{ a.load(); }catch(e){}
-      try{ a.remove(); }catch(e){}
-    });
-    // Détruit et recrée bgm propre
     const old = document.getElementById('bgm');
-    if(old) old.remove();
+    if(old){
+      old.muted = true;
+      old.volume = 0;
+      try{ old.pause(); }catch(e){}
+      try{ old.currentTime = 0; }catch(e){}
+      try{ old.removeAttribute('src'); }catch(e){}
+      try{ old.load(); }catch(e){}
+      old.remove();
+    }
     bgm = document.createElement('audio');
     bgm.id = 'bgm';
     bgm.loop = true;
+    bgm.muted = true;
     document.body.appendChild(bgm);
   }catch(e){ console.error('stopMusic error:', e); }
   state.currentMusic = null;
 }
+
+
+
 async function setBg(src){
   if(!src || src===lastBg) return;
   await preloadImage(src);

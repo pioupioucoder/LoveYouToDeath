@@ -18,6 +18,7 @@ html,body{margin:0;padding:0;background:#000;overflow:hidden;width:100%;height:1
 </style>
 </head>
 <body>
+<audio id="bgm" src="../music/died.mp3" loop preload="auto"></audio>
 <canvas id="game"></canvas>
 <div id="hud"><span>◆ PROTECT</span><span id="time">0.0s</span></div>
 <div id="death-flash"></div>
@@ -393,7 +394,20 @@ requestAnimationFrame(loop);
 // ── BOUTON START ──
 document.getElementById('start-btn').addEventListener('click', ()=>{
   document.getElementById('start-overlay').classList.add('hidden');
+  const bgm = document.getElementById('bgm');
+  if(bgm){
+    bgm.volume = 0.7;
+    bgm.muted = false;
+    bgm.load();  // force le rechargement
+    const p = bgm.play();
+    if(p && p.catch){
+      p.catch(err => {
+        console.error('❌ died.mp3 error:', err.name, err.message);
+      });
+    }
+  }
   state.running = true;
+  
   state.time = 0;
   state.spawnTimer = 1.5;
   state.plumState = 'intact';

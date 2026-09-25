@@ -1378,7 +1378,8 @@
     "typeSpeed": 22,
     "music": "music/dark.mp3",
     "next": "chapter1_121"
-  },  {
+  },  
+     {
     "id": "chapter1_121",
     "bg": null,
     "charImg": null,
@@ -1386,15 +1387,9 @@
     "text": "Hahahaha…",
     "typeSpeed": 22,
     "music": "music/dark.mp3",
-    "next": "chapter1_mission"
-  },
-  {
-    "id": "chapter1_mission",
-    "type": "mission",
-    "missionTitle": "PROTECT PLUM",
-    "music": "music/dark.mp3",
     "next": "chapter1_protect_minigame"
   },
+
   {
     "id": "chapter1_protect_minigame",
     "type": "minigame",
